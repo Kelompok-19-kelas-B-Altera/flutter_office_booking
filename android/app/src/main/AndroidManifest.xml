@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_office_booking">
    <application
-        android:label="flutter_office_booking"
+        android:label="Officity"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
