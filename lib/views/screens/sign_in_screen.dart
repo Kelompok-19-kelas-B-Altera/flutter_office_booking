@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/constants.dart';
 import 'package:flutter_office_booking/view_models/auth_view_model.dart';
 import 'package:flutter_office_booking/views/screens/home_screen.dart';
 import 'package:flutter_office_booking/views/screens/sign_up_screen.dart';
@@ -64,7 +65,7 @@ class SignInScreen extends StatelessWidget {
                         if (value == null || value.isEmpty) {
                           return 'Silahkan masukan email';
                         }
-                        if (!value.contains(".") || !value.contains("@")) {
+                        if (!value.contains(emailValidator)) {
                           return 'Silahkan masukan email yang valid';
                         }
                         return null;
@@ -121,7 +122,14 @@ class SignInScreen extends StatelessWidget {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Login Gagal'),
+                                elevation: 0,
+                                backgroundColor:
+                                    Color.fromRGBO(255, 89, 88, 0.2),
+                                content: Text(
+                                  'Masukkan Username dan Password dengan benar.',
+                                  style: TextStyle(color: Colors.red),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             );
                           }

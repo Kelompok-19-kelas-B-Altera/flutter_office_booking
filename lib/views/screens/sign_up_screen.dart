@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants.dart';
 import '../../view_models/auth_view_model.dart';
 import '../widgets/my_text_form_field.dart';
 
@@ -66,7 +67,7 @@ class SignUpScreen extends StatelessWidget {
                         if (value == null || value.isEmpty) {
                           return 'Silahkan masukan email';
                         }
-                        if (!value.contains(".") || !value.contains("@")) {
+                        if (!value.contains(emailValidator)) {
                           return 'Silahkan masukan email yang valid';
                         }
                         return null;
@@ -104,7 +105,6 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     MyPasswordField2(
                       myController: passwordController,
-                      // myLabelText: 'Password',
                       myHintText: 'Masukan Password',
                       myObsecureText: true,
                       myValidator: (value) {
@@ -129,7 +129,6 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     MyPasswordField2(
                       myController: passwordController2,
-                      // myLabelText: 'Password',
                       myHintText: 'Masukan Password',
                       myObsecureText: true,
                       myValidator: (value) {
@@ -153,11 +152,11 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          // primary: Colors.black,
-                          minimumSize: const Size(double.infinity, 40)),
+                        minimumSize: const Size(double.infinity, 40),
+                      ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          bool hasLogin = await authViewModel.SignUp(
+                          bool hasLogin = await authViewModel.signUp(
                             email: emailController.text,
                             username: usernameController.text,
                             password: passwordController.text,
