@@ -171,7 +171,7 @@ class SignUpScreen extends StatelessWidget {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Gagal Mendaftar'),
+                                content: Text('Email Sudah terdaftar'),
                               ),
                             );
                           }
