@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_office_booking/models/api/user_api.dart';
 import 'package:flutter_office_booking/models/user_model.dart';
@@ -5,33 +7,42 @@ import 'package:flutter_office_booking/models/user_model.dart';
 class AuthViewModel with ChangeNotifier {
   UserModel? userData;
   String? token;
-  bool checkLength = true;
-
-  bool get getCheckLenght => checkLength;
 
   Future<bool> signIn({required email, required password}) async {
-    var data = await UserApi.signIn(email: email, password: password);
+    var response = await UserApi.signIn(
+      email: email,
+      password: password,
+    );
 
-    if (data != null) {
-      print('Data Ada');
+    if (response != false) {
+      var data = await UserModel.tokenDecode(response['token']);
+      userData = UserModel(
+          uID: 1,
+          username: data['username'],
+          email: data['email'],
+          password: 'password',
+          fullName: 'fullName',
+          phone: 'phone',
+          role: data['role']);
       return true;
     } else {
-      print('Data Null');
       return false;
     }
   }
 
-  Future<bool> SignUp(
-      {required email, required username, required password}) async {
-    var data = await UserApi.signUp(
-        email: email, username: username, password: password);
-
-    print(data);
-    if (data != null) {
-      print('Data Ada');
+  Future<bool> signUp({
+    required email,
+    required username,
+    required password,
+  }) async {
+    var response = await UserApi.signUp(
+      email: email,
+      username: username,
+      password: password,
+    );
+    if (response != false) {
       return true;
     } else {
-      print('Data Null');
       return false;
     }
   }
