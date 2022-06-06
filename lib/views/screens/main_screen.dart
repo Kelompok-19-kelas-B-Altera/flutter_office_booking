@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/views/screens/home_screen.dart';
 import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
@@ -18,7 +19,21 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: listScreen[indexScreen],
+      // body: listScreen[indexScreen],
+      body: PageTransitionSwitcher(
+        transitionBuilder: (
+          child,
+          animation,
+          secondaryAnimation,
+        ) {
+          return FadeThroughTransition(
+            animation: animation,
+            secondaryAnimation: secondaryAnimation,
+            child: child,
+          );
+        },
+        child: listScreen[indexScreen],
+      ),
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: indexScreen,
           onTap: (value) {
