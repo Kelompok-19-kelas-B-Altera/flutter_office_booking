@@ -25,7 +25,7 @@ class UserApi {
     }
   }
 
-  static signUp({required email, required username, required password}) async {
+  static signUp({required email, required name, required password}) async {
     BaseOptions options = BaseOptions(
         receiveDataWhenStatusError: true,
         connectTimeout: 30 * 1000, // 30 seconds
@@ -35,8 +35,8 @@ class UserApi {
 
     var formDaftar = {
       'email': email,
-      'username': username,
-      'password': password
+      'name': name,
+      'password': password,
     };
 
     try {

@@ -32,12 +32,12 @@ class AuthViewModel with ChangeNotifier {
 
   Future<bool> signUp({
     required email,
-    required username,
+    required name,
     required password,
   }) async {
     var response = await UserApi.signUp(
       email: email,
-      username: username,
+      name: name,
       password: password,
     );
     if (response != false) {

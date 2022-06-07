@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
 import '../../constants.dart';
 import '../../view_models/auth_view_model.dart';
 import '../widgets/my_text_form_field.dart';
@@ -14,7 +14,7 @@ class SignUpScreen extends StatelessWidget {
     final authViewModel = Provider.of<AuthViewModel>(context);
     final _formKey = GlobalKey<FormState>();
     var emailController = TextEditingController();
-    var usernameController = TextEditingController();
+    var nameController = TextEditingController();
     var passwordController = TextEditingController();
     var passwordController2 = TextEditingController();
 
@@ -85,7 +85,7 @@ class SignUpScreen extends StatelessWidget {
                   height: 10,
                 ),
                 MyTextField(
-                  myController: usernameController,
+                  myController: nameController,
                   myHintText: 'Masukan Nama',
                   myValidator: (value) {
                     if (value == null || value.isEmpty) {
@@ -159,7 +159,7 @@ class SignUpScreen extends StatelessWidget {
                     if (_formKey.currentState!.validate()) {
                       bool hasLogin = await authViewModel.signUp(
                         email: emailController.text,
-                        username: usernameController.text,
+                        name: nameController.text,
                         password: passwordController.text,
                       );
 
