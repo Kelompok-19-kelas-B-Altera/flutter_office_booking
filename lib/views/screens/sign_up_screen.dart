@@ -77,7 +77,7 @@ class SignUpScreen extends StatelessWidget {
                       height: 15,
                     ),
                     const Text(
-                      'Username',
+                      'Nama',
                       style: TextStyle(fontSize: 20),
                     ),
                     const SizedBox(
@@ -85,10 +85,10 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     MyTextField(
                       myController: usernameController,
-                      myHintText: 'Masukan Username',
+                      myHintText: 'Masukan Nama',
                       myValidator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Silahkan masukan username';
+                          return 'Silahkan masukan nama';
                         }
                         return null;
                       },
