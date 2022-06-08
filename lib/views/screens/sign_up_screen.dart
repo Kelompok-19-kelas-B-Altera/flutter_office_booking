@@ -112,9 +112,14 @@ class SignUpScreen extends StatelessWidget {
                     if (value == null || value.isEmpty) {
                       return 'Silahkan masukan password';
                     }
-                    if (value.length < 8) {
-                      return 'Password terlalu pendek';
+                    if (!passwordValidator.hasMatch(value)) {
+                      return 'Silahkan masukan password sesuai format';
                     }
+                    // if (value.length < 8 ||
+                    //     !upperCaseValidator.hasMatch(value) ||
+                    //     !numberValidator.hasMatch(value)) {
+                    //   return 'Silahkan masukan password sesuai format';
+                    // }
                     return null;
                   },
                 ),
@@ -136,11 +141,8 @@ class SignUpScreen extends StatelessWidget {
                     if (value == null || value.isEmpty) {
                       return 'Silahkan masukan password';
                     }
-                    if (value.length < 8) {
-                      return 'Password terlalu pendek';
-                    }
-                    if (value.length < 8) {
-                      return 'Password terlalu pendek';
+                    if (!passwordValidator.hasMatch(value)) {
+                      return 'Silahkan masukan password sesuai format';
                     }
                     if (value != passwordController.text) {
                       return 'Password tidak sama';
