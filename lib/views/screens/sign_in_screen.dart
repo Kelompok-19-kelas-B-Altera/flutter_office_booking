@@ -100,8 +100,7 @@ class SignInScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    // primary: Colors.black,
-                    minimumSize: const Size(double.infinity, 40),
+                    minimumSize: const Size(double.infinity, 55),
                   ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
@@ -135,7 +134,10 @@ class SignInScreen extends StatelessWidget {
                       }
                     }
                   },
-                  child: const Text('Masuk'),
+                  child: const Text(
+                    'Masuk',
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
               ],
             ),

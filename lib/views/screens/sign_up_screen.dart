@@ -115,11 +115,6 @@ class SignUpScreen extends StatelessWidget {
                     if (!passwordValidator.hasMatch(value)) {
                       return 'Silahkan masukan password sesuai format';
                     }
-                    // if (value.length < 8 ||
-                    //     !upperCaseValidator.hasMatch(value) ||
-                    //     !numberValidator.hasMatch(value)) {
-                    //   return 'Silahkan masukan password sesuai format';
-                    // }
                     return null;
                   },
                 ),
@@ -155,7 +150,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 40),
+                    minimumSize: const Size(double.infinity, 55),
                   ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
@@ -180,7 +175,10 @@ class SignUpScreen extends StatelessWidget {
                       }
                     }
                   },
-                  child: const Text('Daftar'),
+                  child: const Text(
+                    'Daftar',
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
               ],
             ),
