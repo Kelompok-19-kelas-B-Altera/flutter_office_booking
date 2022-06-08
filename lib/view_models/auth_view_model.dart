@@ -17,13 +17,10 @@ class AuthViewModel with ChangeNotifier {
     if (response != false) {
       var data = await UserModel.tokenDecode(response['token']);
       userData = UserModel(
-          uID: 1,
-          username: data['username'],
-          email: data['email'],
-          password: 'password',
-          fullName: 'fullName',
-          phone: 'phone',
-          role: data['role']);
+        email: data['email'],
+        fullName: data['fullname'],
+        role: data['role'],
+      );
       return true;
     } else {
       return false;
