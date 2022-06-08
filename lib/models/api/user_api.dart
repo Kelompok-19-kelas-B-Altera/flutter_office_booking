@@ -35,7 +35,7 @@ class UserApi {
 
     var formDaftar = {
       'email': email,
-      'name': name,
+      'fullname': name,
       'password': password,
     };
 
