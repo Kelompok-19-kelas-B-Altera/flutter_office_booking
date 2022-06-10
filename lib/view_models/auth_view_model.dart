@@ -1,4 +1,4 @@
-import 'dart:ffi';
+import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_office_booking/models/api/user_api.dart';
@@ -6,16 +6,40 @@ import 'package:flutter_office_booking/models/user_model.dart';
 
 class AuthViewModel with ChangeNotifier {
   UserModel? userData;
+  String? token;
 
   Future<bool> signIn({required email, required password}) async {
-    var data = await UserApi.getUser(email, password);
+    var response = await UserApi.signIn(
+      email: email,
+      password: password,
+    );
 
-    if (data != null) {
-      userData = data;
-      print('Data Ada');
+    if (response != false) {
+      var data = await UserModel.tokenDecode(response['token']);
+      userData = UserModel(
+        email: data['email'],
+        fullName: data['fullname'],
+        role: data['role'],
+      );
       return true;
     } else {
-      print('Data Null');
+      return false;
+    }
+  }
+
+  Future<bool> signUp({
+    required email,
+    required name,
+    required password,
+  }) async {
+    var response = await UserApi.signUp(
+      email: email,
+      name: name,
+      password: password,
+    );
+    if (response != false) {
+      return true;
+    } else {
       return false;
     }
   }

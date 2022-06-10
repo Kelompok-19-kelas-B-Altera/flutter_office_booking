@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/constants.dart';
-import 'package:flutter_office_booking/view_models/auth_view_model.dart';
-import 'package:flutter_office_booking/views/screens/home_screen.dart';
-import 'package:flutter_office_booking/views/screens/sign_up_screen.dart';
-import 'package:flutter_office_booking/views/widgets/my_text_form_field.dart';
 import 'package:provider/provider.dart';
 
-class SignInScreen extends StatelessWidget {
-  const SignInScreen({Key? key}) : super(key: key);
+import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
+import '../../constants.dart';
+import '../../view_models/auth_view_model.dart';
+import '../widgets/my_text_form_field.dart';
+
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final authViewModel = Provider.of<AuthViewModel>(context);
     final _formKey = GlobalKey<FormState>();
     var emailController = TextEditingController();
+    var nameController = TextEditingController();
     var passwordController = TextEditingController();
+    var passwordController2 = TextEditingController();
 
     return SafeArea(
       child: Scaffold(
@@ -34,7 +36,7 @@ class SignInScreen extends StatelessWidget {
             ),
           ),
           title: const Text(
-            'Masuk',
+            'Daftar',
             style: TextStyle(
               color: Colors.black,
               fontSize: 30,
@@ -73,7 +75,27 @@ class SignInScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 15,
+                ),
+                const Text(
+                  'Nama',
+                  style: TextStyle(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                MyTextField(
+                  myController: nameController,
+                  myHintText: 'Masukan Nama',
+                  myValidator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Silahkan masukan nama';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
                 ),
                 const Text(
                   'Password',
@@ -82,15 +104,43 @@ class SignInScreen extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                MyPasswordField(
+                MyPasswordField2(
                   myController: passwordController,
                   myHintText: 'Masukan Password',
+                  myObsecureText: true,
                   myValidator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Silahkan masukan password';
                     }
-                    if (value.length < 8) {
-                      return 'Password terlalu pendek';
+                    if (!passwordValidator.hasMatch(value)) {
+                      return 'Silahkan masukan password sesuai format';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Text(
+                  'Ulangi Password',
+                  style: TextStyle(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                MyPasswordField2(
+                  myController: passwordController2,
+                  myHintText: 'Masukan Password',
+                  myObsecureText: true,
+                  myValidator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Silahkan masukan password';
+                    }
+                    if (!passwordValidator.hasMatch(value)) {
+                      return 'Silahkan masukan password sesuai format';
+                    }
+                    if (value != passwordController.text) {
+                      return 'Password tidak sama';
                     }
                     return null;
                   },
@@ -104,38 +154,29 @@ class SignInScreen extends StatelessWidget {
                   ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      bool hasLogin = await authViewModel.signIn(
+                      bool hasLogin = await authViewModel.signUp(
                         email: emailController.text,
+                        name: nameController.text,
                         password: passwordController.text,
                       );
 
                       if (hasLogin == true) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Login Berhasil'),
+                            content: Text('Berhasil Mendaftar'),
                           ),
                         );
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomeScreen()));
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            elevation: 0,
-                            backgroundColor: Color.fromRGBO(255, 89, 88, 0.2),
-                            content: Text(
-                              'Masukkan Username dan Password dengan benar.',
-                              style: TextStyle(color: Colors.red),
-                              textAlign: TextAlign.center,
-                            ),
+                            content: Text('Email Sudah terdaftar'),
                           ),
                         );
                       }
                     }
                   },
                   child: const Text(
-                    'Masuk',
+                    'Daftar',
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
@@ -149,16 +190,13 @@ class SignInScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'Belum memiliki akun ?',
+                'Sudah memiliki akun ?',
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SignUpScreen()));
+                    Navigator.pop(context);
                   },
-                  child: const Text('Daftar di sini')),
+                  child: const Text('Login di sini')),
             ],
           ),
         ),
