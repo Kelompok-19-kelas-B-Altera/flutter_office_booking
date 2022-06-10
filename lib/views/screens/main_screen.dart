@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/views/screens/home_screen.dart';
 import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -42,14 +43,28 @@ class _MainScreenState extends State<MainScreen> {
             });
             print(value);
           },
-          items: const [
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+              activeIcon: SvgPicture.asset(
+                'assets/svg/home.svg',
+                color: Colors.blue,
+              ),
+              icon: SvgPicture.asset(
+                'assets/svg/home.svg',
+                color: Colors.grey,
+              ),
+              label: 'Utama',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Account',
+              activeIcon: SvgPicture.asset(
+                'assets/svg/akun.svg',
+                color: Colors.blue,
+              ),
+              icon: SvgPicture.asset(
+                'assets/svg/akun.svg',
+                color: Colors.grey,
+              ),
+              label: 'Akun',
             ),
           ]),
     );
