@@ -13,12 +13,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (ctx) => AuthViewModel()),
-      ],
-      child: const MaterialApp(
-        home: MainScreen(),
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (ctx) => AuthViewModel()),
+        ],
+        child: const MaterialApp(
+          home: MainScreen(),
+        ),
       ),
     );
   }
