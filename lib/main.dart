@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/view_models/auth_view_model.dart';
+import 'package:flutter_office_booking/views/screens/main_screen.dart';
 import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -12,12 +13,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (ctx) => AuthViewModel()),
-      ],
-      child: const MaterialApp(
-        home: SignInScreen(),
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (ctx) => AuthViewModel()),
+        ],
+        child: const MaterialApp(
+          home: MainScreen(),
+        ),
       ),
     );
   }
