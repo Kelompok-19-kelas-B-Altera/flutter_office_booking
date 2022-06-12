@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/views/screens/account_screen.dart';
 import 'package:flutter_office_booking/views/screens/home_screen.dart';
 import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,7 +16,7 @@ class _MainScreenState extends State<MainScreen> {
   int indexScreen = 0;
   List<Widget> listScreen = [
     HomeScreen(),
-    SignInScreen(),
+    AccountScreen(),
   ];
   @override
   Widget build(BuildContext context) {
