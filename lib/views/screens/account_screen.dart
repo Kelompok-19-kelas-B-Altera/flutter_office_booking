@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
+import 'package:flutter_office_booking/views/screens/sign_up_screen.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -27,8 +29,15 @@ class AccountScreen extends StatelessWidget {
                         queryMedia.size.height * 0.06,
                       ),
                     ),
-                    onPressed: () {},
-                    child: Text('Masuk'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) => const SignInScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text('Masuk'),
                   ),
                 ),
               ),
@@ -43,7 +52,14 @@ class AccountScreen extends StatelessWidget {
                         queryMedia.size.height * 0.06,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) => const SignUpScreen(),
+                        ),
+                      );
+                    },
                     child: const Text(
                       'Daftar',
                       style: TextStyle(
