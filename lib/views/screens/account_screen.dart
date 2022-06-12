@@ -45,7 +45,7 @@ class AccountScreen extends StatelessWidget {
                     ),
                     onPressed: () {},
                     child: const Text(
-                      'Masuk',
+                      'Daftar',
                       style: TextStyle(
                         color: Colors.blue,
                       ),
