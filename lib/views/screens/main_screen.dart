@@ -1,8 +1,13 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/models/api/building_api.dart';
+import 'package:flutter_office_booking/view_models/auth_view_model.dart';
+import 'package:flutter_office_booking/view_models/building_view_model.dart';
+import 'package:flutter_office_booking/views/screens/account_screen.dart';
 import 'package:flutter_office_booking/views/screens/home_screen.dart';
 import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -15,10 +20,12 @@ class _MainScreenState extends State<MainScreen> {
   int indexScreen = 0;
   List<Widget> listScreen = [
     HomeScreen(),
-    SignInScreen(),
+    AccountScreen(),
   ];
   @override
   Widget build(BuildContext context) {
+    var buildingProvider = Provider.of<BuildingViewModel>(context);
+    var authProvider = Provider.of<AuthViewModel>(context);
     return Scaffold(
       // body: listScreen[indexScreen],
       body: PageTransitionSwitcher(
@@ -67,6 +74,11 @@ class _MainScreenState extends State<MainScreen> {
               label: 'Akun',
             ),
           ]),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     buildingProvider.getBuildingById(authProvider.token, '1');
+      //   },
+      // ),
     );
   }
 }
