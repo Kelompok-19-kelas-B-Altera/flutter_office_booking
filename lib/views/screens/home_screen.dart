@@ -73,7 +73,7 @@ class HomeScreen extends StatelessWidget {
                           height: 20,
                         );
                       },
-                      itemCount: 100,
+                      itemCount: 10,
                     ),
                   ),
                 ],
