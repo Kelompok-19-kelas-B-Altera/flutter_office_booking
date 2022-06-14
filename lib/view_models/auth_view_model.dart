@@ -6,7 +6,16 @@ import 'package:flutter_office_booking/models/user_model.dart';
 
 class AuthViewModel with ChangeNotifier {
   UserModel? userData;
-  String? token;
+  String? _token;
+
+  String? get token => _token;
+
+  logOut() async {
+    userData = null;
+    _token = null;
+
+    notifyListeners();
+  }
 
   Future<bool> signIn({required email, required password}) async {
     var response = await UserApi.signIn(
@@ -15,14 +24,18 @@ class AuthViewModel with ChangeNotifier {
     );
 
     if (response != false) {
+      _token = response['token'];
       var data = await UserModel.tokenDecode(response['token']);
       userData = UserModel(
         email: data['email'],
         fullName: data['fullname'],
         role: data['role'],
       );
+      print(_token);
+      notifyListeners();
       return true;
     } else {
+      notifyListeners();
       return false;
     }
   }
