@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/view_models/auth_view_model.dart';
+import 'package:flutter_office_booking/view_models/building_view_model.dart';
 import 'package:flutter_office_booking/views/screens/main_screen.dart';
 import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (ctx) => AuthViewModel()),
+          ChangeNotifierProvider(create: (ctx) => BuildingViewModel()),
         ],
         child: const MaterialApp(
           home: MainScreen(),
