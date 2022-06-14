@@ -6,8 +6,9 @@ class RecomendationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final queryMedia = MediaQuery.of(context);
     return SizedBox(
-      height: 120,
+      height: queryMedia.size.height * 0.145,
       child: Stack(
         children: [
           SizedBox(
@@ -17,10 +18,10 @@ class RecomendationCard extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          const Positioned(
-            left: 160,
+          Positioned(
+            left: queryMedia.size.width * 0.375,
             top: 20,
-            child: Text(
+            child: const Text(
               'Sutari Mogo Tower',
               style: TextStyle(
                 fontSize: 20,
@@ -29,7 +30,7 @@ class RecomendationCard extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 160,
+            left: queryMedia.size.width * 0.375,
             top: 50,
             child: Row(
               children: [
@@ -49,11 +50,11 @@ class RecomendationCard extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 160,
+            left: queryMedia.size.width * 0.375,
             bottom: 0,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size(220, 35),
+                minimumSize: Size(queryMedia.size.width * 0.5, 35),
               ),
               onPressed: () {},
               child: const Text('Lihat Detail'),
