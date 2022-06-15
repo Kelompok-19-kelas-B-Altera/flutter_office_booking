@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/constants.dart';
+import 'package:flutter_office_booking/views/screens/detail_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MostViewCard extends StatelessWidget {
@@ -55,7 +56,14 @@ class MostViewCard extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 35),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) => const DetailScreen(),
+                    ),
+                  );
+                },
                 child: const Text('Lihat Detail'),
               ),
             ],
