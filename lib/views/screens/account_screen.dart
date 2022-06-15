@@ -266,108 +266,121 @@ class NotLoggedIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage('assets/images/bg.png'), fit: BoxFit.fill),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(65),
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(20),
+          ),
+          child: SafeArea(
+              child: Center(
+            child: Text(
+              'Akun',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          )),
+        ),
       ),
-      child: SafeArea(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              bottom: queryMedia.size.height * 0.13,
-              child: Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(
-                      queryMedia.size.width * 0.9,
-                      queryMedia.size.height * 0.06,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (ctx) => const SignInScreen(),
+      body: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/images/bg.png'), fit: BoxFit.fill),
+        ),
+        child: SafeArea(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                bottom: queryMedia.size.height * 0.13,
+                child: Center(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(
+                        queryMedia.size.width * 0.9,
+                        queryMedia.size.height * 0.06,
                       ),
-                    );
-                  },
-                  child: const Text('Masuk'),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) => const SignInScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text('Masuk'),
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: queryMedia.size.height * 0.05,
-              child: Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    minimumSize: Size(
-                      queryMedia.size.width * 0.9,
-                      queryMedia.size.height * 0.06,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (ctx) => const SignUpScreen(),
+              Positioned(
+                bottom: queryMedia.size.height * 0.05,
+                child: Center(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      minimumSize: Size(
+                        queryMedia.size.width * 0.9,
+                        queryMedia.size.height * 0.06,
                       ),
-                    );
-                  },
-                  child: const Text(
-                    'Daftar',
-                    style: TextStyle(
-                      color: Colors.blue,
                     ),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: queryMedia.size.height * 0.05,
-              child: const Text(
-                'Akun',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            Positioned(
-              top: queryMedia.size.height * 0.12,
-              left: queryMedia.size.width * 0.04,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  SizedBox(
-                    width: 300,
-                    child: Text(
-                      'Temukan pusat kantor terbaik di Jakarta',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) => const SignUpScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Daftar',
                       style: TextStyle(
-                        fontSize: 32,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
+                        color: Colors.blue,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 250,
-                    child: Text(
-                      'Cari tempat kantor dimanapun yang kamu inginkan',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+              Positioned(
+                top: queryMedia.size.height * 0.05,
+                left: queryMedia.size.width * 0.05,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    SizedBox(
+                      width: 300,
+                      child: Text(
+                        'Temukan pusat kantor terbaik di Jakarta',
+                        style: TextStyle(
+                          fontSize: 32,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 250,
+                      child: Text(
+                        'Cari tempat kantor dimanapun yang kamu inginkan',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
