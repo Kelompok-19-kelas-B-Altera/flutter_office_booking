@@ -18,32 +18,40 @@ class SignInScreen extends StatelessWidget {
     var passwordController = TextEditingController();
 
     return Scaffold(
-      appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 15),
-          child: IconButton(
-            splashRadius: 20,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-              size: 25,
-            ),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(65),
+        child: Material(
+          borderRadius: const BorderRadius.vertical(
+            bottom: Radius.circular(20),
           ),
+          elevation: 3,
+          child: SafeArea(
+              child: Stack(
+            alignment: Alignment.center,
+            children: [
+              const Center(
+                child: Text(
+                  'Masuk',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 10,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 25,
+                  ),
+                ),
+              ),
+            ],
+          )),
         ),
-        title: const Text(
-          'Masuk',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 30,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
