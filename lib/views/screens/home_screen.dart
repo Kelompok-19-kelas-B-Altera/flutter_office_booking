@@ -30,14 +30,14 @@ class HomeScreen extends StatelessWidget {
                         blendMode: BlendMode.srcIn,
                         shaderCallback: (bounds) =>
                             const LinearGradient(colors: [
-                          Color.fromARGB(255, 0, 119, 255),
+                          Color.fromARGB(255, 0, 76, 162),
                           Color.fromARGB(255, 131, 189, 255),
                         ]).createShader(
                           Rect.fromLTWH(0, 0, bounds.width, bounds.height),
                         ),
                         child: Text(appName,
                             style: const TextStyle(
-                              fontSize: 30,
+                              fontSize: 20,
                               fontWeight: FontWeight.w700,
                             )),
                       ),
@@ -45,8 +45,7 @@ class HomeScreen extends StatelessWidget {
                         child: SizedBox(),
                       ),
                       const CircleAvatar(
-                        backgroundImage:
-                            NetworkImage('https://picsum.photos/200/300'),
+                        backgroundImage: AssetImage('assets/images/circle.png'),
                       ),
                     ],
                   ),
