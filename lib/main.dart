@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/view_models/auth_view_model.dart';
 import 'package:flutter_office_booking/view_models/building_view_model.dart';
+import 'package:flutter_office_booking/views/screens/detail_screen.dart';
 import 'package:flutter_office_booking/views/screens/main_screen.dart';
 import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  var pilihan = await BuildingViewModel().getAllBuilding('token');
+
+  runApp(
+    pilihan
+        ? const MyApp()
+        : const MaterialApp(
+            home: DetailScreen(),
+          ),
+  );
 }
 
 class MyApp extends StatelessWidget {
