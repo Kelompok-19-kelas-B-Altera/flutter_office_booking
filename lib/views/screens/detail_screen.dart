@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/views/screens/review_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../constants.dart';
 
@@ -56,7 +57,9 @@ class _DetailScreenState extends State<DetailScreen> {
                 Positioned(
                   left: 10,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     icon: const Icon(
                       Icons.arrow_back_ios_new,
                       size: 25,
@@ -296,6 +299,9 @@ class _DetailScreenState extends State<DetailScreen> {
             Container(
               color: Colors.grey[300],
               height: 5,
+            ),
+            const SizedBox(
+              height: 12,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -552,19 +558,31 @@ class _DetailScreenState extends State<DetailScreen> {
             const SizedBox(
               height: 12,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Lihat riview'),
-                const SizedBox(
-                  width: 4,
+            Center(
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) => const ReviewScreen(),
+                    ),
+                  );
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text('Lihat riview'),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    SvgPicture.asset(
+                      'assets/svg/arrow_down.svg',
+                      height: 10,
+                      width: 10,
+                    ),
+                  ],
                 ),
-                SvgPicture.asset(
-                  'assets/svg/arrow_down.svg',
-                  height: 10,
-                  width: 10,
-                ),
-              ],
+              ),
             ),
             const SizedBox(
               height: 12,

@@ -12,10 +12,12 @@ class BuildingApi {
     try {
       var response = await dio.get('http://108.136.240.248/api/v1/building');
       print(response.data);
+      return response;
     } on DioError catch (e) {
       if (e.type == DioErrorType.response) {
         print(e);
         print('false');
+        return null;
       }
     }
   }
