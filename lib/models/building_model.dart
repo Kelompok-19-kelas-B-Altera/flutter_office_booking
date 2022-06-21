@@ -6,7 +6,7 @@ class BuildingModel {
   final String address;
   final String imageUrl;
   final int totalView;
-  final Complex complex;
+  final ComplexModel complex;
   final List nearbyFacilities;
 
   BuildingModel({
@@ -22,11 +22,11 @@ class BuildingModel {
   });
 }
 
-class Complex {
+class ComplexModel {
   final int id;
   final String city;
 
-  Complex({
+  ComplexModel({
     required this.id,
     required this.city,
   });
