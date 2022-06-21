@@ -16,7 +16,10 @@ class AuthViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> signIn({required email, required password}) async {
+  Future<bool> signIn({
+    required email,
+    required password,
+  }) async {
     var response = await UserApi.signIn(
       email: email,
       password: password,
@@ -55,7 +58,7 @@ class AuthViewModel with ChangeNotifier {
       name: name,
       password: password,
     );
-    if (response != false) {
+    if (response != null) {
       return true;
     } else {
       return false;
