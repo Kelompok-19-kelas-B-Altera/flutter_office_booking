@@ -7,14 +7,8 @@ import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  var pilihan = await BuildingViewModel().getAllBuilding('token');
-
   runApp(
-    pilihan
-        ? const MyApp()
-        : const MaterialApp(
-            home: DetailScreen(),
-          ),
+    const MyApp(),
   );
 }
 
