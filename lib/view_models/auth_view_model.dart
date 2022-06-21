@@ -1,7 +1,6 @@
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/models/api/user_api.dart';
+import 'package:flutter_office_booking/models/storage/local_storage.dart';
 import 'package:flutter_office_booking/models/user_model.dart';
 
 class AuthViewModel with ChangeNotifier {
@@ -23,7 +22,7 @@ class AuthViewModel with ChangeNotifier {
       password: password,
     );
 
-    if (response != false) {
+    if (response != null) {
       _token = response['token'];
       var data = await UserModel.tokenDecode(response['token']);
       userData = UserModel(
@@ -31,7 +30,13 @@ class AuthViewModel with ChangeNotifier {
         fullName: data['fullname'],
         role: data['role'],
       );
+
       print(_token);
+
+      LocalStorage.setLoginData(
+        email: email,
+        password: password,
+      );
       notifyListeners();
       return true;
     } else {
