@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/constants.dart';
+import 'package:flutter_office_booking/view_models/building_view_model.dart';
 import 'package:flutter_office_booking/views/widgets/most_view_card.dart';
 import 'package:flutter_office_booking/views/widgets/recomendation_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final buildingProvider = Provider.of<BuildingViewModel>(context);
     final _searchController = TextEditingController();
 
     return Scaffold(
@@ -77,9 +80,6 @@ class HomeScreen extends StatelessWidget {
                         ),
                         hintText: 'Cari Tempat atau Lokasi',
                         labelStyle: const TextStyle(color: Colors.black),
-                        // border: OutlineInputBorder(
-                        //   borderRadius: BorderRadius.circular(0),
-                        // ),
                         fillColor: Colors.grey[200]),
                   ),
                 )
@@ -111,14 +111,20 @@ class HomeScreen extends StatelessWidget {
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (ctx, i) {
-                    return const MostViewCard();
+                    return MostViewCard(
+                      imageUrl: buildingProvider.buildingList[i].imageUrl,
+                      buildingName:
+                          buildingProvider.buildingList[i].buildingName,
+                      address: buildingProvider.buildingList[i].address,
+                      city: buildingProvider.buildingList[i].complex.city,
+                    );
                   },
                   separatorBuilder: (ctx, i) {
                     return const SizedBox(
                       width: 20,
                     );
                   },
-                  itemCount: 5,
+                  itemCount: buildingProvider.buildingList.length,
                 ),
               ),
               const Text(
