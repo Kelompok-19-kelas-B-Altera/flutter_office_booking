@@ -4,7 +4,18 @@ import 'package:flutter_office_booking/views/screens/detail_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MostViewCard extends StatelessWidget {
-  const MostViewCard({Key? key}) : super(key: key);
+  const MostViewCard({
+    Key? key,
+    required this.imageUrl,
+    required this.buildingName,
+    required this.address,
+    required this.city,
+  }) : super(key: key);
+
+  final imageUrl;
+  final buildingName;
+  final address;
+  final city;
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +32,15 @@ class MostViewCard extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 height: 150,
-                child: Image.asset('assets/images/img.png', fit: BoxFit.cover),
+                child: Image.network(imageUrl, fit: BoxFit.cover),
               ),
               const SizedBox(
                 height: 5,
               ),
-              const Text(
-                'Guardian Office',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              Text(
+                buildingName,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
               ),
               const SizedBox(
                 height: 5,
@@ -39,9 +51,9 @@ class MostViewCard extends StatelessWidget {
                     'assets/svg/pin.svg',
                     width: 12,
                   ),
-                  const Text(
-                    'Cilandak, Jakarta Selatan',
-                    style: TextStyle(
+                  Text(
+                    '$address, $city',
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: Color.fromRGBO(7, 7, 35, 0.5),
