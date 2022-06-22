@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/constants.dart';
 import 'package:flutter_office_booking/view_models/building_view_model.dart';
+import 'package:flutter_office_booking/views/screens/search_screen.dart';
 import 'package:flutter_office_booking/views/widgets/most_view_card.dart';
 import 'package:flutter_office_booking/views/widgets/recomendation_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -53,36 +54,72 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: TextFormField(
-                    controller: _searchController,
-                    textInputAction: TextInputAction.search,
-                    onEditingComplete: () {
-                      print(_searchController.text);
-                    },
-                    decoration: InputDecoration(
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (ctx) => const SearchScreen(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 45,
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                    ),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/svg/search.svg',
+                          width: 25,
+                          height: 25,
                         ),
-                        focusedBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
+                        const SizedBox(
+                          width: 10,
                         ),
-                        // enabled: false,
-                        filled: true,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: SvgPicture.asset(
-                            'assets/svg/search.svg',
-                            width: 10,
-                            height: 10,
+                        Text(
+                          'Cari Tempat atau Lokasi...',
+                          style: TextStyle(
+                            color: Colors.grey[600],
                           ),
                         ),
-                        hintText: 'Cari Tempat atau Lokasi',
-                        labelStyle: const TextStyle(color: Colors.black),
-                        fillColor: Colors.grey[200]),
+                      ],
+                    ),
                   ),
                 )
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 10),
+                //   child: TextFormField(
+                //     controller: _searchController,
+                //     textInputAction: TextInputAction.search,
+                //     onEditingComplete: () {
+                //       print(_searchController.text);
+                //     },
+                //     decoration: InputDecoration(
+                //         enabledBorder: const UnderlineInputBorder(
+                //           borderSide: BorderSide(color: Colors.white),
+                //         ),
+                //         focusedBorder: const UnderlineInputBorder(
+                //           borderSide: BorderSide(color: Colors.white),
+                //         ),
+                //         // enabled: false,
+                //         filled: true,
+                //         prefixIcon: Padding(
+                //           padding: const EdgeInsets.all(10),
+                // child: SvgPicture.asset(
+                //   'assets/svg/search.svg',
+                //   width: 10,
+                //   height: 10,
+                // ),
+                //         ),
+                //         hintText: 'Cari Tempat atau Lokasi',
+                //         labelStyle: const TextStyle(color: Colors.black),
+                //         fillColor: Colors.grey[200]),
+                //   ),
+                // )
               ],
             ),
           ),
