@@ -37,4 +37,10 @@ class LocalStorage {
       return null;
     }
   }
+
+  static Future clearLoginData() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    prefs.remove('loginData');
+  }
 }
