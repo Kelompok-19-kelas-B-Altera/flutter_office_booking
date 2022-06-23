@@ -9,9 +9,24 @@ class AuthViewModel with ChangeNotifier {
 
   String? get token => _token;
 
+  AuthViewModel() {
+    _init();
+  }
+
+  void _init() async {
+    var data = await LocalStorage.getLoginData();
+    if (data != null) {
+      signIn(
+        email: data['email'],
+        password: data['password'],
+      );
+    }
+  }
+
   logOut() async {
     userData = null;
     _token = null;
+    LocalStorage.clearLoginData();
 
     notifyListeners();
   }
