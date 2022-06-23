@@ -180,14 +180,22 @@ class HomeScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (ctx, i) {
-                    return const RecomendationCard();
+                    return RecomendationCard(
+                      imageUrl: buildingProvider.buildingList[i].imageUrl,
+                      buildingName:
+                          buildingProvider.buildingList[i].buildingName,
+                      address: buildingProvider.buildingList[i].address,
+                      city: buildingProvider.buildingList[i].complex.city,
+                    );
                   },
                   separatorBuilder: (ctx, i) {
                     return const SizedBox(
                       height: 20,
                     );
                   },
-                  itemCount: 10,
+                  itemCount: buildingProvider.buildingList.length < 10
+                      ? buildingProvider.buildingList.length
+                      : 10,
                 ),
               ),
             ],
