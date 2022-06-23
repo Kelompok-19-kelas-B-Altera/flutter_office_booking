@@ -20,6 +20,7 @@ class _DetailScreenState extends State<DetailScreen> {
     _current = 0;
   }
 
+  int lenghtFasilitas = 3;
   int _current = 0;
   final CarouselController _controller = CarouselController();
   @override
@@ -84,6 +85,7 @@ class _DetailScreenState extends State<DetailScreen> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
@@ -243,55 +245,71 @@ class _DetailScreenState extends State<DetailScreen> {
             const SizedBox(
               height: 12,
             ),
-            ListTile(
-              leading: CircleAvatar(
-                backgroundColor: Colors.grey[200],
-                child: SvgPicture.asset(
-                  'assets/svg/arrow_down.svg',
-                  color: Colors.grey,
-                ),
+            ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.only(top: 0),
+                shrinkWrap: true,
+                itemBuilder: (ctx, i) {
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.grey[200],
+                      child: SvgPicture.asset(
+                        'assets/svg/arrow_down.svg',
+                        color: Colors.grey,
+                      ),
+                    ),
+                    title: Text('Bandara Halim Perdana'),
+                    subtitle: Text('Transportasi'),
+                    trailing: Text('1 KM'),
+                  );
+                },
+                separatorBuilder: (ctx, i) {
+                  return const SizedBox(
+                    height: 5,
+                  );
+                },
+                itemCount: lenghtFasilitas),
+            Center(
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    if (lenghtFasilitas == 3) {
+                      lenghtFasilitas = 5;
+                    } else {
+                      lenghtFasilitas = 3;
+                    }
+                  });
+                },
+                child: lenghtFasilitas == 3
+                    ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text('Lihat lainnya'),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          SvgPicture.asset(
+                            'assets/svg/arrow_down.svg',
+                            height: 10,
+                            width: 10,
+                          ),
+                        ],
+                      )
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text('Tutup lainnya'),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          SvgPicture.asset(
+                            'assets/svg/arrow_down.svg',
+                            height: 10,
+                            width: 10,
+                          ),
+                        ],
+                      ),
               ),
-              title: Text('Bandara Halim Perdana'),
-              subtitle: Text('Transportasi'),
-              trailing: Text('1 KM'),
-            ),
-            ListTile(
-              leading: CircleAvatar(
-                backgroundColor: Colors.grey[200],
-                child: SvgPicture.asset(
-                  'assets/svg/chat.svg',
-                  color: Colors.grey,
-                ),
-              ),
-              title: Text('Rumah Sakit Mama Papa'),
-              subtitle: Text('Layanan'),
-              trailing: Text('1 KM'),
-            ),
-            ListTile(
-              leading: CircleAvatar(
-                backgroundColor: Colors.grey[200],
-                child: SvgPicture.asset(
-                  'assets/svg/home.svg',
-                  color: Colors.grey,
-                ),
-              ),
-              title: Text('Dunia Fantasi'),
-              subtitle: Text('Atraksi'),
-              trailing: Text('1 KM'),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Lihat lainnya'),
-                const SizedBox(
-                  width: 4,
-                ),
-                SvgPicture.asset(
-                  'assets/svg/arrow_down.svg',
-                  height: 10,
-                  width: 10,
-                ),
-              ],
             ),
             const SizedBox(
               height: 12,
@@ -558,9 +576,18 @@ class _DetailScreenState extends State<DetailScreen> {
             const SizedBox(
               height: 12,
             ),
-            Center(
-              child: InkWell(
-                onTap: () {
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  elevation: 0,
+                  side: const BorderSide(
+                    color: Colors.blue,
+                    width: 2,
+                  ),
+                ),
+                onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -569,16 +596,18 @@ class _DetailScreenState extends State<DetailScreen> {
                   );
                 },
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('Lihat riview'),
-                    const SizedBox(
-                      width: 4,
+                    const Text(
+                      'Lihat Review',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    const Expanded(
+                      child: SizedBox(),
                     ),
                     SvgPicture.asset(
-                      'assets/svg/arrow_down.svg',
-                      height: 10,
-                      width: 10,
+                      'assets/svg/arrow_right.svg',
+                      height: 15,
+                      width: 15,
                     ),
                   ],
                 ),
