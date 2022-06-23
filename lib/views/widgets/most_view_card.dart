@@ -12,10 +12,10 @@ class MostViewCard extends StatelessWidget {
     required this.city,
   }) : super(key: key);
 
-  final imageUrl;
-  final buildingName;
-  final address;
-  final city;
+  final String imageUrl;
+  final String buildingName;
+  final String address;
+  final String city;
 
   @override
   Widget build(BuildContext context) {
