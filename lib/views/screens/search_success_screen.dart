@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/views/screens/search_success_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+class SearchSuccessScreen extends StatelessWidget {
+  const SearchSuccessScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var _searchController = TextEditingController();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(75),
@@ -35,17 +33,8 @@ class SearchScreen extends StatelessWidget {
                   SizedBox(
                     width: 350,
                     child: TextFormField(
-                      onFieldSubmitted: (value) {
-                        print(value);
-                      },
-                      onTap: () {
-                        print('object');
-                      },
-                      onEditingComplete: () {
-                        print(_searchController.text);
-                      },
-                      controller: _searchController,
                       textInputAction: TextInputAction.search,
+                      controller: TextEditingController(),
                       decoration: InputDecoration(
                         prefixIconConstraints: const BoxConstraints(),
                         hintText: 'Cari tempat atau lokasi...',
