@@ -90,36 +90,6 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 )
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 10),
-                //   child: TextFormField(
-                //     controller: _searchController,
-                //     textInputAction: TextInputAction.search,
-                //     onEditingComplete: () {
-                //       print(_searchController.text);
-                //     },
-                //     decoration: InputDecoration(
-                //         enabledBorder: const UnderlineInputBorder(
-                //           borderSide: BorderSide(color: Colors.white),
-                //         ),
-                //         focusedBorder: const UnderlineInputBorder(
-                //           borderSide: BorderSide(color: Colors.white),
-                //         ),
-                //         // enabled: false,
-                //         filled: true,
-                //         prefixIcon: Padding(
-                //           padding: const EdgeInsets.all(10),
-                // child: SvgPicture.asset(
-                //   'assets/svg/search.svg',
-                //   width: 10,
-                //   height: 10,
-                // ),
-                //         ),
-                //         hintText: 'Cari Tempat atau Lokasi',
-                //         labelStyle: const TextStyle(color: Colors.black),
-                //         fillColor: Colors.grey[200]),
-                //   ),
-                // )
               ],
             ),
           ),
@@ -148,12 +118,13 @@ class HomeScreen extends StatelessWidget {
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (ctx, i) {
+                    var buildingData = buildingProvider.buildingData[i];
+
                     return MostViewCard(
-                      imageUrl: buildingProvider.buildingList[i].imageUrl,
-                      buildingName:
-                          buildingProvider.buildingList[i].buildingName,
-                      address: buildingProvider.buildingList[i].address,
-                      city: buildingProvider.buildingList[i].complex.city,
+                      imageUrl: buildingData.images!,
+                      buildingName: buildingData.buildingName,
+                      address: buildingData.address,
+                      city: buildingData.complex!.city,
                     );
                   },
                   separatorBuilder: (ctx, i) {
@@ -161,7 +132,7 @@ class HomeScreen extends StatelessWidget {
                       width: 20,
                     );
                   },
-                  itemCount: buildingProvider.buildingList.length,
+                  itemCount: buildingProvider.buildingData.length,
                 ),
               ),
               const Text(
@@ -180,12 +151,12 @@ class HomeScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (ctx, i) {
+                    var buildingData = buildingProvider.buildingData[i];
                     return RecomendationCard(
-                      imageUrl: buildingProvider.buildingList[i].imageUrl,
-                      buildingName:
-                          buildingProvider.buildingList[i].buildingName,
-                      address: buildingProvider.buildingList[i].address,
-                      city: buildingProvider.buildingList[i].complex.city,
+                      imageUrl: buildingData.images!,
+                      buildingName: buildingData.buildingName,
+                      address: buildingData.address,
+                      city: buildingData.complex!.city,
                     );
                   },
                   separatorBuilder: (ctx, i) {
@@ -193,8 +164,8 @@ class HomeScreen extends StatelessWidget {
                       height: 20,
                     );
                   },
-                  itemCount: buildingProvider.buildingList.length < 10
-                      ? buildingProvider.buildingList.length
+                  itemCount: buildingProvider.buildingData.length < 10
+                      ? buildingProvider.buildingData.length
                       : 10,
                 ),
               ),
