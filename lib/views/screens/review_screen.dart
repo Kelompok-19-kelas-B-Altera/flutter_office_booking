@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/view_models/auth_view_model.dart';
 import 'package:flutter_office_booking/views/screens/detail_screen.dart';
 import 'package:flutter_office_booking/views/widgets/write_review_bottom_sheet.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class ReviewScreen extends StatelessWidget {
   const ReviewScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final authViewModel = Provider.of<AuthViewModel>(context);
     final queryMedia = MediaQuery.of(context);
     return Scaffold(
       appBar: PreferredSize(
@@ -339,26 +342,28 @@ class ReviewScreen extends StatelessWidget {
                   child: SizedBox(),
                 ),
                 IconButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(20),
-                          ),
-                        ),
-                        isScrollControlled: true,
-                        elevation: 10,
-                        context: context,
-                        builder: (ctx) {
-                          return SingleChildScrollView(
-                            child: SizedBox(
-                              height: queryMedia.size.height * 0.9,
-                              child: WriteReviewBottomSheet(
-                                  queryMedia: queryMedia),
-                            ),
-                          );
-                        });
-                  },
+                  onPressed: authViewModel.token != null
+                      ? () {
+                          showModalBottomSheet(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20),
+                                ),
+                              ),
+                              isScrollControlled: true,
+                              elevation: 10,
+                              context: context,
+                              builder: (ctx) {
+                                return SingleChildScrollView(
+                                  child: SizedBox(
+                                    height: queryMedia.size.height * 0.9,
+                                    child: WriteReviewBottomSheet(
+                                        queryMedia: queryMedia),
+                                  ),
+                                );
+                              });
+                        }
+                      : null,
                   icon: const Icon(Icons.arrow_forward_ios),
                 ),
               ],
