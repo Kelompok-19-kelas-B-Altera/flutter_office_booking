@@ -13,23 +13,8 @@ class BuildingApi {
     try {
       final response = await dio.get('http://108.136.240.248/api/v1/building');
 
-      List<BuildingModel> buildings = (response.data['data'] as List)
-          .map((e) => BuildingModel(
-                id: e['id'],
-                buildingName: e['building_name'],
-                totalRoom: e['total_room'],
-                roomSpace: e['room_space'],
-                address: e['address'],
-                imageUrl: e['image_url'],
-                totalView: e['total_view'],
-                complex: ComplexModel(
-                  id: e['complex']['id'],
-                  city: e['complex']['city'],
-                ),
-                nearbyFacilities: e['nearby_facilities'],
-              ))
-          .toList();
-      return buildings;
+      var buildings = BuildingModel.fromJson(response.data);
+      return buildings.data;
     } on DioError catch (e) {
       if (e.type == DioErrorType.response) {
         print(e);
