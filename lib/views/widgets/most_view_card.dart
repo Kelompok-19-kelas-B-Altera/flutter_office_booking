@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/constants.dart';
+import 'package:flutter_office_booking/models/building_model.dart';
 import 'package:flutter_office_booking/views/screens/detail_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -12,10 +13,10 @@ class MostViewCard extends StatelessWidget {
     required this.city,
   }) : super(key: key);
 
-  final String imageUrl;
-  final String buildingName;
-  final String address;
-  final String city;
+  final List<ImagesModel> imageUrl;
+  final String? buildingName;
+  final String? address;
+  final String? city;
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +33,21 @@ class MostViewCard extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 height: 150,
-                child: Image.network(imageUrl, fit: BoxFit.cover),
+                child: imageUrl.isEmpty
+                    ? Image.asset('assets/images/default_building.png')
+                    : Image.network(
+                        imageUrl[0].imageUrl!,
+                        fit: BoxFit.cover,
+                      ),
               ),
               const SizedBox(
                 height: 5,
               ),
               Text(
-                buildingName,
+                buildingName!,
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(
                 height: 5,
