@@ -184,6 +184,7 @@ class NearbyFacilities {
   int? id;
   String? name;
   String? type;
+  int? distance;
 
   NearbyFacilities({this.id, this.name, this.type});
 
@@ -191,6 +192,7 @@ class NearbyFacilities {
     id = json['id'];
     name = json['name'];
     type = json['type'];
+    distance = json['distance'];
   }
 
   Map<String, dynamic> toJson() {
@@ -198,6 +200,7 @@ class NearbyFacilities {
     data['id'] = id;
     data['name'] = name;
     data['type'] = type;
+    data['distance'] = distance;
     return data;
   }
 }
