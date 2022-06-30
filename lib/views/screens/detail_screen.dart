@@ -1,12 +1,19 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/view_models/building_view_model.dart';
 import 'package:flutter_office_booking/views/screens/review_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import '../../constants.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({Key? key}) : super(key: key);
+  const DetailScreen({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
+
+  final int id;
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -25,13 +32,13 @@ class _DetailScreenState extends State<DetailScreen> {
   final CarouselController _controller = CarouselController();
   @override
   Widget build(BuildContext context) {
-    List<String> list = [
-      'assets/images/img.png',
-      'assets/images/img2.png',
-      'assets/images/img.png',
-      'assets/images/img2.png',
-    ];
+    var buildingProvider = Provider.of<BuildingViewModel>(context);
+
+    var i = buildingProvider.buildingData
+        .indexWhere((element) => element.id == widget.id);
+    var dataBuilding = buildingProvider.buildingData[i];
     var queryMedia = MediaQuery.of(context);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
@@ -45,11 +52,11 @@ class _DetailScreenState extends State<DetailScreen> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                const Center(
+                Center(
                   child: Text(
-                    'Guardian Office',
+                    dataBuilding.buildingName!,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
@@ -84,6 +91,7 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,7 +100,7 @@ class _DetailScreenState extends State<DetailScreen> {
               alignment: Alignment.topCenter,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 80),
+                  padding: const EdgeInsets.only(top: 70),
                   child: CarouselSlider(
                     carouselController: _controller,
                     options: CarouselOptions(
@@ -104,11 +112,11 @@ class _DetailScreenState extends State<DetailScreen> {
                             _current = index;
                           });
                         }),
-                    items: list
+                    items: dataBuilding.images!
                         .map(
                           (item) => Container(
-                            child: Image.asset(
-                              item,
+                            child: Image.network(
+                              item.imageUrl!,
                               fit: BoxFit.cover,
                               width: queryMedia.size.width,
                             ),
@@ -126,7 +134,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       Builder(builder: (ctx) {
                         var isi = <Widget>[];
                         var index = 0;
-                        for (var i = 0; i < list.length; i++) {
+                        for (var i = 0; i < dataBuilding.images!.length; i++) {
                           isi.add(
                             Container(
                               width: 8.0,
@@ -142,7 +150,6 @@ class _DetailScreenState extends State<DetailScreen> {
                           );
                           index += 1;
                         }
-
                         return Row(
                           children: isi,
                         );
@@ -165,11 +172,14 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
               ],
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                'Hailmon Comp',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
+                dataBuilding.buildingName!,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 30,
+                ),
               ),
             ),
             const SizedBox(
@@ -183,9 +193,12 @@ class _DetailScreenState extends State<DetailScreen> {
                     'assets/svg/pin.svg',
                     width: 12,
                   ),
-                  const Text(
-                    'Cilandak, Jakarta Selatan',
-                    style: TextStyle(
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    '${dataBuilding.address}, ${dataBuilding.complex!.city}',
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: Color.fromRGBO(7, 7, 35, 0.5),
@@ -200,15 +213,19 @@ class _DetailScreenState extends State<DetailScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
               child: Row(
-                children: const [
-                  Icon(
+                children: [
+                  const Icon(
                     Icons.star,
                     color: Colors.orange,
                     size: 15,
                   ),
                   Text(
-                    '4.1',
-                    style: TextStyle(
+                    buildingProvider.review(dataBuilding.reviews!) != 0
+                        ? buildingProvider
+                            .review(dataBuilding.reviews!)
+                            .toStringAsFixed(1)
+                        : '-',
+                    style: const TextStyle(
                       color: Colors.orange,
                     ),
                   ),
@@ -218,11 +235,11 @@ class _DetailScreenState extends State<DetailScreen> {
             const SizedBox(
               height: 12,
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                style: TextStyle(fontSize: 14),
+                dataBuilding.description!,
+                style: const TextStyle(fontSize: 14),
               ),
             ),
             const SizedBox(
@@ -258,9 +275,15 @@ class _DetailScreenState extends State<DetailScreen> {
                         color: Colors.grey,
                       ),
                     ),
-                    title: Text('Bandara Halim Perdana'),
-                    subtitle: Text('Transportasi'),
-                    trailing: Text('1 KM'),
+                    title: Text(
+                      dataBuilding.nearbyFacilities![i].name!,
+                    ),
+                    subtitle: Text(
+                      dataBuilding.nearbyFacilities![i].type!,
+                    ),
+                    trailing: Text(
+                      '${dataBuilding.nearbyFacilities![i].distance!} KM',
+                    ),
                   );
                 },
                 separatorBuilder: (ctx, i) {
@@ -268,49 +291,51 @@ class _DetailScreenState extends State<DetailScreen> {
                     height: 5,
                   );
                 },
-                itemCount: lenghtFasilitas),
-            Center(
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    if (lenghtFasilitas == 3) {
-                      lenghtFasilitas = 5;
-                    } else {
-                      lenghtFasilitas = 3;
-                    }
-                  });
-                },
-                child: lenghtFasilitas == 3
-                    ? Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text('Lihat lainnya'),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          SvgPicture.asset(
-                            'assets/svg/arrow_down.svg',
-                            height: 10,
-                            width: 10,
-                          ),
-                        ],
-                      )
-                    : Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text('Tutup lainnya'),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          SvgPicture.asset(
-                            'assets/svg/arrow_down.svg',
-                            height: 10,
-                            width: 10,
-                          ),
-                        ],
-                      ),
-              ),
-            ),
+                itemCount: dataBuilding.nearbyFacilities!.length),
+            dataBuilding.nearbyFacilities!.length < 3
+                ? Container()
+                : Center(
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          if (lenghtFasilitas == 3) {
+                            lenghtFasilitas = 5;
+                          } else {
+                            lenghtFasilitas = 3;
+                          }
+                        });
+                      },
+                      child: lenghtFasilitas == 3
+                          ? Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text('Lihat lainnya'),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                SvgPicture.asset(
+                                  'assets/svg/arrow_down.svg',
+                                  height: 10,
+                                  width: 10,
+                                ),
+                              ],
+                            )
+                          : Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text('Tutup lainnya'),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                SvgPicture.asset(
+                                  'assets/svg/arrow_down.svg',
+                                  height: 10,
+                                  width: 10,
+                                ),
+                              ],
+                            ),
+                    ),
+                  ),
             const SizedBox(
               height: 12,
             ),
@@ -329,15 +354,19 @@ class _DetailScreenState extends State<DetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        children: const [
+                        children: [
                           Text(
-                            '-',
-                            style: TextStyle(
+                            buildingProvider.review(dataBuilding.reviews!) != 0
+                                ? buildingProvider
+                                    .review(dataBuilding.reviews!)
+                                    .toStringAsFixed(1)
+                                : '-',
+                            style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 20,
                             ),
                           ),
-                          Text(
+                          const Text(
                             ' / 5',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
@@ -350,12 +379,12 @@ class _DetailScreenState extends State<DetailScreen> {
                         height: 10,
                       ),
                       Row(
-                        children: const [
+                        children: [
                           Text(
-                            '0',
-                            style: TextStyle(color: Colors.grey),
+                            '${dataBuilding.reviews!.length}',
+                            style: const TextStyle(color: Colors.grey),
                           ),
-                          Text(
+                          const Text(
                             ' rating',
                             style: TextStyle(color: Colors.grey),
                           ),
@@ -369,7 +398,11 @@ class _DetailScreenState extends State<DetailScreen> {
                           SvgPicture.asset(
                             'assets/svg/star.svg',
                             height: 35,
-                            color: Colors.grey[400],
+                            color: buildingProvider
+                                        .review(dataBuilding.reviews!) <=
+                                    1
+                                ? Colors.grey[400]
+                                : Colors.orange,
                           ),
                           const SizedBox(
                             width: 5,
@@ -377,7 +410,11 @@ class _DetailScreenState extends State<DetailScreen> {
                           SvgPicture.asset(
                             'assets/svg/star.svg',
                             height: 35,
-                            color: Colors.grey[400],
+                            color: buildingProvider
+                                        .review(dataBuilding.reviews!) <=
+                                    2
+                                ? Colors.grey[400]
+                                : Colors.orange,
                           ),
                           const SizedBox(
                             width: 5,
@@ -385,7 +422,11 @@ class _DetailScreenState extends State<DetailScreen> {
                           SvgPicture.asset(
                             'assets/svg/star.svg',
                             height: 35,
-                            color: Colors.grey[400],
+                            color: buildingProvider
+                                        .review(dataBuilding.reviews!) <=
+                                    3
+                                ? Colors.grey[400]
+                                : Colors.orange,
                           ),
                           const SizedBox(
                             width: 5,
@@ -393,7 +434,11 @@ class _DetailScreenState extends State<DetailScreen> {
                           SvgPicture.asset(
                             'assets/svg/star.svg',
                             height: 35,
-                            color: Colors.grey[400],
+                            color: buildingProvider
+                                        .review(dataBuilding.reviews!) <=
+                                    4
+                                ? Colors.grey[400]
+                                : Colors.orange,
                           ),
                           const SizedBox(
                             width: 5,
@@ -401,7 +446,11 @@ class _DetailScreenState extends State<DetailScreen> {
                           SvgPicture.asset(
                             'assets/svg/star.svg',
                             height: 35,
-                            color: Colors.grey[400],
+                            color: buildingProvider
+                                        .review(dataBuilding.reviews!) <=
+                                    5
+                                ? Colors.grey[400]
+                                : Colors.orange,
                           ),
                         ],
                       ),
@@ -441,7 +490,9 @@ class _DetailScreenState extends State<DetailScreen> {
                           const SizedBox(
                             width: 5,
                           ),
-                          const Text('0'),
+                          Text(
+                            '${dataBuilding.reviews!.where((element) => element.rating == 5).length}',
+                          ),
                         ],
                       ),
                       Row(
@@ -472,7 +523,9 @@ class _DetailScreenState extends State<DetailScreen> {
                           const SizedBox(
                             width: 5,
                           ),
-                          const Text('0'),
+                          Text(
+                            '${dataBuilding.reviews!.where((element) => element.rating == 4).length}',
+                          ),
                         ],
                       ),
                       Row(
@@ -503,7 +556,9 @@ class _DetailScreenState extends State<DetailScreen> {
                           const SizedBox(
                             width: 5,
                           ),
-                          const Text('0'),
+                          Text(
+                            '${dataBuilding.reviews!.where((element) => element.rating == 3).length}',
+                          ),
                         ],
                       ),
                       Row(
@@ -534,7 +589,9 @@ class _DetailScreenState extends State<DetailScreen> {
                           const SizedBox(
                             width: 5,
                           ),
-                          const Text('0'),
+                          Text(
+                            '${dataBuilding.reviews!.where((element) => element.rating == 2).length}',
+                          ),
                         ],
                       ),
                       Row(
@@ -565,7 +622,9 @@ class _DetailScreenState extends State<DetailScreen> {
                           const SizedBox(
                             width: 5,
                           ),
-                          const Text('0'),
+                          Text(
+                            '${dataBuilding.reviews!.where((element) => element.rating == 1).length}',
+                          ),
                         ],
                       ),
                     ],
