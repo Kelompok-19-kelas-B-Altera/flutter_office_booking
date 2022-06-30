@@ -391,6 +391,7 @@ class ReviewScreen extends StatelessWidget {
           ),
           Flexible(
             child: ListView.separated(
+                physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (ctx, i) {
                   return Padding(
