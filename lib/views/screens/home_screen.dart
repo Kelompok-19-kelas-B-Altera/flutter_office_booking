@@ -97,6 +97,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,11 +117,14 @@ class HomeScreen extends StatelessWidget {
               SizedBox(
                 height: 280,
                 child: ListView.separated(
+                  physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (ctx, i) {
                     var buildingData = buildingProvider.buildingData[i];
 
                     return MostViewCard(
+                      id: buildingData.id!,
+                      review: buildingData.reviews!,
                       imageUrl: buildingData.images!,
                       buildingName: buildingData.buildingName,
                       address: buildingData.address,
@@ -153,6 +157,8 @@ class HomeScreen extends StatelessWidget {
                   itemBuilder: (ctx, i) {
                     var buildingData = buildingProvider.buildingData[i];
                     return RecomendationCard(
+                      id: buildingData.id!,
+                      review: buildingData.reviews!,
                       imageUrl: buildingData.images!,
                       buildingName: buildingData.buildingName,
                       address: buildingData.address,
