@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/building_model.dart';
+import '../../view_models/building_view_model.dart';
+import '../screens/detail_screen.dart';
 
 class RecomendationCard extends StatelessWidget {
   const RecomendationCard({
     Key? key,
+    required this.id,
+    required this.review,
     required this.imageUrl,
     required this.buildingName,
     required this.address,
     required this.city,
   }) : super(key: key);
 
+  final int id;
+  final List<Reviews> review;
   final List<ImagesModel> imageUrl;
   final String? buildingName;
   final String? address;
@@ -19,7 +26,10 @@ class RecomendationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var buildingProvider = Provider.of<BuildingViewModel>(context);
+
     final queryMedia = MediaQuery.of(context);
+
     return SizedBox(
         height: 140,
         width: queryMedia.size.width,
@@ -40,7 +50,7 @@ class RecomendationCard extends StatelessWidget {
               width: 16,
             ),
             SizedBox(
-              width: 192,
+              width: queryMedia.size.width * 0.45,
               child: Column(
                 children: [
                   Row(
@@ -51,8 +61,13 @@ class RecomendationCard extends StatelessWidget {
                         width: 12,
                         color: Colors.orange,
                       ),
+                      const SizedBox(
+                        width: 2,
+                      ),
                       Text(
-                        '4.1',
+                        buildingProvider.review(review) != 0
+                            ? buildingProvider.review(review).toStringAsFixed(1)
+                            : '-',
                         textAlign: TextAlign.end,
                         style: const TextStyle(
                           fontSize: 12,
@@ -61,7 +76,7 @@ class RecomendationCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Expanded(child: SizedBox()),
+                  const Expanded(child: SizedBox()),
                   Text(
                     buildingName!,
                     maxLines: 2,
@@ -98,7 +113,16 @@ class RecomendationCard extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(double.infinity, 35),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) => DetailScreen(
+                            id: id,
+                          ),
+                        ),
+                      );
+                    },
                     child: const Text('Lihat Detail'),
                   ),
                 ],

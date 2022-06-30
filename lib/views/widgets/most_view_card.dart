@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/constants.dart';
 import 'package:flutter_office_booking/models/building_model.dart';
+import 'package:flutter_office_booking/view_models/building_view_model.dart';
 import 'package:flutter_office_booking/views/screens/detail_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class MostViewCard extends StatelessWidget {
   const MostViewCard({
     Key? key,
+    required this.id,
+    required this.review,
     required this.imageUrl,
     required this.buildingName,
     required this.address,
     required this.city,
   }) : super(key: key);
 
+  final int id;
+  final List<Reviews> review;
   final List<ImagesModel> imageUrl;
   final String? buildingName;
   final String? address;
@@ -20,6 +26,7 @@ class MostViewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var buildingProvider = Provider.of<BuildingViewModel>(context);
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -79,7 +86,9 @@ class MostViewCard extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => const DetailScreen(),
+                      builder: (ctx) => DetailScreen(
+                        id: id,
+                      ),
                     ),
                   );
                 },
@@ -93,15 +102,20 @@ class MostViewCard extends StatelessWidget {
             child: Container(
               color: Colors.white.withOpacity(0.7),
               child: Row(
-                children: const [
-                  Icon(
+                children: [
+                  const Icon(
                     Icons.star,
                     color: Colors.orange,
                     size: 15,
                   ),
+                  const SizedBox(
+                    width: 2,
+                  ),
                   Text(
-                    '4.1',
-                    style: TextStyle(
+                    buildingProvider.review(review) != 0
+                        ? buildingProvider.review(review).toStringAsFixed(1)
+                        : '-',
+                    style: const TextStyle(
                       color: Colors.orange,
                     ),
                   ),
