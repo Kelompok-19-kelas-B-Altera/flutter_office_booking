@@ -25,6 +25,14 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<BuildingViewModel>(context, listen: false).getAllBuilding();
+    });
+  }
+
   int indexScreen = 0;
   List<Widget> listScreen = [
     const HomeScreen(),
