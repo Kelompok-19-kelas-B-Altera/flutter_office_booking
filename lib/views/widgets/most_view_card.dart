@@ -65,12 +65,16 @@ class MostViewCard extends StatelessWidget {
                     'assets/svg/pin.svg',
                     width: 12,
                   ),
-                  Text(
-                    '$address, $city',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(7, 7, 35, 0.5),
+                  SizedBox(
+                    width: 180,
+                    child: Text(
+                      '$address, $city',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(7, 7, 35, 0.5),
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],

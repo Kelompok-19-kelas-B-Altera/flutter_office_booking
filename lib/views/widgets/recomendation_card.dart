@@ -32,13 +32,12 @@ class RecomendationCard extends StatelessWidget {
 
     return SizedBox(
         height: 140,
-        width: queryMedia.size.width,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
               height: 140,
-              width: 180,
+              width: queryMedia.size.width * 0.4,
               child: imageUrl.isEmpty
                   ? Image.asset('assets/images/default_building.png')
                   : Image.network(
@@ -46,12 +45,13 @@ class RecomendationCard extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
             ),
-            const SizedBox(
-              width: 16,
+            SizedBox(
+              width: queryMedia.size.width * 0.05,
             ),
             SizedBox(
               width: queryMedia.size.width * 0.45,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -95,14 +95,17 @@ class RecomendationCard extends StatelessWidget {
                         'assets/svg/pin.svg',
                         width: 12,
                       ),
-                      Text(
-                        '$address, $city',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromRGBO(7, 7, 35, 0.5),
+                      SizedBox(
+                        width: queryMedia.size.width * 0.4,
+                        child: Text(
+                          '$address, $city',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: Color.fromRGBO(7, 7, 35, 0.5),
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        overflow: TextOverflow.clip,
                       ),
                     ],
                   ),
