@@ -1,11 +1,14 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/models/building_model.dart';
 import 'package:flutter_office_booking/view_models/building_view_model.dart';
+import 'package:flutter_office_booking/view_models/detail_view_model.dart';
 import 'package:flutter_office_booking/views/screens/review_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
+import '../widgets/rating_building.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({
@@ -22,7 +25,6 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _current = 0;
   }
@@ -33,10 +35,11 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     var buildingProvider = Provider.of<BuildingViewModel>(context);
+    var detailProvider = Provider.of<DetailViewModel>(context);
 
-    var i = buildingProvider.buildingData
+    var index = buildingProvider.buildingData
         .indexWhere((element) => element.id == widget.id);
-    var dataBuilding = buildingProvider.buildingData[i];
+    var dataBuilding = buildingProvider.buildingData[index];
     var queryMedia = MediaQuery.of(context);
 
     return Scaffold(
@@ -214,9 +217,9 @@ class _DetailScreenState extends State<DetailScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 18),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.star,
-                    color: Colors.orange,
+                    color: starColor,
                     size: 15,
                   ),
                   Text(
@@ -225,8 +228,8 @@ class _DetailScreenState extends State<DetailScreen> {
                             .review(dataBuilding.reviews!)
                             .toStringAsFixed(1)
                         : '-',
-                    style: const TextStyle(
-                      color: Colors.orange,
+                    style: TextStyle(
+                      color: starColor,
                     ),
                   ),
                 ],
@@ -271,8 +274,8 @@ class _DetailScreenState extends State<DetailScreen> {
                     leading: CircleAvatar(
                       backgroundColor: Colors.grey[200],
                       child: SvgPicture.asset(
-                        'assets/svg/arrow_down.svg',
-                        color: Colors.grey,
+                        detailProvider.nearbyFacilityIcon(
+                            dataBuilding.nearbyFacilities![i].type!),
                       ),
                     ),
                     title: Text(
@@ -346,291 +349,8 @@ class _DetailScreenState extends State<DetailScreen> {
             const SizedBox(
               height: 12,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            buildingProvider.review(dataBuilding.reviews!) != 0
-                                ? buildingProvider
-                                    .review(dataBuilding.reviews!)
-                                    .toStringAsFixed(1)
-                                : '-',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                            ),
-                          ),
-                          const Text(
-                            ' / 5',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            '${dataBuilding.reviews!.length}',
-                            style: const TextStyle(color: Colors.grey),
-                          ),
-                          const Text(
-                            ' rating',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/svg/star.svg',
-                            height: 35,
-                            color: buildingProvider
-                                        .review(dataBuilding.reviews!) <=
-                                    1
-                                ? Colors.grey[400]
-                                : Colors.orange,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SvgPicture.asset(
-                            'assets/svg/star.svg',
-                            height: 35,
-                            color: buildingProvider
-                                        .review(dataBuilding.reviews!) <=
-                                    2
-                                ? Colors.grey[400]
-                                : Colors.orange,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SvgPicture.asset(
-                            'assets/svg/star.svg',
-                            height: 35,
-                            color: buildingProvider
-                                        .review(dataBuilding.reviews!) <=
-                                    3
-                                ? Colors.grey[400]
-                                : Colors.orange,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SvgPicture.asset(
-                            'assets/svg/star.svg',
-                            height: 35,
-                            color: buildingProvider
-                                        .review(dataBuilding.reviews!) <=
-                                    4
-                                ? Colors.grey[400]
-                                : Colors.orange,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SvgPicture.asset(
-                            'assets/svg/star.svg',
-                            height: 35,
-                            color: buildingProvider
-                                        .review(dataBuilding.reviews!) <=
-                                    5
-                                ? Colors.grey[400]
-                                : Colors.orange,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const Expanded(
-                    child: SizedBox(),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            '5',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SizedBox(
-                            width: queryMedia.size.width * 0.3,
-                            child: const LinearProgressIndicator(
-                              backgroundColor: Colors.grey,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.yellow),
-                              value: 0.4,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '${dataBuilding.reviews!.where((element) => element.rating == 5).length}',
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            '4',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SizedBox(
-                            width: queryMedia.size.width * 0.3,
-                            child: const LinearProgressIndicator(
-                              backgroundColor: Colors.grey,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.yellow),
-                              value: 0.4,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '${dataBuilding.reviews!.where((element) => element.rating == 4).length}',
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            '3',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SizedBox(
-                            width: queryMedia.size.width * 0.3,
-                            child: const LinearProgressIndicator(
-                              backgroundColor: Colors.grey,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.yellow),
-                              value: 0.4,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '${dataBuilding.reviews!.where((element) => element.rating == 3).length}',
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            '2',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SizedBox(
-                            width: queryMedia.size.width * 0.3,
-                            child: const LinearProgressIndicator(
-                              backgroundColor: Colors.grey,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.yellow),
-                              value: 0.4,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '${dataBuilding.reviews!.where((element) => element.rating == 2).length}',
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            '1',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SizedBox(
-                            width: queryMedia.size.width * 0.3,
-                            child: const LinearProgressIndicator(
-                              backgroundColor: Colors.grey,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.yellow),
-                              value: 0.4,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '${dataBuilding.reviews!.where((element) => element.rating == 1).length}',
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
-                ],
-              ),
+            RatingBuilding(
+              dataBuilding: dataBuilding,
             ),
             const SizedBox(
               height: 12,
@@ -650,7 +370,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => const ReviewScreen(),
+                      builder: (ctx) => ReviewScreen(id: widget.id),
                     ),
                   );
                 },
@@ -688,10 +408,10 @@ class _DetailScreenState extends State<DetailScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset('assets/svg/chat.svg'),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
-              Text('Sewa Sekarang'),
+              const Text('Sewa Sekarang'),
             ],
           ),
         ),
