@@ -36,13 +36,13 @@ class SearchScreen extends StatelessWidget {
                     width: 350,
                     child: TextFormField(
                       onFieldSubmitted: (value) {
-                        print(value);
-                      },
-                      onTap: () {
-                        print('object');
-                      },
-                      onEditingComplete: () {
-                        print(_searchController.text);
+                        print('a');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SearchSuccessScreen(),
+                          ),
+                        );
                       },
                       controller: _searchController,
                       textInputAction: TextInputAction.search,
