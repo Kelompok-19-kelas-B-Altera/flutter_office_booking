@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 class UserModel {
+  final int id;
   final String email;
   final String fullName;
   final String role;
 
   UserModel({
+    required this.id,
     required this.email,
     required this.fullName,
     required this.role,
