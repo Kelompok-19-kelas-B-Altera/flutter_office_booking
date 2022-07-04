@@ -72,7 +72,7 @@ class RatingBuilding extends StatelessWidget {
                   SvgPicture.asset(
                     'assets/svg/star.svg',
                     height: 35,
-                    color: buildingProvider.review(dataBuilding.reviews!) <= 1
+                    color: buildingProvider.review(dataBuilding.reviews!) < 1
                         ? Colors.grey[400]
                         : starColor,
                   ),
@@ -82,7 +82,7 @@ class RatingBuilding extends StatelessWidget {
                   SvgPicture.asset(
                     'assets/svg/star.svg',
                     height: 35,
-                    color: buildingProvider.review(dataBuilding.reviews!) <= 2
+                    color: buildingProvider.review(dataBuilding.reviews!) < 2
                         ? Colors.grey[400]
                         : starColor,
                   ),
@@ -92,7 +92,7 @@ class RatingBuilding extends StatelessWidget {
                   SvgPicture.asset(
                     'assets/svg/star.svg',
                     height: 35,
-                    color: buildingProvider.review(dataBuilding.reviews!) <= 3
+                    color: buildingProvider.review(dataBuilding.reviews!) < 3
                         ? Colors.grey[400]
                         : starColor,
                   ),
@@ -102,7 +102,7 @@ class RatingBuilding extends StatelessWidget {
                   SvgPicture.asset(
                     'assets/svg/star.svg',
                     height: 35,
-                    color: buildingProvider.review(dataBuilding.reviews!) <= 4
+                    color: buildingProvider.review(dataBuilding.reviews!) < 4
                         ? Colors.grey[400]
                         : starColor,
                   ),
@@ -112,7 +112,7 @@ class RatingBuilding extends StatelessWidget {
                   SvgPicture.asset(
                     'assets/svg/star.svg',
                     height: 35,
-                    color: buildingProvider.review(dataBuilding.reviews!) <= 5
+                    color: buildingProvider.review(dataBuilding.reviews!) < 5
                         ? Colors.grey[400]
                         : starColor,
                   ),
