@@ -1,7 +1,5 @@
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/models/building_model.dart';
 import 'package:flutter_office_booking/view_models/building_view_model.dart';
 import 'package:flutter_office_booking/view_models/detail_view_model.dart';
 import 'package:flutter_office_booking/views/screens/review_screen.dart';
@@ -13,10 +11,10 @@ import '../widgets/rating_building.dart';
 class DetailScreen extends StatefulWidget {
   const DetailScreen({
     Key? key,
-    required this.id,
+    required this.buildingId,
   }) : super(key: key);
 
-  final int id;
+  final int buildingId;
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -38,7 +36,7 @@ class _DetailScreenState extends State<DetailScreen> {
     var detailProvider = Provider.of<DetailViewModel>(context);
 
     var index = buildingProvider.buildingData
-        .indexWhere((element) => element.id == widget.id);
+        .indexWhere((element) => element.id == widget.buildingId);
     var dataBuilding = buildingProvider.buildingData[index];
     var queryMedia = MediaQuery.of(context);
 
@@ -370,7 +368,8 @@ class _DetailScreenState extends State<DetailScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => ReviewScreen(id: widget.id),
+                      builder: (ctx) =>
+                          ReviewScreen(buildingId: widget.buildingId),
                     ),
                   );
                 },
