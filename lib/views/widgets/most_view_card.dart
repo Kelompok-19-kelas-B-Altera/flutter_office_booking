@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class MostViewCard extends StatelessWidget {
   const MostViewCard({
     Key? key,
-    required this.id,
+    required this.buildingId,
     required this.review,
     required this.imageUrl,
     required this.buildingName,
@@ -17,7 +17,7 @@ class MostViewCard extends StatelessWidget {
     required this.city,
   }) : super(key: key);
 
-  final int id;
+  final int buildingId;
   final List<Reviews> review;
   final List<ImagesModel> imageUrl;
   final String? buildingName;
@@ -91,7 +91,7 @@ class MostViewCard extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (ctx) => DetailScreen(
-                        id: id,
+                        buildingId: buildingId,
                       ),
                     ),
                   );
