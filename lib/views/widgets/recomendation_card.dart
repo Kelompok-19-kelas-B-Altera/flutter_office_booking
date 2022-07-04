@@ -9,7 +9,7 @@ import '../screens/detail_screen.dart';
 class RecomendationCard extends StatelessWidget {
   const RecomendationCard({
     Key? key,
-    required this.id,
+    required this.buildingId,
     required this.review,
     required this.imageUrl,
     required this.buildingName,
@@ -17,7 +17,7 @@ class RecomendationCard extends StatelessWidget {
     required this.city,
   }) : super(key: key);
 
-  final int id;
+  final int buildingId;
   final List<Reviews> review;
   final List<ImagesModel> imageUrl;
   final String? buildingName;
@@ -121,7 +121,7 @@ class RecomendationCard extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (ctx) => DetailScreen(
-                            id: id,
+                            buildingId: buildingId,
                           ),
                         ),
                       );
