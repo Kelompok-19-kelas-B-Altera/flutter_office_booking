@@ -123,7 +123,7 @@ class HomeScreen extends StatelessWidget {
                     var buildingData = buildingProvider.buildingData[i];
 
                     return MostViewCard(
-                      id: buildingData.id!,
+                      buildingId: buildingData.id!,
                       review: buildingData.reviews!,
                       imageUrl: buildingData.images!,
                       buildingName: buildingData.buildingName,
@@ -157,7 +157,7 @@ class HomeScreen extends StatelessWidget {
                   itemBuilder: (ctx, i) {
                     var buildingData = buildingProvider.buildingData[i];
                     return RecomendationCard(
-                      id: buildingData.id!,
+                      buildingId: buildingData.id!,
                       review: buildingData.reviews!,
                       imageUrl: buildingData.images!,
                       buildingName: buildingData.buildingName,
