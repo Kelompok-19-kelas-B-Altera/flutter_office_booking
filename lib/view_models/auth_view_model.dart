@@ -16,7 +16,7 @@ class AuthViewModel with ChangeNotifier {
   void _init() async {
     var data = await LocalStorage.getLoginData();
     if (data != null) {
-      signIn(
+      await signIn(
         email: data['email'],
         password: data['password'],
       );
@@ -44,11 +44,13 @@ class AuthViewModel with ChangeNotifier {
       _token = response['token'];
       var data = await UserModel.tokenDecode(response['token']);
       userData = UserModel(
+        id: data['id'],
         email: data['email'],
         fullName: data['fullname'],
         role: data['role'],
       );
 
+      print(userData!.id);
       print(_token);
 
       LocalStorage.setLoginData(
