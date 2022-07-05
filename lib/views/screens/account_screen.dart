@@ -114,7 +114,7 @@ class LoggedIn extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: TextFormField(
-              initialValue: 'user@gmail.com',
+              initialValue: authProvider.userData!.email,
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.black.withOpacity(0.5),
@@ -148,7 +148,7 @@ class LoggedIn extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: TextFormField(
-              initialValue: 'zanandaaditya',
+              initialValue: authProvider.userData!.fullName,
               readOnly: true,
               style: TextStyle(
                 fontSize: 18,

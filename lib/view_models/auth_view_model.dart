@@ -1,7 +1,6 @@
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/models/api/user_api.dart';
+import 'package:flutter_office_booking/models/storage/local_storage.dart';
 import 'package:flutter_office_booking/models/user_model.dart';
 
 class AuthViewModel with ChangeNotifier {
@@ -10,28 +9,54 @@ class AuthViewModel with ChangeNotifier {
 
   String? get token => _token;
 
+  AuthViewModel() {
+    _init();
+  }
+
+  void _init() async {
+    var data = await LocalStorage.getLoginData();
+    if (data != null) {
+      await signIn(
+        email: data['email'],
+        password: data['password'],
+      );
+    }
+  }
+
   logOut() async {
     userData = null;
     _token = null;
+    LocalStorage.clearLoginData();
 
     notifyListeners();
   }
 
-  Future<bool> signIn({required email, required password}) async {
+  Future<bool> signIn({
+    required email,
+    required password,
+  }) async {
     var response = await UserApi.signIn(
       email: email,
       password: password,
     );
 
-    if (response != false) {
+    if (response != null) {
       _token = response['token'];
       var data = await UserModel.tokenDecode(response['token']);
       userData = UserModel(
+        id: data['id'],
         email: data['email'],
         fullName: data['fullname'],
         role: data['role'],
       );
+
+      print(userData!.id);
       print(_token);
+
+      LocalStorage.setLoginData(
+        email: email,
+        password: password,
+      );
       notifyListeners();
       return true;
     } else {
@@ -50,7 +75,7 @@ class AuthViewModel with ChangeNotifier {
       name: name,
       password: password,
     );
-    if (response != false) {
+    if (response != null) {
       return true;
     } else {
       return false;

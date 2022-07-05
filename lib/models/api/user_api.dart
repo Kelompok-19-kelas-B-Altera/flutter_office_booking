@@ -5,8 +5,8 @@ class UserApi {
   static signIn({required email, required password}) async {
     BaseOptions options = BaseOptions(
         receiveDataWhenStatusError: true,
-        connectTimeout: 30 * 1000, // 30 seconds
-        receiveTimeout: 30 * 1000 // 30 seconds
+        connectTimeout: 5 * 1000, // 5 seconds
+        receiveTimeout: 5 * 1000 // 5 seconds
         );
     var dio = Dio(options);
     var formLogin = {
@@ -19,17 +19,16 @@ class UserApi {
           await dio.post(baseUrl + '/api/v1/auth/login', data: formLogin);
       return response.data['data'];
     } on DioError catch (e) {
-      if (e.type == DioErrorType.response) {
-        return false;
-      }
+      print(e.error);
+      return null;
     }
   }
 
   static signUp({required email, required name, required password}) async {
     BaseOptions options = BaseOptions(
         receiveDataWhenStatusError: true,
-        connectTimeout: 30 * 1000, // 30 seconds
-        receiveTimeout: 30 * 1000 // 30 seconds
+        connectTimeout: 5 * 1000, // 5 seconds
+        receiveTimeout: 5 * 1000 // 5 seconds
         );
     var dio = Dio(options);
 
@@ -44,9 +43,8 @@ class UserApi {
           await dio.post(baseUrl + '/api/v1/auth/register', data: formDaftar);
       return response.data;
     } on DioError catch (e) {
-      if (e.type == DioErrorType.response) {
-        return false;
-      }
+      print(e.error);
+      return null;
     }
   }
 }

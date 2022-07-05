@@ -1,12 +1,20 @@
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/view_models/building_view_model.dart';
+import 'package:flutter_office_booking/view_models/detail_view_model.dart';
 import 'package:flutter_office_booking/views/screens/review_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import '../../constants.dart';
+import '../widgets/rating_building.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({Key? key}) : super(key: key);
+  const DetailScreen({
+    Key? key,
+    required this.buildingId,
+  }) : super(key: key);
+
+  final int buildingId;
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -15,22 +23,23 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _current = 0;
   }
 
+  int lenghtFasilitas = 3;
   int _current = 0;
   final CarouselController _controller = CarouselController();
   @override
   Widget build(BuildContext context) {
-    List<String> list = [
-      'assets/images/img.png',
-      'assets/images/img2.png',
-      'assets/images/img.png',
-      'assets/images/img2.png',
-    ];
+    var buildingProvider = Provider.of<BuildingViewModel>(context);
+    var detailProvider = Provider.of<DetailViewModel>(context);
+
+    var index = buildingProvider.buildingData
+        .indexWhere((element) => element.id == widget.buildingId);
+    var dataBuilding = buildingProvider.buildingData[index];
     var queryMedia = MediaQuery.of(context);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
@@ -44,11 +53,11 @@ class _DetailScreenState extends State<DetailScreen> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                const Center(
+                Center(
                   child: Text(
-                    'Guardian Office',
+                    dataBuilding.buildingName!,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
@@ -83,14 +92,16 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
               alignment: Alignment.topCenter,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 80),
+                  padding: const EdgeInsets.only(top: 70),
                   child: CarouselSlider(
                     carouselController: _controller,
                     options: CarouselOptions(
@@ -102,11 +113,11 @@ class _DetailScreenState extends State<DetailScreen> {
                             _current = index;
                           });
                         }),
-                    items: list
+                    items: dataBuilding.images!
                         .map(
                           (item) => Container(
-                            child: Image.asset(
-                              item,
+                            child: Image.network(
+                              item.imageUrl!,
                               fit: BoxFit.cover,
                               width: queryMedia.size.width,
                             ),
@@ -124,7 +135,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       Builder(builder: (ctx) {
                         var isi = <Widget>[];
                         var index = 0;
-                        for (var i = 0; i < list.length; i++) {
+                        for (var i = 0; i < dataBuilding.images!.length; i++) {
                           isi.add(
                             Container(
                               width: 8.0,
@@ -140,7 +151,6 @@ class _DetailScreenState extends State<DetailScreen> {
                           );
                           index += 1;
                         }
-
                         return Row(
                           children: isi,
                         );
@@ -163,11 +173,14 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
               ],
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                'Hailmon Comp',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
+                dataBuilding.buildingName!,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 30,
+                ),
               ),
             ),
             const SizedBox(
@@ -181,9 +194,12 @@ class _DetailScreenState extends State<DetailScreen> {
                     'assets/svg/pin.svg',
                     width: 12,
                   ),
-                  const Text(
-                    'Cilandak, Jakarta Selatan',
-                    style: TextStyle(
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    '${dataBuilding.address}, ${dataBuilding.complex!.city}',
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: Color.fromRGBO(7, 7, 35, 0.5),
@@ -198,16 +214,20 @@ class _DetailScreenState extends State<DetailScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
               child: Row(
-                children: const [
+                children: [
                   Icon(
                     Icons.star,
-                    color: Colors.orange,
+                    color: starColor,
                     size: 15,
                   ),
                   Text(
-                    '4.1',
+                    buildingProvider.review(dataBuilding.reviews!) != 0
+                        ? buildingProvider
+                            .review(dataBuilding.reviews!)
+                            .toStringAsFixed(1)
+                        : '-',
                     style: TextStyle(
-                      color: Colors.orange,
+                      color: starColor,
                     ),
                   ),
                 ],
@@ -216,11 +236,11 @@ class _DetailScreenState extends State<DetailScreen> {
             const SizedBox(
               height: 12,
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                style: TextStyle(fontSize: 14),
+                dataBuilding.description!,
+                style: const TextStyle(fontSize: 14),
               ),
             ),
             const SizedBox(
@@ -243,56 +263,80 @@ class _DetailScreenState extends State<DetailScreen> {
             const SizedBox(
               height: 12,
             ),
-            ListTile(
-              leading: CircleAvatar(
-                backgroundColor: Colors.grey[200],
-                child: SvgPicture.asset(
-                  'assets/svg/arrow_down.svg',
-                  color: Colors.grey,
-                ),
-              ),
-              title: Text('Bandara Halim Perdana'),
-              subtitle: Text('Transportasi'),
-              trailing: Text('1 KM'),
-            ),
-            ListTile(
-              leading: CircleAvatar(
-                backgroundColor: Colors.grey[200],
-                child: SvgPicture.asset(
-                  'assets/svg/chat.svg',
-                  color: Colors.grey,
-                ),
-              ),
-              title: Text('Rumah Sakit Mama Papa'),
-              subtitle: Text('Layanan'),
-              trailing: Text('1 KM'),
-            ),
-            ListTile(
-              leading: CircleAvatar(
-                backgroundColor: Colors.grey[200],
-                child: SvgPicture.asset(
-                  'assets/svg/home.svg',
-                  color: Colors.grey,
-                ),
-              ),
-              title: Text('Dunia Fantasi'),
-              subtitle: Text('Atraksi'),
-              trailing: Text('1 KM'),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Lihat lainnya'),
-                const SizedBox(
-                  width: 4,
-                ),
-                SvgPicture.asset(
-                  'assets/svg/arrow_down.svg',
-                  height: 10,
-                  width: 10,
-                ),
-              ],
-            ),
+            ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.only(top: 0),
+                shrinkWrap: true,
+                itemBuilder: (ctx, i) {
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.grey[200],
+                      child: SvgPicture.asset(
+                        detailProvider.nearbyFacilityIcon(
+                            dataBuilding.nearbyFacilities![i].type!),
+                      ),
+                    ),
+                    title: Text(
+                      dataBuilding.nearbyFacilities![i].name!,
+                    ),
+                    subtitle: Text(
+                      dataBuilding.nearbyFacilities![i].type!,
+                    ),
+                    trailing: Text(
+                      '${dataBuilding.nearbyFacilities![i].distance!} KM',
+                    ),
+                  );
+                },
+                separatorBuilder: (ctx, i) {
+                  return const SizedBox(
+                    height: 5,
+                  );
+                },
+                itemCount: dataBuilding.nearbyFacilities!.length),
+            dataBuilding.nearbyFacilities!.length < 3
+                ? Container()
+                : Center(
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          if (lenghtFasilitas == 3) {
+                            lenghtFasilitas = 5;
+                          } else {
+                            lenghtFasilitas = 3;
+                          }
+                        });
+                      },
+                      child: lenghtFasilitas == 3
+                          ? Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text('Lihat lainnya'),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                SvgPicture.asset(
+                                  'assets/svg/arrow_down.svg',
+                                  height: 10,
+                                  width: 10,
+                                ),
+                              ],
+                            )
+                          : Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text('Tutup lainnya'),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                SvgPicture.asset(
+                                  'assets/svg/arrow_down.svg',
+                                  height: 10,
+                                  width: 10,
+                                ),
+                              ],
+                            ),
+                    ),
+                  ),
             const SizedBox(
               height: 12,
             ),
@@ -303,282 +347,45 @@ class _DetailScreenState extends State<DetailScreen> {
             const SizedBox(
               height: 12,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: const [
-                          Text(
-                            '-',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                            ),
-                          ),
-                          Text(
-                            ' / 5',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: const [
-                          Text(
-                            '0',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                          Text(
-                            ' rating',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/svg/star.svg',
-                            height: 35,
-                            color: Colors.grey[400],
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SvgPicture.asset(
-                            'assets/svg/star.svg',
-                            height: 35,
-                            color: Colors.grey[400],
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SvgPicture.asset(
-                            'assets/svg/star.svg',
-                            height: 35,
-                            color: Colors.grey[400],
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SvgPicture.asset(
-                            'assets/svg/star.svg',
-                            height: 35,
-                            color: Colors.grey[400],
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SvgPicture.asset(
-                            'assets/svg/star.svg',
-                            height: 35,
-                            color: Colors.grey[400],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const Expanded(
-                    child: SizedBox(),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            '5',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SizedBox(
-                            width: queryMedia.size.width * 0.3,
-                            child: const LinearProgressIndicator(
-                              backgroundColor: Colors.grey,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.yellow),
-                              value: 0.4,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text('0'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            '4',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SizedBox(
-                            width: queryMedia.size.width * 0.3,
-                            child: const LinearProgressIndicator(
-                              backgroundColor: Colors.grey,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.yellow),
-                              value: 0.4,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text('0'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            '3',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SizedBox(
-                            width: queryMedia.size.width * 0.3,
-                            child: const LinearProgressIndicator(
-                              backgroundColor: Colors.grey,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.yellow),
-                              value: 0.4,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text('0'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            '2',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SizedBox(
-                            width: queryMedia.size.width * 0.3,
-                            child: const LinearProgressIndicator(
-                              backgroundColor: Colors.grey,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.yellow),
-                              value: 0.4,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text('0'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            '1',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SizedBox(
-                            width: queryMedia.size.width * 0.3,
-                            child: const LinearProgressIndicator(
-                              backgroundColor: Colors.grey,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.yellow),
-                              value: 0.4,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text('0'),
-                        ],
-                      ),
-                    ],
-                  )
-                ],
-              ),
+            RatingBuilding(
+              dataBuilding: dataBuilding,
             ),
             const SizedBox(
               height: 12,
             ),
-            Center(
-              child: InkWell(
-                onTap: () {
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  elevation: 0,
+                  side: const BorderSide(
+                    color: Colors.blue,
+                    width: 2,
+                  ),
+                ),
+                onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => const ReviewScreen(),
+                      builder: (ctx) =>
+                          ReviewScreen(buildingId: widget.buildingId),
                     ),
                   );
                 },
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('Lihat riview'),
-                    const SizedBox(
-                      width: 4,
+                    const Text(
+                      'Lihat Review',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    const Expanded(
+                      child: SizedBox(),
                     ),
                     SvgPicture.asset(
-                      'assets/svg/arrow_down.svg',
-                      height: 10,
-                      width: 10,
+                      'assets/svg/arrow_right.svg',
+                      height: 15,
+                      width: 15,
                     ),
                   ],
                 ),
@@ -600,10 +407,10 @@ class _DetailScreenState extends State<DetailScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset('assets/svg/chat.svg'),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
-              Text('Sewa Sekarang'),
+              const Text('Sewa Sekarang'),
             ],
           ),
         ),

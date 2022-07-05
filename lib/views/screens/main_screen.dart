@@ -17,10 +17,26 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<BuildingViewModel>(context, listen: false).getAllBuilding();
+    });
+  }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+  //     Provider.of<BuildingViewModel>(context, listen: false).getAllBuilding();
+  //   });
+  // }
+
   int indexScreen = 0;
   List<Widget> listScreen = [
-    HomeScreen(),
-    AccountScreen(),
+    const HomeScreen(),
+    const AccountScreen(),
   ];
   @override
   Widget build(BuildContext context) {

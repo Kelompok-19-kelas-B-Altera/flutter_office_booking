@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/view_models/auth_view_model.dart';
+import 'package:flutter_office_booking/view_models/review_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class WriteReviewBottomSheet extends StatefulWidget {
   const WriteReviewBottomSheet({
     Key? key,
+    required this.buildingId,
     required this.queryMedia,
   }) : super(key: key);
 
+  final int buildingId;
   final MediaQueryData queryMedia;
 
   @override
@@ -15,54 +20,90 @@ class WriteReviewBottomSheet extends StatefulWidget {
 
 class _WriteReviewBottomSheetState extends State<WriteReviewBottomSheet> {
   bool reviewDone = false;
-  int reviewStar = 5;
+  bool reviewSuccess = true;
+  int ratingStar = 5;
 
   final _reviewController = TextEditingController();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     reviewDone = false;
-    reviewStar = 5;
+    ratingStar = 5;
   }
 
   @override
   Widget build(BuildContext context) {
+    final reviewProvider = Provider.of<ReviewViewModel>(context);
+    final authProvider = Provider.of<AuthViewModel>(context);
     return reviewDone
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                'assets/svg/done.svg',
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              const Text(
-                'Review Selesai',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.green,
-                ),
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 120),
-                child: Text(
-                  'Terima kasih atas ulasan yang anda berikan',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
+        ? reviewSuccess
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    'assets/svg/done.svg',
                   ),
-                ),
-              ),
-            ],
-          )
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  const Text(
+                    'Review Selesai',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.green,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 120),
+                    child: Text(
+                      'Terima kasih atas ulasan yang anda berikan',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    'assets/svg/done.svg',
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  const Text(
+                    'Review Gagal',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.green,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 120),
+                    child: Text(
+                      'Terima kasih atas ulasan yang anda berikan',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ],
+              )
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -136,60 +177,60 @@ class _WriteReviewBottomSheetState extends State<WriteReviewBottomSheet> {
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          reviewStar = 1;
+                          ratingStar = 1;
                         });
                       },
                       child: SvgPicture.asset(
                         'assets/svg/star.svg',
-                        color: reviewStar > 0 ? Colors.yellow : Colors.grey,
+                        color: ratingStar > 0 ? Colors.yellow : Colors.grey,
                         width: widget.queryMedia.size.width * 0.15,
                       ),
                     ),
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          reviewStar = 2;
+                          ratingStar = 2;
                         });
                       },
                       child: SvgPicture.asset(
                         'assets/svg/star.svg',
-                        color: reviewStar > 1 ? Colors.yellow : Colors.grey,
+                        color: ratingStar > 1 ? Colors.yellow : Colors.grey,
                         width: widget.queryMedia.size.width * 0.15,
                       ),
                     ),
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          reviewStar = 3;
+                          ratingStar = 3;
                         });
                       },
                       child: SvgPicture.asset(
                         'assets/svg/star.svg',
-                        color: reviewStar > 2 ? Colors.yellow : Colors.grey,
+                        color: ratingStar > 2 ? Colors.yellow : Colors.grey,
                         width: widget.queryMedia.size.width * 0.15,
                       ),
                     ),
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          reviewStar = 4;
+                          ratingStar = 4;
                         });
                       },
                       child: SvgPicture.asset(
                         'assets/svg/star.svg',
-                        color: reviewStar > 3 ? Colors.yellow : Colors.grey,
+                        color: ratingStar > 3 ? Colors.yellow : Colors.grey,
                         width: widget.queryMedia.size.width * 0.15,
                       ),
                     ),
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          reviewStar = 5;
+                          ratingStar = 5;
                         });
                       },
                       child: SvgPicture.asset(
                         'assets/svg/star.svg',
-                        color: reviewStar > 4 ? Colors.yellow : Colors.grey,
+                        color: ratingStar > 4 ? Colors.yellow : Colors.grey,
                         width: widget.queryMedia.size.width * 0.15,
                       ),
                     ),
@@ -241,10 +282,25 @@ class _WriteReviewBottomSheetState extends State<WriteReviewBottomSheet> {
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
                   ),
-                  onPressed: () {
-                    setState(() {
-                      reviewDone = true;
-                    });
+                  onPressed: () async {
+                    var response = await reviewProvider.addReview(
+                      token: authProvider.token!,
+                      idUser: authProvider.userData!.id,
+                      idBuilding: widget.buildingId,
+                      rating: ratingStar,
+                      review: _reviewController.text,
+                    );
+                    if (response != null) {
+                      setState(() {
+                        reviewDone = true;
+                        reviewSuccess = true;
+                      });
+                    } else {
+                      setState(() {
+                        reviewDone = true;
+                        reviewSuccess = false;
+                      });
+                    }
                   },
                   child: const Text('Kirim'),
                 ),

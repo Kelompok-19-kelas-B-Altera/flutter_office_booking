@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/view_models/auth_view_model.dart';
 import 'package:flutter_office_booking/views/screens/detail_screen.dart';
+import 'package:flutter_office_booking/views/widgets/rating_building.dart';
 import 'package:flutter_office_booking/views/widgets/write_review_bottom_sheet.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+
+import '../../view_models/building_view_model.dart';
+import '../../view_models/detail_view_model.dart';
 
 class ReviewScreen extends StatelessWidget {
-  const ReviewScreen({Key? key}) : super(key: key);
+  const ReviewScreen({
+    Key? key,
+    required this.buildingId,
+  }) : super(key: key);
+
+  final int buildingId;
 
   @override
   Widget build(BuildContext context) {
+    final authViewModel = Provider.of<AuthViewModel>(context);
     final queryMedia = MediaQuery.of(context);
+    final buildingProvider = Provider.of<BuildingViewModel>(context);
+
+    var index = buildingProvider.buildingData
+        .indexWhere((element) => element.id == buildingId);
+    var dataBuilding = buildingProvider.buildingData[index];
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(65),
@@ -55,258 +73,7 @@ class ReviewScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: const [
-                        Text(
-                          '-',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                          ),
-                        ),
-                        Text(
-                          ' / 5',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: const [
-                        Text(
-                          '0',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        Text(
-                          ' rating',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/svg/star.svg',
-                          height: 35,
-                          color: Colors.grey[400],
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        SvgPicture.asset(
-                          'assets/svg/star.svg',
-                          height: 35,
-                          color: Colors.grey[400],
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        SvgPicture.asset(
-                          'assets/svg/star.svg',
-                          height: 35,
-                          color: Colors.grey[400],
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        SvgPicture.asset(
-                          'assets/svg/star.svg',
-                          height: 35,
-                          color: Colors.grey[400],
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        SvgPicture.asset(
-                          'assets/svg/star.svg',
-                          height: 35,
-                          color: Colors.grey[400],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const Expanded(
-                  child: SizedBox(),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          color: Colors.yellow,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text(
-                          '5',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        SizedBox(
-                          width: queryMedia.size.width * 0.3,
-                          child: const LinearProgressIndicator(
-                            backgroundColor: Colors.grey,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.yellow),
-                            value: 0.4,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text('0'),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          color: Colors.yellow,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text(
-                          '4',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        SizedBox(
-                          width: queryMedia.size.width * 0.3,
-                          child: const LinearProgressIndicator(
-                            backgroundColor: Colors.grey,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.yellow),
-                            value: 0.4,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text('0'),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          color: Colors.yellow,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text(
-                          '3',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        SizedBox(
-                          width: queryMedia.size.width * 0.3,
-                          child: const LinearProgressIndicator(
-                            backgroundColor: Colors.grey,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.yellow),
-                            value: 0.4,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text('0'),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          color: Colors.yellow,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text(
-                          '2',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        SizedBox(
-                          width: queryMedia.size.width * 0.3,
-                          child: const LinearProgressIndicator(
-                            backgroundColor: Colors.grey,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.yellow),
-                            value: 0.4,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text('0'),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          color: Colors.yellow,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text(
-                          '1',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        SizedBox(
-                          width: queryMedia.size.width * 0.3,
-                          child: const LinearProgressIndicator(
-                            backgroundColor: Colors.grey,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.yellow),
-                            value: 0.4,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text('0'),
-                      ],
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
+          RatingBuilding(dataBuilding: dataBuilding),
           const SizedBox(
             height: 12,
           ),
@@ -339,26 +106,29 @@ class ReviewScreen extends StatelessWidget {
                   child: SizedBox(),
                 ),
                 IconButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(20),
-                          ),
-                        ),
-                        isScrollControlled: true,
-                        elevation: 10,
-                        context: context,
-                        builder: (ctx) {
-                          return SingleChildScrollView(
-                            child: SizedBox(
-                              height: queryMedia.size.height * 0.9,
-                              child: WriteReviewBottomSheet(
-                                  queryMedia: queryMedia),
-                            ),
-                          );
-                        });
-                  },
+                  onPressed: authViewModel.token != null
+                      ? () {
+                          showModalBottomSheet(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20),
+                                ),
+                              ),
+                              isScrollControlled: true,
+                              elevation: 10,
+                              context: context,
+                              builder: (ctx) {
+                                return SingleChildScrollView(
+                                  child: SizedBox(
+                                    height: queryMedia.size.height * 0.9,
+                                    child: WriteReviewBottomSheet(
+                                        buildingId: buildingId,
+                                        queryMedia: queryMedia),
+                                  ),
+                                );
+                              });
+                        }
+                      : null,
                   icon: const Icon(Icons.arrow_forward_ios),
                 ),
               ],
@@ -374,104 +144,119 @@ class ReviewScreen extends StatelessWidget {
           const SizedBox(
             height: 12,
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              'Review',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            ),
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          Flexible(
-            child: ListView.separated(
-                shrinkWrap: true,
-                itemBuilder: (ctx, i) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 12,
-                              backgroundImage:
-                                  AssetImage('assets/images/circle.png'),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              'Tinda Jodri',
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w600),
-                            ),
-                            Expanded(
-                              child: SizedBox(),
-                            ),
-                            SvgPicture.asset(
-                              'assets/svg/star.svg',
-                              color: Colors.yellow,
-                              height: 15,
-                            ),
-                            SizedBox(
-                              width: 3,
-                            ),
-                            SvgPicture.asset(
-                              'assets/svg/star.svg',
-                              color: Colors.yellow,
-                              height: 15,
-                            ),
-                            SizedBox(
-                              width: 3,
-                            ),
-                            SvgPicture.asset(
-                              'assets/svg/star.svg',
-                              color: Colors.yellow,
-                              height: 15,
-                            ),
-                            SizedBox(
-                              width: 3,
-                            ),
-                            SvgPicture.asset(
-                              'assets/svg/star.svg',
-                              color: Colors.yellow,
-                              height: 15,
-                            ),
-                            SizedBox(
-                              width: 3,
-                            ),
-                            SvgPicture.asset(
-                              'assets/svg/star.svg',
-                              color: Colors.yellow,
-                              height: 15,
-                            ),
-                            SizedBox(
-                              width: 3,
-                            ),
-                            Text('1 jam yang lalu')
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                            'Keren tempatnya bersih ga nyesel pokoknyaKeren tempatnya bersih ga nyesel pokoknyaKeren tempatnya bersih ga nyesel pokoknya')
-                      ],
+          dataBuilding.reviews!.isEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Center(
+                      child: SvgPicture.asset(
+                        'assets/svg/not_found.svg',
+                        height: 250,
+                      ),
                     ),
-                  );
-                },
-                separatorBuilder: (ctx, i) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(vertical: 12),
-                    color: Colors.grey[300],
-                    height: 5,
-                  );
-                },
-                itemCount: 10),
-          ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    const Text(
+                      'Review tidak ditemukan',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    const SizedBox(
+                      width: 200,
+                      child: Text(
+                        'Ceritakan pengalaman terbaik mu ditempat ini',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        'Review',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Flexible(
+                      child: ListView.separated(
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (ctx, i) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 12,
+                                        backgroundImage: AssetImage(dataBuilding
+                                                .reviews![i].user?.images ??
+                                            'assets/images/circle.png'),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        dataBuilding
+                                            .reviews![i].user!.fullname!,
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      const Expanded(
+                                        child: SizedBox(),
+                                      ),
+                                      for (int s = 0;
+                                          s < dataBuilding.reviews![i].rating!;
+                                          s++)
+                                        SvgPicture.asset(
+                                          'assets/svg/star.svg',
+                                          color: Colors.yellow,
+                                          height: 15,
+                                        ),
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      // Text('1 jam yang lalu')
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(dataBuilding.reviews![i].review!)
+                                ],
+                              ),
+                            );
+                          },
+                          separatorBuilder: (ctx, i) {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(vertical: 12),
+                              color: Colors.grey[300],
+                              height: 5,
+                            );
+                          },
+                          itemCount: dataBuilding.reviews!.length),
+                    ),
+                  ],
+                ),
         ],
       ),
     );

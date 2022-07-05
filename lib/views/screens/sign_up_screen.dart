@@ -43,7 +43,9 @@ class SignUpScreen extends StatelessWidget {
               Positioned(
                 left: 10,
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   icon: const Icon(
                     Icons.arrow_back_ios_new,
                     size: 25,

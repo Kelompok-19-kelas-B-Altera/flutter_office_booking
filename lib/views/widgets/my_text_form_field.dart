@@ -25,8 +25,8 @@ class MyTextField extends StatelessWidget {
         errorBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red, width: 2),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey.withOpacity(0.5), width: 2),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 2),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey.withOpacity(0.5), width: 2),
@@ -89,8 +89,8 @@ class _MyPasswordFieldState extends State<MyPasswordField> {
         errorBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red, width: 2),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey.withOpacity(0.5), width: 2),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 2),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey.withOpacity(0.5), width: 2),
@@ -178,9 +178,8 @@ class _MyPasswordField2State extends State<MyPasswordField2> {
             errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.red, width: 2),
             ),
-            focusedBorder: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: Colors.grey.withOpacity(0.5), width: 2),
+            focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue, width: 2),
             ),
             enabledBorder: OutlineInputBorder(
               borderSide:

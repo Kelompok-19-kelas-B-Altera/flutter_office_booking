@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/constants.dart';
+import 'package:flutter_office_booking/view_models/building_view_model.dart';
+import 'package:flutter_office_booking/views/screens/search_screen.dart';
 import 'package:flutter_office_booking/views/widgets/most_view_card.dart';
 import 'package:flutter_office_booking/views/widgets/recomendation_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final buildingProvider = Provider.of<BuildingViewModel>(context);
     final _searchController = TextEditingController();
 
     return Scaffold(
@@ -50,37 +54,40 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: TextFormField(
-                    controller: _searchController,
-                    textInputAction: TextInputAction.search,
-                    onEditingComplete: () {
-                      print(_searchController.text);
-                    },
-                    decoration: InputDecoration(
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (ctx) => const SearchScreen(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 45,
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                    ),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/svg/search.svg',
+                          width: 25,
+                          height: 25,
                         ),
-                        focusedBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
+                        const SizedBox(
+                          width: 10,
                         ),
-                        // enabled: false,
-                        filled: true,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: SvgPicture.asset(
-                            'assets/svg/search.svg',
-                            width: 10,
-                            height: 10,
+                        Text(
+                          'Cari Tempat atau Lokasi...',
+                          style: TextStyle(
+                            color: Colors.grey[600],
                           ),
                         ),
-                        hintText: 'Cari Tempat atau Lokasi',
-                        labelStyle: const TextStyle(color: Colors.black),
-                        // border: OutlineInputBorder(
-                        //   borderRadius: BorderRadius.circular(0),
-                        // ),
-                        fillColor: Colors.grey[200]),
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -90,6 +97,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,16 +117,26 @@ class HomeScreen extends StatelessWidget {
               SizedBox(
                 height: 280,
                 child: ListView.separated(
+                  physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (ctx, i) {
-                    return const MostViewCard();
+                    var buildingData = buildingProvider.buildingData[i];
+
+                    return MostViewCard(
+                      buildingId: buildingData.id!,
+                      review: buildingData.reviews!,
+                      imageUrl: buildingData.images!,
+                      buildingName: buildingData.buildingName,
+                      address: buildingData.address,
+                      city: buildingData.complex!.city,
+                    );
                   },
                   separatorBuilder: (ctx, i) {
                     return const SizedBox(
                       width: 20,
                     );
                   },
-                  itemCount: 5,
+                  itemCount: buildingProvider.buildingData.length,
                 ),
               ),
               const Text(
@@ -137,14 +155,24 @@ class HomeScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (ctx, i) {
-                    return const RecomendationCard();
+                    var buildingData = buildingProvider.buildingData[i];
+                    return RecomendationCard(
+                      buildingId: buildingData.id!,
+                      review: buildingData.reviews!,
+                      imageUrl: buildingData.images!,
+                      buildingName: buildingData.buildingName,
+                      address: buildingData.address,
+                      city: buildingData.complex!.city,
+                    );
                   },
                   separatorBuilder: (ctx, i) {
                     return const SizedBox(
                       height: 20,
                     );
                   },
-                  itemCount: 10,
+                  itemCount: buildingProvider.buildingData.length < 10
+                      ? buildingProvider.buildingData.length
+                      : 10,
                 ),
               ),
             ],
