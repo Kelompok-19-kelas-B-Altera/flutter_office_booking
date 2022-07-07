@@ -2,7 +2,7 @@ class BuildingModel {
   String? timestamp;
   int? responseCode;
   String? message;
-  List<Data>? data;
+  List<BuildingData>? data;
 
   BuildingModel({this.timestamp, this.responseCode, this.message, this.data});
 
@@ -11,9 +11,9 @@ class BuildingModel {
     responseCode = json['response_code'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <BuildingData>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(BuildingData.fromJson(v));
       });
     }
   }
@@ -30,7 +30,7 @@ class BuildingModel {
   }
 }
 
-class Data {
+class BuildingData {
   int? id;
   String? buildingName;
   String? description;
@@ -44,7 +44,7 @@ class Data {
   List<Schedules>? schedules;
   List<Reviews>? reviews;
 
-  Data(
+  BuildingData(
       {this.id,
       this.buildingName,
       this.description,
@@ -58,7 +58,7 @@ class Data {
       this.schedules,
       this.reviews});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  BuildingData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     buildingName = json['building_name'];
     description = json['description'];

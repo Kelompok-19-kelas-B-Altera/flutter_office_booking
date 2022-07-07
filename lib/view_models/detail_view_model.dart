@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/models/building_model.dart';
 
+import '../models/api/building_api.dart';
+
 class DetailViewModel with ChangeNotifier {
+  BuildingData _detailBuilding = BuildingData();
+  BuildingData get detailBuilding => _detailBuilding;
+
+  Future getBuildingById(int id) async {
+    try {
+      final response = await BuildingApi.getBuildingById(id.toString());
+      _detailBuilding = response;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      return null;
+    }
+  }
+
   nearbyFacilityIcon(String jenis) {
     if (jenis == 'Transportasi') {
       return 'assets/svg/transportasi.svg';

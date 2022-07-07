@@ -13,7 +13,7 @@ class RatingBuilding extends StatelessWidget {
     required this.dataBuilding,
   }) : super(key: key);
 
-  final Data dataBuilding;
+  final BuildingData dataBuilding;
 
   @override
   Widget build(BuildContext context) {

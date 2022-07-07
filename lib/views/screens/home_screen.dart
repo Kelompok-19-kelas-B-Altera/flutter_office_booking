@@ -120,7 +120,7 @@ class HomeScreen extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (ctx, i) {
-                    var buildingData = buildingProvider.buildingData[i];
+                    var buildingData = buildingProvider.mostViewBuilding[i];
 
                     return MostViewCard(
                       buildingId: buildingData.id!,
@@ -136,7 +136,7 @@ class HomeScreen extends StatelessWidget {
                       width: 20,
                     );
                   },
-                  itemCount: buildingProvider.buildingData.length,
+                  itemCount: buildingProvider.mostViewBuilding.length,
                 ),
               ),
               const Text(
@@ -155,7 +155,7 @@ class HomeScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (ctx, i) {
-                    var buildingData = buildingProvider.buildingData[i];
+                    var buildingData = buildingProvider.recomendedBuilding[i];
                     return RecomendationCard(
                       buildingId: buildingData.id!,
                       review: buildingData.reviews!,
@@ -170,8 +170,8 @@ class HomeScreen extends StatelessWidget {
                       height: 20,
                     );
                   },
-                  itemCount: buildingProvider.buildingData.length < 10
-                      ? buildingProvider.buildingData.length
+                  itemCount: buildingProvider.recomendedBuilding.length < 10
+                      ? buildingProvider.recomendedBuilding.length
                       : 10,
                 ),
               ),

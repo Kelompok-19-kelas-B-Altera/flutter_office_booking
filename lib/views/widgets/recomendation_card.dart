@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/view_models/detail_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +28,7 @@ class RecomendationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var buildingProvider = Provider.of<BuildingViewModel>(context);
+    var detailProvider = Provider.of<DetailViewModel>(context);
 
     final queryMedia = MediaQuery.of(context);
 
@@ -116,7 +118,8 @@ class RecomendationCard extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(double.infinity, 35),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      await detailProvider.getBuildingById(buildingId);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

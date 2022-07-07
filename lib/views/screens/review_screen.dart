@@ -21,11 +21,11 @@ class ReviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final authViewModel = Provider.of<AuthViewModel>(context);
     final queryMedia = MediaQuery.of(context);
-    final buildingProvider = Provider.of<BuildingViewModel>(context);
+    final detailProvider = Provider.of<DetailViewModel>(context);
 
-    var index = buildingProvider.buildingData
-        .indexWhere((element) => element.id == buildingId);
-    var dataBuilding = buildingProvider.buildingData[index];
+    // var index = buildingProvider.buildingData
+    //     .indexWhere((element) => element.id == buildingId);
+    // var dataBuilding = buildingProvider.buildingData[index];
 
     return Scaffold(
       appBar: PreferredSize(
@@ -73,7 +73,7 @@ class ReviewScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          RatingBuilding(dataBuilding: dataBuilding),
+          RatingBuilding(dataBuilding: detailProvider.detailBuilding),
           const SizedBox(
             height: 12,
           ),
@@ -144,7 +144,7 @@ class ReviewScreen extends StatelessWidget {
           const SizedBox(
             height: 12,
           ),
-          dataBuilding.reviews!.isEmpty
+          detailProvider.detailBuilding.reviews!.isEmpty
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
@@ -207,15 +207,16 @@ class ReviewScreen extends StatelessWidget {
                                     children: [
                                       CircleAvatar(
                                         radius: 12,
-                                        backgroundImage: AssetImage(dataBuilding
-                                                .reviews![i].user?.images ??
-                                            'assets/images/circle.png'),
+                                        backgroundImage: AssetImage(
+                                            detailProvider.detailBuilding
+                                                    .reviews![i].user?.images ??
+                                                'assets/images/circle.png'),
                                       ),
                                       const SizedBox(
                                         width: 5,
                                       ),
                                       Text(
-                                        dataBuilding
+                                        detailProvider.detailBuilding
                                             .reviews![i].user!.fullname!,
                                         style: const TextStyle(
                                             fontSize: 15,
@@ -225,7 +226,9 @@ class ReviewScreen extends StatelessWidget {
                                         child: SizedBox(),
                                       ),
                                       for (int s = 0;
-                                          s < dataBuilding.reviews![i].rating!;
+                                          s <
+                                              detailProvider.detailBuilding
+                                                  .reviews![i].rating!;
                                           s++)
                                         SvgPicture.asset(
                                           'assets/svg/star.svg',
@@ -241,7 +244,8 @@ class ReviewScreen extends StatelessWidget {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  Text(dataBuilding.reviews![i].review!)
+                                  Text(detailProvider
+                                      .detailBuilding.reviews![i].review!)
                                 ],
                               ),
                             );
@@ -253,7 +257,8 @@ class ReviewScreen extends StatelessWidget {
                               height: 5,
                             );
                           },
-                          itemCount: dataBuilding.reviews!.length),
+                          itemCount:
+                              detailProvider.detailBuilding.reviews!.length),
                     ),
                   ],
                 ),

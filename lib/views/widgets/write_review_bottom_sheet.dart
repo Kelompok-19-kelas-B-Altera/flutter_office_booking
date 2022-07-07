@@ -85,7 +85,7 @@ class _WriteReviewBottomSheetState extends State<WriteReviewBottomSheet> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
-                      color: Colors.green,
+                      color: Colors.red,
                     ),
                   ),
                   const SizedBox(
