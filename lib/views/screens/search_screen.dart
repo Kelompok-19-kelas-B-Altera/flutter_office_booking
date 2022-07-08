@@ -1,13 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/views/screens/search_success_screen.dart';
+import 'package:flutter_office_booking/view_models/search_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
-class SearchScreen extends StatelessWidget {
+import '../widgets/search_failed.dart';
+import '../widgets/search_history.dart';
+import '../widgets/search_loading.dart';
+import '../widgets/search_success.dart';
+
+class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<SearchViewModel>(context, listen: false)
+          .changeState(SearchViewState.search);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     var _searchController = TextEditingController();
+    final searchProvider = Provider.of<SearchViewModel>(context);
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(75),
@@ -32,17 +54,17 @@ class SearchScreen extends StatelessWidget {
                       size: 25,
                     ),
                   ),
-                  SizedBox(
-                    width: 350,
+                  Expanded(
                     child: TextFormField(
+                      onTap: () {
+                        searchProvider.changeState(SearchViewState.search);
+                      },
                       onFieldSubmitted: (value) {
-                        print('a');
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SearchSuccessScreen(),
-                          ),
-                        );
+                        if (value.isNotEmpty) {
+                          searchProvider.addSearchHistory(value);
+                          searchProvider.searched = value;
+                        }
+                        searchProvider.retrieveSearchedBuildings(value);
                       },
                       controller: _searchController,
                       textInputAction: TextInputAction.search,
@@ -59,47 +81,39 @@ class SearchScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(
+                    width: 20,
+                  )
                 ],
               ),
             ),
           ),
         ),
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(20),
-            child: Text(
-              'Terakhir dicari',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          ListView.separated(
-              shrinkWrap: true,
-              itemBuilder: (ctx, i) {
-                return ListTile(
-                  leading: Icon(Icons.schedule),
-                  title: Text('Jakarta Selatan'),
-                  trailing: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.delete),
-                  ),
-                );
-              },
-              separatorBuilder: (ctx, i) {
-                return Container(
-                  color: Colors.grey[300],
-                  height: 3,
-                );
-              },
-              itemCount: 4)
-        ],
+      body: body(
+        searchProvider,
       ),
     );
+  }
+
+  Widget body(
+    SearchViewModel searchProvider,
+  ) {
+    final isLoading = searchProvider.state == SearchViewState.loading;
+    final isError = searchProvider.state == SearchViewState.error;
+    final isSearch = searchProvider.state == SearchViewState.search;
+
+    if (isSearch) {
+      return const SearchHistory();
+    }
+
+    if (isLoading) {
+      return const SearchLoading();
+    }
+    if (isError) {
+      return const SearchFailed();
+    }
+
+    return const SearchSuccess();
   }
 }
