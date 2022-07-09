@@ -45,14 +45,15 @@ class _DetailScreenState extends State<DetailScreen> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Center(
+                const Center(
                   child: Text(
-                    detailProvider.detailBuilding.buildingName!,
+                    'Detail Kantor',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 Positioned(
