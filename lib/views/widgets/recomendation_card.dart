@@ -76,6 +76,9 @@ class RecomendationCard extends StatelessWidget {
                         ),
                         overflow: TextOverflow.clip,
                       ),
+                      const SizedBox(
+                        width: 4,
+                      ),
                     ],
                   ),
                   const Expanded(child: SizedBox()),

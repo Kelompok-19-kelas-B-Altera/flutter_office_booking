@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/constants.dart';
+import 'package:flutter_office_booking/view_models/auth_view_model.dart';
 import 'package:flutter_office_booking/view_models/building_view_model.dart';
 import 'package:flutter_office_booking/views/screens/search_screen.dart';
 import 'package:flutter_office_booking/views/widgets/most_view_card.dart';
@@ -13,6 +14,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final buildingProvider = Provider.of<BuildingViewModel>(context);
+    final authProvider = Provider.of<AuthViewModel>(context);
     final _searchController = TextEditingController();
 
     return Scaffold(
@@ -48,9 +50,14 @@ class HomeScreen extends StatelessWidget {
                       const Expanded(
                         child: SizedBox(),
                       ),
-                      const CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/circle.png'),
-                      ),
+                      authProvider.userData?.picUrl != null
+                          ? CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(authProvider.userData!.picUrl))
+                          : const CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/images/avatar.png'),
+                            ),
                     ],
                   ),
                 ),

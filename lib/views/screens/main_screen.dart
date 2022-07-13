@@ -4,6 +4,7 @@ import 'package:flutter_office_booking/models/api/building_api.dart';
 import 'package:flutter_office_booking/view_models/auth_view_model.dart';
 import 'package:flutter_office_booking/view_models/building_view_model.dart';
 import 'package:flutter_office_booking/views/screens/account_screen.dart';
+import 'package:flutter_office_booking/views/screens/chat_screen.dart';
 import 'package:flutter_office_booking/views/screens/home_screen.dart';
 import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -36,6 +37,7 @@ class _MainScreenState extends State<MainScreen> {
   int indexScreen = 0;
   List<Widget> listScreen = [
     const HomeScreen(),
+    const ChatScreen(),
     const AccountScreen(),
   ];
   @override
@@ -77,6 +79,17 @@ class _MainScreenState extends State<MainScreen> {
                 color: Colors.grey,
               ),
               label: 'Utama',
+            ),
+            BottomNavigationBarItem(
+              activeIcon: SvgPicture.asset(
+                'assets/svg/chat.svg',
+                color: Colors.blue,
+              ),
+              icon: SvgPicture.asset(
+                'assets/svg/chat.svg',
+                color: Colors.grey,
+              ),
+              label: 'Chats',
             ),
             BottomNavigationBarItem(
               activeIcon: SvgPicture.asset(

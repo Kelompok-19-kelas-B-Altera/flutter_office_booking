@@ -78,9 +78,8 @@ class LoggedIn extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 10),
                   margin: const EdgeInsets.only(bottom: 10),
                   child: CircleAvatar(
-                    backgroundImage: AssetImage(
-                      'assets/images/circle.png',
-                    ),
+                    backgroundImage:
+                        NetworkImage(authProvider.userData!.picUrl),
                     radius: queryMedia.size.width * 0.15,
                   ),
                 ),
@@ -88,7 +87,9 @@ class LoggedIn extends StatelessWidget {
                   bottom: 0,
                   child: IconButton(
                     splashRadius: 20,
-                    onPressed: () {},
+                    onPressed: () {
+                      authProvider.addProfileImage();
+                    },
                     icon: SvgPicture.asset(
                       'assets/svg/camera.svg',
                       height: 30,

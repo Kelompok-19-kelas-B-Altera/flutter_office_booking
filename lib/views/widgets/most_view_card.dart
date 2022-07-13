@@ -126,6 +126,9 @@ class MostViewCard extends StatelessWidget {
                       color: Colors.orange,
                     ),
                   ),
+                  const SizedBox(
+                    width: 4,
+                  ),
                 ],
               ),
             ),
