@@ -11,16 +11,23 @@ class BuildingViewModel with ChangeNotifier {
   List<BuildingData> get recomendedBuilding => _recomendedBuilding;
   List<BuildingData> get mostViewBuilding => _mostViewBuilding;
 
-  Future getAllBuilding() async {
-    var response = await BuildingApi.getAllBuilding();
-    if (response != null) {
-      _buildingData = response;
-      _recomendedBuilding.addAll(buildingData);
-      _mostViewBuilding.addAll(buildingData);
-      sortingBuilding();
-      notifyListeners();
-      return true;
-    } else {
+  final BuildingApi buildingApi = BuildingApi();
+
+  Future<bool> getAllBuilding() async {
+    try {
+      final List<BuildingData>? response = await buildingApi.getAllBuilding();
+      if (response != null) {
+        _buildingData = response;
+        _recomendedBuilding.addAll(buildingData);
+        _mostViewBuilding.addAll(buildingData);
+        sortingBuilding();
+        notifyListeners();
+        return true;
+      } else {
+        notifyListeners();
+        return false;
+      }
+    } catch (e) {
       notifyListeners();
       return false;
     }
