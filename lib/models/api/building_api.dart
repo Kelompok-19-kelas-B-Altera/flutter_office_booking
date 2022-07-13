@@ -12,9 +12,9 @@ class BuildingApi {
         receiveTimeout: 30 * 1000 // 30 seconds
         );
     var dio = Dio(options);
-
     try {
       final response = await dio.get('http://108.136.240.248/api/v1/building');
+
       print(response.data['data']);
       var buildings = BuildingModel.fromJson(response.data);
       return buildings.data;
