@@ -12,11 +12,13 @@ class BuildingViewModel with ChangeNotifier {
   List<BuildingData> get mostViewBuilding => _mostViewBuilding;
 
   Future getAllBuilding() async {
+    print('a');
     var response = await BuildingApi.getAllBuilding();
     if (response != null) {
       _buildingData = response;
       _recomendedBuilding.addAll(buildingData);
       _mostViewBuilding.addAll(buildingData);
+
       sortingBuilding();
       notifyListeners();
       return true;
