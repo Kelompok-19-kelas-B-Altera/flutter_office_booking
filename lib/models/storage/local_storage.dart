@@ -3,6 +3,29 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
+  static setSearchHistory({required searchHistory}) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String stringData = json.encode(searchHistory);
+
+    if (prefs.containsKey('searchHistory')) {
+      await prefs.remove('searchHistory');
+    }
+    await prefs.setString('searchHistory', stringData);
+  }
+
+  static Future getSearchHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    var stringData = prefs.getString('searchHistory');
+    if (stringData != null) {
+      var searchHistory = json.decode(stringData);
+      return searchHistory;
+    } else {
+      return null;
+    }
+  }
+
   static setLoginData({
     required String email,
     required String password,

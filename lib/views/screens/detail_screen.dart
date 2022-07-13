@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/view_models/building_view_model.dart';
 import 'package:flutter_office_booking/view_models/detail_view_model.dart';
 import 'package:flutter_office_booking/views/screens/review_screen.dart';
+import 'package:flutter_office_booking/views/screens/search_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
@@ -21,23 +22,14 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  @override
-  void initState() {
-    super.initState();
-    _current = 0;
-  }
-
   int lenghtFasilitas = 3;
   int _current = 0;
   final CarouselController _controller = CarouselController();
+
   @override
   Widget build(BuildContext context) {
     var buildingProvider = Provider.of<BuildingViewModel>(context);
     var detailProvider = Provider.of<DetailViewModel>(context);
-
-    var index = buildingProvider.buildingData
-        .indexWhere((element) => element.id == widget.buildingId);
-    var dataBuilding = buildingProvider.buildingData[index];
     var queryMedia = MediaQuery.of(context);
 
     return Scaffold(
@@ -53,14 +45,15 @@ class _DetailScreenState extends State<DetailScreen> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Center(
+                const Center(
                   child: Text(
-                    dataBuilding.buildingName!,
+                    'Detail Kantor',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 Positioned(
@@ -78,7 +71,14 @@ class _DetailScreenState extends State<DetailScreen> {
                 Positioned(
                   right: 10,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) => const SearchScreen(),
+                        ),
+                      );
+                    },
                     icon: SvgPicture.asset(
                       'assets/svg/search.svg',
                       width: 25,
@@ -113,15 +113,29 @@ class _DetailScreenState extends State<DetailScreen> {
                             _current = index;
                           });
                         }),
-                    items: dataBuilding.images!
+                    items: detailProvider.detailBuilding.images!
                         .map(
                           (item) => Container(
-                            child: Image.network(
-                              item.imageUrl!,
-                              fit: BoxFit.cover,
-                              width: queryMedia.size.width,
+                            child: Stack(
+                              fit: StackFit.expand,
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 185,
+                                      vertical: 125,
+                                    ),
+                                    width: 50,
+                                    height: 50,
+                                    child: const CircularProgressIndicator()),
+                                Image.network(
+                                  item.imageUrl!,
+                                  fit: BoxFit.cover,
+                                  width: queryMedia.size.width,
+                                ),
+                              ],
                             ),
-                            color: Colors.green,
+                            color: Colors.black,
                           ),
                         )
                         .toList(),
@@ -135,7 +149,9 @@ class _DetailScreenState extends State<DetailScreen> {
                       Builder(builder: (ctx) {
                         var isi = <Widget>[];
                         var index = 0;
-                        for (var i = 0; i < dataBuilding.images!.length; i++) {
+                        for (var i = 0;
+                            i < detailProvider.detailBuilding.images!.length;
+                            i++) {
                           isi.add(
                             Container(
                               width: 8.0,
@@ -176,7 +192,7 @@ class _DetailScreenState extends State<DetailScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                dataBuilding.buildingName!,
+                detailProvider.detailBuilding.buildingName!,
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 30,
@@ -198,7 +214,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     width: 4,
                   ),
                   Text(
-                    '${dataBuilding.address}, ${dataBuilding.complex!.city}',
+                    '${detailProvider.detailBuilding.address}, ${detailProvider.detailBuilding.complex!.city}',
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
@@ -221,9 +237,11 @@ class _DetailScreenState extends State<DetailScreen> {
                     size: 15,
                   ),
                   Text(
-                    buildingProvider.review(dataBuilding.reviews!) != 0
+                    buildingProvider.review(
+                                detailProvider.detailBuilding.reviews!) !=
+                            0
                         ? buildingProvider
-                            .review(dataBuilding.reviews!)
+                            .review(detailProvider.detailBuilding.reviews!)
                             .toStringAsFixed(1)
                         : '-',
                     style: TextStyle(
@@ -239,7 +257,7 @@ class _DetailScreenState extends State<DetailScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                dataBuilding.description!,
+                detailProvider.detailBuilding.description!,
                 style: const TextStyle(fontSize: 14),
               ),
             ),
@@ -272,18 +290,18 @@ class _DetailScreenState extends State<DetailScreen> {
                     leading: CircleAvatar(
                       backgroundColor: Colors.grey[200],
                       child: SvgPicture.asset(
-                        detailProvider.nearbyFacilityIcon(
-                            dataBuilding.nearbyFacilities![i].type!),
+                        detailProvider.nearbyFacilityIcon(detailProvider
+                            .detailBuilding.nearbyFacilities![i].type!),
                       ),
                     ),
                     title: Text(
-                      dataBuilding.nearbyFacilities![i].name!,
+                      detailProvider.detailBuilding.nearbyFacilities![i].name!,
                     ),
                     subtitle: Text(
-                      dataBuilding.nearbyFacilities![i].type!,
+                      detailProvider.detailBuilding.nearbyFacilities![i].type!,
                     ),
                     trailing: Text(
-                      '${dataBuilding.nearbyFacilities![i].distance!} KM',
+                      '${detailProvider.detailBuilding.nearbyFacilities![i].distance!} KM',
                     ),
                   );
                 },
@@ -292,8 +310,9 @@ class _DetailScreenState extends State<DetailScreen> {
                     height: 5,
                   );
                 },
-                itemCount: dataBuilding.nearbyFacilities!.length),
-            dataBuilding.nearbyFacilities!.length < 3
+                itemCount:
+                    detailProvider.detailBuilding.nearbyFacilities!.length),
+            detailProvider.detailBuilding.nearbyFacilities!.length < 3
                 ? Container()
                 : Center(
                     child: InkWell(
@@ -348,7 +367,7 @@ class _DetailScreenState extends State<DetailScreen> {
               height: 12,
             ),
             RatingBuilding(
-              dataBuilding: dataBuilding,
+              dataBuilding: detailProvider.detailBuilding,
             ),
             const SizedBox(
               height: 12,

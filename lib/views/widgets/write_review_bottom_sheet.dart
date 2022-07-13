@@ -75,7 +75,7 @@ class _WriteReviewBottomSheetState extends State<WriteReviewBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
-                    'assets/svg/done.svg',
+                    'assets/svg/failed.svg',
                   ),
                   const SizedBox(
                     height: 12,
@@ -85,7 +85,7 @@ class _WriteReviewBottomSheetState extends State<WriteReviewBottomSheet> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
-                      color: Colors.green,
+                      color: Colors.red,
                     ),
                   ),
                   const SizedBox(
@@ -94,7 +94,7 @@ class _WriteReviewBottomSheetState extends State<WriteReviewBottomSheet> {
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 120),
                     child: Text(
-                      'Terima kasih atas ulasan yang anda berikan',
+                      'Ada sudah memeberikan ulasan sebelumnya ',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14,

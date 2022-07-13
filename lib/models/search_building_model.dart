@@ -1,21 +1,17 @@
-class BuildingModel {
+class SearchBuildingModel {
   String? timestamp;
   int? responseCode;
   String? message;
-  List<BuildingData>? data;
+  Data? data;
 
-  BuildingModel({this.timestamp, this.responseCode, this.message, this.data});
+  SearchBuildingModel(
+      {this.timestamp, this.responseCode, this.message, this.data});
 
-  BuildingModel.fromJson(Map<String, dynamic> json) {
+  SearchBuildingModel.fromJson(Map<String, dynamic> json) {
     timestamp = json['timestamp'];
     responseCode = json['response_code'];
     message = json['message'];
-    if (json['data'] != null) {
-      data = <BuildingData>[];
-      json['data'].forEach((v) {
-        data!.add(BuildingData.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -24,13 +20,82 @@ class BuildingModel {
     data['response_code'] = responseCode;
     data['message'] = message;
     if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
-class BuildingData {
+class Data {
+  List<Content>? content;
+  Pageable? pageable;
+  bool? last;
+  int? totalPages;
+  int? totalElements;
+  Sort? sort;
+  bool? first;
+  int? size;
+  int? number;
+  int? numberOfElements;
+  bool? empty;
+
+  Data(
+      {this.content,
+      this.pageable,
+      this.last,
+      this.totalPages,
+      this.totalElements,
+      this.sort,
+      this.first,
+      this.size,
+      this.number,
+      this.numberOfElements,
+      this.empty});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    if (json['content'] != null) {
+      content = <Content>[];
+      json['content'].forEach((v) {
+        content!.add(Content.fromJson(v));
+      });
+    }
+    pageable =
+        json['pageable'] != null ? Pageable.fromJson(json['pageable']) : null;
+    last = json['last'];
+    totalPages = json['totalPages'];
+    totalElements = json['totalElements'];
+    sort = json['sort'] != null ? Sort.fromJson(json['sort']) : null;
+    first = json['first'];
+    size = json['size'];
+    number = json['number'];
+    numberOfElements = json['numberOfElements'];
+    empty = json['empty'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (content != null) {
+      data['content'] = content!.map((v) => v.toJson()).toList();
+    }
+    if (pageable != null) {
+      data['pageable'] = pageable!.toJson();
+    }
+    data['last'] = last;
+    data['totalPages'] = totalPages;
+    data['totalElements'] = totalElements;
+    if (sort != null) {
+      data['sort'] = sort!.toJson();
+    }
+    data['first'] = first;
+    data['size'] = size;
+    data['number'] = number;
+    data['numberOfElements'] = numberOfElements;
+    data['empty'] = empty;
+    return data;
+  }
+}
+
+class Content {
   int? id;
   String? buildingName;
   String? description;
@@ -44,7 +109,7 @@ class BuildingData {
   List<Schedules>? schedules;
   List<Reviews>? reviews;
 
-  BuildingData(
+  Content(
       {this.id,
       this.buildingName,
       this.description,
@@ -58,7 +123,7 @@ class BuildingData {
       this.schedules,
       this.reviews});
 
-  BuildingData.fromJson(Map<String, dynamic> json) {
+  Content.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     buildingName = json['building_name'];
     description = json['description'];
@@ -77,7 +142,7 @@ class BuildingData {
     if (json['nearby_facilities'] != null) {
       nearbyFacilities = <NearbyFacilities>[];
       json['nearby_facilities'].forEach((v) {
-        nearbyFacilities!.add(new NearbyFacilities.fromJson(v));
+        nearbyFacilities!.add(NearbyFacilities.fromJson(v));
       });
     }
     if (json['schedules'] != null) {
@@ -232,8 +297,8 @@ class Reviews {
 class User {
   int? id;
   String? fullname;
-  String? email;
-  String? images;
+  Null? email;
+  Null? images;
 
   User({this.id, this.fullname, this.email, this.images});
 
@@ -250,6 +315,67 @@ class User {
     data['fullname'] = fullname;
     data['email'] = email;
     data['images'] = images;
+    return data;
+  }
+}
+
+class Pageable {
+  Sort? sort;
+  int? pageNumber;
+  int? pageSize;
+  int? offset;
+  bool? paged;
+  bool? unpaged;
+
+  Pageable(
+      {this.sort,
+      this.pageNumber,
+      this.pageSize,
+      this.offset,
+      this.paged,
+      this.unpaged});
+
+  Pageable.fromJson(Map<String, dynamic> json) {
+    sort = json['sort'] != null ? Sort.fromJson(json['sort']) : null;
+    pageNumber = json['pageNumber'];
+    pageSize = json['pageSize'];
+    offset = json['offset'];
+    paged = json['paged'];
+    unpaged = json['unpaged'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (sort != null) {
+      data['sort'] = sort!.toJson();
+    }
+    data['pageNumber'] = pageNumber;
+    data['pageSize'] = pageSize;
+    data['offset'] = offset;
+    data['paged'] = paged;
+    data['unpaged'] = unpaged;
+    return data;
+  }
+}
+
+class Sort {
+  bool? sorted;
+  bool? empty;
+  bool? unsorted;
+
+  Sort({this.sorted, this.empty, this.unsorted});
+
+  Sort.fromJson(Map<String, dynamic> json) {
+    sorted = json['sorted'];
+    empty = json['empty'];
+    unsorted = json['unsorted'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['sorted'] = sorted;
+    data['empty'] = empty;
+    data['unsorted'] = unsorted;
     return data;
   }
 }

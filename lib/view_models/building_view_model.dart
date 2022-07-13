@@ -3,20 +3,45 @@ import 'package:flutter_office_booking/models/api/building_api.dart';
 import 'package:flutter_office_booking/models/building_model.dart';
 
 class BuildingViewModel with ChangeNotifier {
-  List<Data> buildingData = [];
+  List<BuildingData> _buildingData = [];
+  final List<BuildingData> _recomendedBuilding = [];
+  final List<BuildingData> _mostViewBuilding = [];
 
-  Future getAllBuilding() async {
-    var kembalian = await BuildingApi.getAllBuilding();
-    if (kembalian != null) {
-      buildingData = kembalian;
-      print(buildingData.length);
-      print(buildingData[1].buildingName);
-      notifyListeners();
-      return true;
-    } else {
+  List<BuildingData> get buildingData => _buildingData;
+  List<BuildingData> get recomendedBuilding => _recomendedBuilding;
+  List<BuildingData> get mostViewBuilding => _mostViewBuilding;
+
+  final BuildingApi buildingApi = BuildingApi();
+
+  Future<bool> getAllBuilding() async {
+    try {
+      final List<BuildingData>? response = await buildingApi.getAllBuilding();
+      if (response != null) {
+        _buildingData = response;
+        _recomendedBuilding.addAll(buildingData);
+        _mostViewBuilding.addAll(buildingData);
+        sortingBuilding();
+        notifyListeners();
+        return true;
+      } else {
+        notifyListeners();
+        return false;
+      }
+    } catch (e) {
       notifyListeners();
       return false;
     }
+  }
+
+  sortingBuilding() {
+    recomendedBuilding.sort((a, b) {
+      var aRating = review(a.reviews!);
+      var bRating = review(b.reviews!);
+      return bRating.compareTo(aRating);
+    });
+    mostViewBuilding.sort((a, b) {
+      return b.totalView!.compareTo(a.totalView!);
+    });
   }
 
   double review(List<Reviews> reviewer) {
@@ -28,8 +53,6 @@ class BuildingViewModel with ChangeNotifier {
 
     var review = (star1 * 1 + star2 * 2 + star3 * 3 + star4 * 4 + star5 * 5) /
         reviewer.length;
-
-    reviewer.length;
 
     if (review.toString() != 'NaN') {
       return review;
