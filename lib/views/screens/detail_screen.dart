@@ -252,6 +252,29 @@ class _DetailScreenState extends State<DetailScreen> {
               ),
             ),
             const SizedBox(
+              height: 8,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  SvgPicture.asset('assets/svg/room.svg'),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text('${detailProvider.detailBuilding.totalRoom}'),
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  SvgPicture.asset('assets/svg/sum_person.svg'),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text('${detailProvider.detailBuilding.roomSpace}'),
+                ],
+              ),
+            ),
+            const SizedBox(
               height: 12,
             ),
             Padding(
@@ -271,98 +294,111 @@ class _DetailScreenState extends State<DetailScreen> {
             const SizedBox(
               height: 12,
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Fasilitas Umum Terdekat',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
-              ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.only(top: 0),
-                shrinkWrap: true,
-                itemBuilder: (ctx, i) {
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey[200],
-                      child: SvgPicture.asset(
-                        detailProvider.nearbyFacilityIcon(detailProvider
-                            .detailBuilding.nearbyFacilities![i].type!),
+            detailProvider.detailBuilding.nearbyFacilities!.isEmpty
+                ? const SizedBox()
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          'Fasilitas Umum Terdekat',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 20),
+                        ),
                       ),
-                    ),
-                    title: Text(
-                      detailProvider.detailBuilding.nearbyFacilities![i].name!,
-                    ),
-                    subtitle: Text(
-                      detailProvider.detailBuilding.nearbyFacilities![i].type!,
-                    ),
-                    trailing: Text(
-                      '${detailProvider.detailBuilding.nearbyFacilities![i].distance!} KM',
-                    ),
-                  );
-                },
-                separatorBuilder: (ctx, i) {
-                  return const SizedBox(
-                    height: 5,
-                  );
-                },
-                itemCount:
-                    detailProvider.detailBuilding.nearbyFacilities!.length),
-            detailProvider.detailBuilding.nearbyFacilities!.length < 3
-                ? Container()
-                : Center(
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          if (lenghtFasilitas == 3) {
-                            lenghtFasilitas = 5;
-                          } else {
-                            lenghtFasilitas = 3;
-                          }
-                        });
-                      },
-                      child: lenghtFasilitas == 3
-                          ? Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text('Lihat lainnya'),
-                                const SizedBox(
-                                  width: 4,
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.only(top: 0),
+                          shrinkWrap: true,
+                          itemBuilder: (ctx, i) {
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.grey[200],
+                                child: SvgPicture.asset(
+                                  detailProvider.nearbyFacilityIcon(
+                                      detailProvider.detailBuilding
+                                          .nearbyFacilities![i].type!),
                                 ),
-                                SvgPicture.asset(
-                                  'assets/svg/arrow_down.svg',
-                                  height: 10,
-                                  width: 10,
-                                ),
-                              ],
-                            )
-                          : Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text('Tutup lainnya'),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                SvgPicture.asset(
-                                  'assets/svg/arrow_down.svg',
-                                  height: 10,
-                                  width: 10,
-                                ),
-                              ],
+                              ),
+                              title: Text(
+                                detailProvider
+                                    .detailBuilding.nearbyFacilities![i].name!,
+                              ),
+                              subtitle: Text(
+                                detailProvider
+                                    .detailBuilding.nearbyFacilities![i].type!,
+                              ),
+                              trailing: Text(
+                                '${detailProvider.detailBuilding.nearbyFacilities![i].distance!} KM',
+                              ),
+                            );
+                          },
+                          separatorBuilder: (ctx, i) {
+                            return const SizedBox(
+                              height: 5,
+                            );
+                          },
+                          itemCount: lenghtFasilitas),
+                      detailProvider.detailBuilding.nearbyFacilities!.length < 3
+                          ? Container()
+                          : Center(
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    if (lenghtFasilitas == 3) {
+                                      lenghtFasilitas = detailProvider
+                                          .detailBuilding
+                                          .nearbyFacilities!
+                                          .length;
+                                    } else {
+                                      lenghtFasilitas = 3;
+                                    }
+                                  });
+                                },
+                                child: lenghtFasilitas == 3
+                                    ? Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Text('Lihat lainnya'),
+                                          const SizedBox(
+                                            width: 4,
+                                          ),
+                                          SvgPicture.asset(
+                                            'assets/svg/arrow_down.svg',
+                                            height: 10,
+                                            width: 10,
+                                          ),
+                                        ],
+                                      )
+                                    : Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Text('Tutup lainnya'),
+                                          const SizedBox(
+                                            width: 4,
+                                          ),
+                                          SvgPicture.asset(
+                                            'assets/svg/arrow_down.svg',
+                                            height: 10,
+                                            width: 10,
+                                          ),
+                                        ],
+                                      ),
+                              ),
                             ),
-                    ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Container(
+                        color: Colors.grey[300],
+                        height: 5,
+                      ),
+                    ],
                   ),
-            const SizedBox(
-              height: 12,
-            ),
-            Container(
-              color: Colors.grey[300],
-              height: 5,
-            ),
             const SizedBox(
               height: 12,
             ),
