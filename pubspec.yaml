@@ -41,6 +41,10 @@ dependencies:
   carousel_slider: ^4.1.1
   flutter_native_splash: ^2.2.3+1
   shimmer: ^2.0.0
+  grouped_list: ^5.1.2
+  intl: ^0.17.0
+  image_picker: ^0.8.5+3
+  path: ^1.8.1
 
 flutter_native_splash:
   # This package generates native code to customize Flutter's default white native splash screen
