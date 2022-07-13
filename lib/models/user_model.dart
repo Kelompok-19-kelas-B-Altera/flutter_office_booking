@@ -5,12 +5,14 @@ class UserModel {
   final String email;
   final String fullName;
   final String role;
+  final String picUrl;
 
   UserModel({
     required this.id,
     required this.email,
     required this.fullName,
     required this.role,
+    required this.picUrl,
   });
 
   static tokenDecode(String rawToken) {
