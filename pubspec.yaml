@@ -45,6 +45,7 @@ dependencies:
   intl: ^0.17.0
   image_picker: ^0.8.5+3
   path: ^1.8.1
+  graphql_flutter: ^5.1.0
 
 flutter_native_splash:
   # This package generates native code to customize Flutter's default white native splash screen
