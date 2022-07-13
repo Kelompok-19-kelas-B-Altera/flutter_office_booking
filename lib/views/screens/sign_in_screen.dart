@@ -122,7 +122,11 @@ class SignInScreen extends StatelessWidget {
                     if (hasLogin == true) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Login Berhasil'),
+                          backgroundColor: Colors.green,
+                          content: Text(
+                            'Login Berhasil',
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       );
                       Navigator.pushReplacement(

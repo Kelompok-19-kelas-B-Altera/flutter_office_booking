@@ -172,13 +172,27 @@ class SignUpScreen extends StatelessWidget {
                     if (hasLogin == true) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Berhasil Mendaftar'),
+                          backgroundColor: Colors.green,
+                          content: Text(
+                            'Daftar akun berhasil',
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      );
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) => const SignInScreen(),
                         ),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Email Sudah terdaftar'),
+                          backgroundColor: Colors.red,
+                          content: Text(
+                            'Email Sudah terdaftar',
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       );
                     }
