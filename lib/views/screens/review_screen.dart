@@ -23,10 +23,6 @@ class ReviewScreen extends StatelessWidget {
     final queryMedia = MediaQuery.of(context);
     final detailProvider = Provider.of<DetailViewModel>(context);
 
-    // var index = buildingProvider.buildingData
-    //     .indexWhere((element) => element.id == buildingId);
-    // var dataBuilding = buildingProvider.buildingData[index];
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(65),
