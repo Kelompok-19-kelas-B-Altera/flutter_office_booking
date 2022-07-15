@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/models/api/building_api.dart';
+import 'package:flutter_office_booking/services/api/building_api.dart';
 import 'package:flutter_office_booking/models/search_building_model.dart';
 
-import '../models/storage/local_storage.dart';
+import '../services/storage/local_storage.dart';
 
 class SearchViewModel with ChangeNotifier {
   List<Content> searchedBuilding = [];
