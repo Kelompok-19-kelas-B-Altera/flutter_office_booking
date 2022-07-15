@@ -3,7 +3,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 class GraphqlService {
   static HttpLink httpLink = HttpLink(
-    'http://108.136.240.248/graphiql',
+    'http://108.136.240.248/graphql/',
   );
 
   static Link link = httpLink;
