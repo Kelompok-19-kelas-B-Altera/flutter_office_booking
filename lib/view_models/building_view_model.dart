@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/models/api/building_api.dart';
+import 'package:flutter_office_booking/services/api/building_api.dart';
 import 'package:flutter_office_booking/models/building_model.dart';
 
 class BuildingViewModel with ChangeNotifier {
@@ -12,11 +12,12 @@ class BuildingViewModel with ChangeNotifier {
   List<BuildingData> get mostViewBuilding => _mostViewBuilding;
 
   Future getAllBuilding() async {
-    print('a');
     var response = await BuildingApi.getAllBuilding();
     if (response != null) {
       _buildingData = response;
+      _recomendedBuilding.clear();
       _recomendedBuilding.addAll(buildingData);
+      mostViewBuilding.clear();
       _mostViewBuilding.addAll(buildingData);
 
       sortingBuilding();
