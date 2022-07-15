@@ -5,6 +5,8 @@ import 'package:flutter_office_booking/models/user_model.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AuthViewModel with ChangeNotifier {
+  final UserApi userApi = UserApi();
+
   UserModel? userData;
   String? _token;
 
@@ -26,7 +28,7 @@ class AuthViewModel with ChangeNotifier {
   }
 
   updateData() async {
-    var data = await UserApi.getUserData(userData!.id, _token);
+    var data = await userApi.getUserData(userData!.id, _token);
     userData = UserModel(
       id: data['id'],
       email: data['email'],
@@ -49,7 +51,7 @@ class AuthViewModel with ChangeNotifier {
     required email,
     required password,
   }) async {
-    var response = await UserApi.signIn(
+    var response = await userApi.signIn(
       email: email,
       password: password,
     );
@@ -57,7 +59,7 @@ class AuthViewModel with ChangeNotifier {
     if (response != null) {
       _token = response['token'];
       var data = await UserModel.tokenDecode(response['token']);
-      var imgUrl = await UserApi.getUserData(data['id'], _token);
+      var imgUrl = await userApi.getUserData(data['id'], _token);
       userData = UserModel(
         id: data['id'],
         email: data['email'],
@@ -83,7 +85,7 @@ class AuthViewModel with ChangeNotifier {
     required name,
     required password,
   }) async {
-    var response = await UserApi.signUp(
+    var response = await userApi.signUp(
       email: email,
       name: name,
       password: password,
@@ -99,7 +101,7 @@ class AuthViewModel with ChangeNotifier {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image != null) {
-        await UserApi.postProfilImage(
+        await userApi.postProfilImage(
           userData!.id,
           token,
           image,

@@ -4,12 +4,14 @@ import 'package:flutter_office_booking/models/building_model.dart';
 import '../services/api/building_api.dart';
 
 class DetailViewModel with ChangeNotifier {
+  final BuildingApi buildingApi = BuildingApi();
+
   BuildingData _detailBuilding = BuildingData();
   BuildingData get detailBuilding => _detailBuilding;
 
   Future getBuildingById(int id) async {
     try {
-      final response = await BuildingApi.getBuildingById(id.toString());
+      final response = await buildingApi.getBuildingById(id.toString());
       _detailBuilding = response;
       notifyListeners();
       return true;

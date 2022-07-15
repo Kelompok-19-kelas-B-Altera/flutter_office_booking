@@ -3,16 +3,16 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 
 class ReviewApi {
-  static Future postReview(String token, int idUser, int idBuilding, int rating,
-      String review) async {
-    BaseOptions options = BaseOptions(
+  final Dio dio = Dio(
+    BaseOptions(
         receiveDataWhenStatusError: true,
         connectTimeout: 30 * 1000, // 30 seconds
         receiveTimeout: 30 * 1000 // 30 seconds
-        );
-    var dio = Dio(options);
-    print('object');
+        ),
+  );
 
+  Future postReview(String token, int idUser, int idBuilding, int rating,
+      String review) async {
     try {
       var data = {
         "review": review,

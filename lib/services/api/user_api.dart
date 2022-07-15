@@ -5,13 +5,15 @@ import 'package:flutter_office_booking/constants.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserApi {
-  static signIn({required email, required password}) async {
-    BaseOptions options = BaseOptions(
+  final Dio dio = Dio(
+    BaseOptions(
         receiveDataWhenStatusError: true,
-        connectTimeout: 5 * 1000, // 5 seconds
-        receiveTimeout: 5 * 1000 // 5 seconds
-        );
-    var dio = Dio(options);
+        connectTimeout: 5 * 1000, // 30 seconds
+        receiveTimeout: 5 * 1000 // 30 seconds
+        ),
+  );
+
+  signIn({required email, required password}) async {
     var formLogin = {
       'email': email,
       'password': password,
@@ -27,14 +29,7 @@ class UserApi {
     }
   }
 
-  static signUp({required email, required name, required password}) async {
-    BaseOptions options = BaseOptions(
-        receiveDataWhenStatusError: true,
-        connectTimeout: 5 * 1000, // 5 seconds
-        receiveTimeout: 5 * 1000 // 5 seconds
-        );
-    var dio = Dio(options);
-
+  signUp({required email, required name, required password}) async {
     var formDaftar = {
       'email': email,
       'fullname': name,
@@ -51,19 +46,12 @@ class UserApi {
     }
   }
 
-  static getUserData(id, token) async {
-    BaseOptions options = BaseOptions(
-        headers: {'Authorization': 'Bearer $token'},
-        receiveDataWhenStatusError: true,
-        connectTimeout: 5 * 1000, // 5 seconds
-        receiveTimeout: 5 * 1000 // 5 seconds
-        );
-    var dio = Dio(options);
-
+  getUserData(id, token) async {
     try {
-      var response = await dio.get(
-        baseUrl + '/api/v1/user/management/$id',
-      );
+      var response = await dio.get(baseUrl + '/api/v1/user/management/$id',
+          options: Options(
+            headers: {'Authorization': 'Bearer $token'},
+          ));
       print('object');
       return response.data['data'];
     } on DioError catch (e) {
@@ -72,19 +60,11 @@ class UserApi {
     }
   }
 
-  static postProfilImage(
+  postProfilImage(
     id,
     token,
     XFile image,
   ) async {
-    BaseOptions options = BaseOptions(
-        headers: {'Authorization': 'Bearer $token'},
-        receiveDataWhenStatusError: true,
-        connectTimeout: 5 * 1000, // 5 seconds
-        receiveTimeout: 5 * 1000 // 5 seconds
-        );
-    var dio = Dio(options);
-
     String fileName = image.path.split('/').last;
 
     FormData formData = FormData.fromMap({
@@ -93,10 +73,11 @@ class UserApi {
     });
 
     try {
-      var response = await dio.post(
-        baseUrl + '/api/v1/user/image',
-        data: formData,
-      );
+      var response = await dio.post(baseUrl + '/api/v1/user/image',
+          data: formData,
+          options: Options(
+            headers: {'Authorization': 'Bearer $token'},
+          ));
       print(response.data);
     } catch (e) {
       print(e);

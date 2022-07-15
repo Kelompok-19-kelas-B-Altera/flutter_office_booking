@@ -5,10 +5,12 @@ import 'package:flutter_office_booking/models/search_building_model.dart';
 import '../services/storage/local_storage.dart';
 
 class SearchViewModel with ChangeNotifier {
+  final BuildingApi buildingApi = BuildingApi();
+
   List<Content> searchedBuilding = [];
   List<Content> filteredSearchBuilding = [];
   List searchHistory = [];
-  var listFilter = [];
+  List listFilter = [];
   String? searched;
 
   SearchViewState _state = SearchViewState.none;
@@ -74,7 +76,7 @@ class SearchViewModel with ChangeNotifier {
   retrieveSearchedBuildings(String value) async {
     changeState(SearchViewState.loading);
     try {
-      final response = await BuildingApi.postSearchBuildings(value);
+      final response = await buildingApi.postSearchBuildings(value);
 
       searchedBuilding = response;
       filteredSearchBuilding.clear();

@@ -3,6 +3,8 @@ import 'package:flutter_office_booking/services/api/building_api.dart';
 import 'package:flutter_office_booking/models/building_model.dart';
 
 class BuildingViewModel with ChangeNotifier {
+  final BuildingApi buildingApi = BuildingApi();
+
   List<BuildingData> _buildingData = [];
   final List<BuildingData> _recomendedBuilding = [];
   final List<BuildingData> _mostViewBuilding = [];
@@ -12,7 +14,7 @@ class BuildingViewModel with ChangeNotifier {
   List<BuildingData> get mostViewBuilding => _mostViewBuilding;
 
   Future getAllBuilding() async {
-    var response = await BuildingApi.getAllBuilding();
+    var response = await buildingApi.getAllBuilding();
     if (response != null) {
       _buildingData = response;
       _recomendedBuilding.clear();

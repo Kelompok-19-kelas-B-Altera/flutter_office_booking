@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_office_booking/services/api/review_api.dart';
 
 class ReviewViewModel with ChangeNotifier {
+  final ReviewApi reviewApi = ReviewApi();
+
   addReview({
     required String token,
     required int idUser,
@@ -11,7 +13,7 @@ class ReviewViewModel with ChangeNotifier {
     required String review,
   }) async {
     print('a');
-    var response = await ReviewApi.postReview(
+    var response = await reviewApi.postReview(
       token,
       idUser,
       idBuilding,
