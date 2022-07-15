@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/view_models/auth_view_model.dart';
+import 'package:flutter_office_booking/view_models/detail_view_model.dart';
 import 'package:flutter_office_booking/view_models/review_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +36,7 @@ class _WriteReviewBottomSheetState extends State<WriteReviewBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final reviewProvider = Provider.of<ReviewViewModel>(context);
+    final detailProvider = Provider.of<DetailViewModel>(context);
     final authProvider = Provider.of<AuthViewModel>(context);
     return reviewDone
         ? reviewSuccess
@@ -292,6 +294,7 @@ class _WriteReviewBottomSheetState extends State<WriteReviewBottomSheet> {
                     );
                     if (response != null) {
                       setState(() {
+                        detailProvider.getBuildingById(widget.buildingId);
                         reviewDone = true;
                         reviewSuccess = true;
                       });
