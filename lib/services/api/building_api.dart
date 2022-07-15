@@ -21,10 +21,7 @@ class BuildingApi {
       var buildings = BuildingModel.fromJson(response.data);
       return buildings.data;
     } on DioError catch (e) {
-      if (e.type == DioErrorType.response) {
-        print(e);
-        return null;
-      }
+      rethrow;
     }
   }
 
@@ -38,10 +35,7 @@ class BuildingApi {
       print('buildingData.address');
       return buildingData;
     } on DioError catch (e) {
-      if (e.type == DioErrorType.response) {
-        print(e);
-        print('false');
-      }
+      rethrow;
     }
   }
 
