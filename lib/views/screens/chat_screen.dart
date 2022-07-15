@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/models/chat_room_model.dart';
+import 'package:flutter_office_booking/services/graphql/gql_document.dart';
+import 'package:flutter_office_booking/view_models/auth_view_model.dart';
 import 'package:flutter_office_booking/views/screens/message_screen.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthViewModel>(context);
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(65),
@@ -25,85 +32,146 @@ class ChatScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // Stack(
-            //   alignment: Alignment.center,
-            //   children: [
-            // Positioned(
-            //   left: 10,
-            //   child: IconButton(
-            //     onPressed: () {
-            //       Navigator.pop(context);
-            //     },
-            //     icon: const Icon(
-            //       Icons.arrow_back_ios_new,
-            //       size: 25,
-            //     ),
-            //   ),
-            // ),
-            //   ],
-            // ),
           ),
         ),
       ),
       body: Container(
         margin: const EdgeInsets.all(20),
-        child: ListView.separated(
-            itemBuilder: (context, i) {
-              return InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (ctx) {
-                    return const MessageScreen();
-                  }));
-                },
-                child: Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      width: 80,
-                      height: 80,
+        child: Query(
+            options: QueryOptions(
+              document: gql(getChatRoom),
+              variables: {
+                'idUser': authProvider.userData!.id,
+              },
+              fetchPolicy: FetchPolicy.networkOnly,
+              pollInterval: const Duration(seconds: 1),
+            ),
+            builder: (
+              QueryResult result, {
+              VoidCallback? refetch,
+              FetchMore? fetchMore,
+            }) {
+              if (result.hasException) {
+                return const Center(
+                  child: Text(
+                    'Gagal Memuat Data',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  ),
+                );
+              }
+
+              if (result.isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              List<GetAllChatroomByUsersIdContaining> chatRoom = [];
+
+              if (result.data != null) {
+                ChatRoomModel response = ChatRoomModel.fromJson(result.data!);
+                chatRoom = response.getAllChatroomByUsersIdContaining!;
+              }
+
+              reFormateDate(String date) {
+                DateFormat stringDate = DateFormat("dd-MM-yyyy HH:mm:ss");
+
+                String formatedDate = DateFormat.MMMd().format(
+                  stringDate.parse(date),
+                );
+
+                return formatedDate;
+              }
+
+              print(chatRoom.length);
+              return ListView.separated(
+                  itemBuilder: (context, i) {
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (ctx) {
+                          return MessageScreen(
+                            idUser: authProvider.userData!.id,
+                            idBuilding: int.parse(chatRoom[i].building!.id!),
+                            alamat: chatRoom[i].building!.address ?? '',
+                            imgUrl: chatRoom[i].building!.image!,
+                            buildingName: chatRoom[i].building!.name!,
+                          );
+                        }));
+                      },
+                      child: Row(
                         children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Sejahtera Thamrim',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(12),
+                              image: chatRoom[i].building!.image !=
+                                      'Image Not Found'
+                                  ? DecorationImage(
+                                      image: NetworkImage(
+                                        chatRoom[i].building!.image!,
+                                      ),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : const DecorationImage(
+                                      image: AssetImage(
+                                        'assets/images/default_building.png',
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
+                            width: 80,
+                            height: 80,
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        chatRoom[i].building!.name!,
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      reFormateDate(
+                                          chatRoom[1].lastChat!.date!),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Expanded(
-                                child: SizedBox(),
-                              ),
-                              Text('1 Dec')
-                            ],
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Text(chatRoom[i].lastChat!.message!),
+                              ],
+                            ),
                           ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text('Apakah ada kosong ?'),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            separatorBuilder: (context, i) {
-              return const SizedBox(
-                height: 12,
-              );
-            },
-            itemCount: 4),
+                    );
+                  },
+                  separatorBuilder: (context, i) {
+                    return const SizedBox(
+                      height: 12,
+                    );
+                  },
+                  itemCount: chatRoom.length);
+            }),
       ),
     );
   }

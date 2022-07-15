@@ -1,12 +1,12 @@
+import 'dart:async';
+
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/models/api/building_api.dart';
 import 'package:flutter_office_booking/view_models/auth_view_model.dart';
 import 'package:flutter_office_booking/view_models/building_view_model.dart';
 import 'package:flutter_office_booking/views/screens/account_screen.dart';
 import 'package:flutter_office_booking/views/screens/chat_screen.dart';
 import 'package:flutter_office_booking/views/screens/home_screen.dart';
-import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -18,21 +18,26 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  Timer? timer;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<BuildingViewModel>(context, listen: false).getAllBuilding();
     });
+    timer = Timer.periodic(const Duration(seconds: 600), (Timer t) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Provider.of<BuildingViewModel>(context, listen: false).getAllBuilding();
+      });
+    });
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-  //     Provider.of<BuildingViewModel>(context, listen: false).getAllBuilding();
-  //   });
-  // }
+  @override
+  void dispose() {
+    super.dispose();
+    timer?.cancel();
+  }
 
   int indexScreen = 0;
   List<Widget> listScreen = [
@@ -40,12 +45,78 @@ class _MainScreenState extends State<MainScreen> {
     const ChatScreen(),
     const AccountScreen(),
   ];
+
+  List<BottomNavigationBarItem> listScreenBottomNav = [
+    BottomNavigationBarItem(
+      activeIcon: SvgPicture.asset(
+        'assets/svg/home.svg',
+        color: Colors.blue,
+      ),
+      icon: SvgPicture.asset(
+        'assets/svg/home.svg',
+        color: Colors.grey,
+      ),
+      label: 'Utama',
+    ),
+    BottomNavigationBarItem(
+      activeIcon: SvgPicture.asset(
+        'assets/svg/chat.svg',
+        color: Colors.blue,
+      ),
+      icon: SvgPicture.asset(
+        'assets/svg/chat.svg',
+        color: Colors.grey,
+      ),
+      label: 'Chats',
+    ),
+    BottomNavigationBarItem(
+      activeIcon: SvgPicture.asset(
+        'assets/svg/akun.svg',
+        color: Colors.blue,
+      ),
+      icon: SvgPicture.asset(
+        'assets/svg/akun.svg',
+        color: Colors.grey,
+      ),
+      label: 'Akun',
+    ),
+  ];
+
+  List<Widget> noAuthListScreen = [
+    const HomeScreen(),
+    const AccountScreen(),
+  ];
+
+  List<BottomNavigationBarItem> noAuthListScreenBottomNav = [
+    BottomNavigationBarItem(
+      activeIcon: SvgPicture.asset(
+        'assets/svg/home.svg',
+        color: Colors.blue,
+      ),
+      icon: SvgPicture.asset(
+        'assets/svg/home.svg',
+        color: Colors.grey,
+      ),
+      label: 'Utama',
+    ),
+    BottomNavigationBarItem(
+      activeIcon: SvgPicture.asset(
+        'assets/svg/akun.svg',
+        color: Colors.blue,
+      ),
+      icon: SvgPicture.asset(
+        'assets/svg/akun.svg',
+        color: Colors.grey,
+      ),
+      label: 'Akun',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     var buildingProvider = Provider.of<BuildingViewModel>(context);
     var authProvider = Provider.of<AuthViewModel>(context);
     return Scaffold(
-      // body: listScreen[indexScreen],
       body: PageTransitionSwitcher(
         transitionBuilder: (
           child,
@@ -58,56 +129,22 @@ class _MainScreenState extends State<MainScreen> {
             child: child,
           );
         },
-        child: listScreen[indexScreen],
+        child: authProvider.token != null
+            ? listScreen[indexScreen]
+            : noAuthListScreen[indexScreen],
       ),
       bottomNavigationBar: BottomNavigationBar(
-          currentIndex: indexScreen,
-          onTap: (value) {
-            setState(() {
-              indexScreen = value;
-            });
-            print(value);
-          },
-          items: [
-            BottomNavigationBarItem(
-              activeIcon: SvgPicture.asset(
-                'assets/svg/home.svg',
-                color: Colors.blue,
-              ),
-              icon: SvgPicture.asset(
-                'assets/svg/home.svg',
-                color: Colors.grey,
-              ),
-              label: 'Utama',
-            ),
-            BottomNavigationBarItem(
-              activeIcon: SvgPicture.asset(
-                'assets/svg/chat.svg',
-                color: Colors.blue,
-              ),
-              icon: SvgPicture.asset(
-                'assets/svg/chat.svg',
-                color: Colors.grey,
-              ),
-              label: 'Chats',
-            ),
-            BottomNavigationBarItem(
-              activeIcon: SvgPicture.asset(
-                'assets/svg/akun.svg',
-                color: Colors.blue,
-              ),
-              icon: SvgPicture.asset(
-                'assets/svg/akun.svg',
-                color: Colors.grey,
-              ),
-              label: 'Akun',
-            ),
-          ]),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     buildingProvider.getBuildingById(authProvider.token, '1');
-      //   },
-      // ),
+        currentIndex: indexScreen,
+        onTap: (value) {
+          setState(() {
+            indexScreen = value;
+          });
+          print(value);
+        },
+        items: authProvider.token != null
+            ? listScreenBottomNav
+            : noAuthListScreenBottomNav,
+      ),
     );
   }
 }

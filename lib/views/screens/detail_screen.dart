@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/view_models/auth_view_model.dart';
 import 'package:flutter_office_booking/view_models/building_view_model.dart';
 import 'package:flutter_office_booking/view_models/detail_view_model.dart';
+import 'package:flutter_office_booking/views/screens/message_screen.dart';
 import 'package:flutter_office_booking/views/screens/review_screen.dart';
 import 'package:flutter_office_booking/views/screens/search_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -27,7 +29,14 @@ class _DetailScreenState extends State<DetailScreen> {
   final CarouselController _controller = CarouselController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<AuthViewModel>(context);
     var buildingProvider = Provider.of<BuildingViewModel>(context);
     var detailProvider = Provider.of<DetailViewModel>(context);
     var queryMedia = MediaQuery.of(context);
@@ -342,7 +351,12 @@ class _DetailScreenState extends State<DetailScreen> {
                               height: 5,
                             );
                           },
-                          itemCount: lenghtFasilitas),
+                          itemCount: detailProvider.detailBuilding
+                                      .nearbyFacilities!.length <=
+                                  lenghtFasilitas
+                              ? detailProvider
+                                  .detailBuilding.nearbyFacilities!.length
+                              : lenghtFasilitas),
                       detailProvider.detailBuilding.nearbyFacilities!.length < 3
                           ? Container()
                           : Center(
@@ -382,9 +396,9 @@ class _DetailScreenState extends State<DetailScreen> {
                                             width: 4,
                                           ),
                                           SvgPicture.asset(
-                                            'assets/svg/arrow_down.svg',
-                                            height: 10,
-                                            width: 10,
+                                            'assets/svg/arrow_up.svg',
+                                            height: 16,
+                                            width: 16,
                                           ),
                                         ],
                                       ),
@@ -453,11 +467,31 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               minimumSize: Size(queryMedia.size.width * 0.1, 50)),
-          onPressed: () {},
+          onPressed: authProvider.token != null
+              ? () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (ctx) {
+                      return MessageScreen(
+                          idUser: authProvider.userData!.id,
+                          idBuilding: detailProvider.detailBuilding.id!,
+                          alamat:
+                              '${detailProvider.detailBuilding.address!}, ${detailProvider.detailBuilding.complex!.city}',
+                          imgUrl:
+                              detailProvider.detailBuilding.images!.isNotEmpty
+                                  ? detailProvider
+                                      .detailBuilding.images![0].imageUrl!
+                                  : '',
+                          buildingName:
+                              detailProvider.detailBuilding.buildingName!);
+                    }),
+                  );
+                }
+              : null,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

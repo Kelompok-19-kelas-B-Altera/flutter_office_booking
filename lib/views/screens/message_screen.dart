@@ -1,17 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/constants.dart';
+import 'package:flutter_office_booking/models/chat_room_model.dart';
+import 'package:flutter_office_booking/services/graphql/gql_document.dart';
 import 'package:flutter_office_booking/models/message_model.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../../view_models/auth_view_model.dart';
 
 class MessageScreen extends StatelessWidget {
-  const MessageScreen({Key? key}) : super(key: key);
+  const MessageScreen({
+    Key? key,
+    required this.idUser,
+    required this.idBuilding,
+    required this.alamat,
+    required this.imgUrl,
+    required this.buildingName,
+  }) : super(key: key);
+
+  final int idUser;
+  final int idBuilding;
+  final String alamat;
+  final String imgUrl;
+  final String buildingName;
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthViewModel>(context);
+    TextEditingController _messageController = TextEditingController();
+
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 225, 225, 225),
+      backgroundColor: const Color.fromARGB(255, 225, 225, 225),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
         child: Material(
@@ -33,6 +54,10 @@ class MessageScreen extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(imgUrl),
+                        fit: BoxFit.cover,
+                      ),
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(12)),
                   width: 80,
@@ -47,9 +72,9 @@ class MessageScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'data awd  awdwa d awdad waxswad awxdwa',
+                        buildingName,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                         ),
@@ -68,7 +93,7 @@ class MessageScreen extends StatelessWidget {
                           ),
                           Expanded(
                             child: Text(
-                              'data wqd qdwqx qwdq w',
+                              alamat,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(color: Colors.grey),
                             ),
@@ -88,87 +113,155 @@ class MessageScreen extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: GroupedListView<MessageModel, DateTime>(
-                elements: message,
-                physics: const BouncingScrollPhysics(),
-                useStickyGroupSeparators: true,
-                floatingHeader: true,
-                order: GroupedListOrder.DESC,
-                reverse: true,
-                groupBy: (message) {
-                  return DateTime(
-                    message.date.year,
-                    message.date.month,
-                    message.date.day,
-                  );
-                },
-                groupHeaderBuilder: (MessageModel message) {
-                  return SizedBox(
-                    height: 40,
-                    child: Center(
-                      child: Card(
-                        elevation: 8,
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            message.date.day == DateTime.now().day &&
-                                    message.date.month ==
-                                        DateTime.now().month &&
-                                    message.date.year == DateTime.now().year
-                                ? 'Hari ini'
-                                : DateFormat.yMMMMd().format(message.date),
+              child: Query(
+                  options: QueryOptions(
+                    document: gql(getMessageAtRoomByIdBuilding),
+                    variables: {
+                      'idBuilding': idBuilding,
+                      'idUser': idUser,
+                    },
+                    fetchPolicy: FetchPolicy.networkOnly,
+                    pollInterval: const Duration(seconds: 1),
+                  ),
+                  builder: (
+                    QueryResult result, {
+                    VoidCallback? refetch,
+                    FetchMore? fetchMore,
+                  }) {
+                    if (result.hasException) {
+                      return const Center(
+                        child: Text(
+                          'Gagal Memuat Data',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                },
-                itemBuilder: (ctx, MessageModel message) {
-                  return Align(
-                      alignment: message.isSentByMe
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft,
-                      child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: message.isSentByMe
-                                ? const BorderRadius.only(
-                                    topRight: Radius.circular(0),
-                                    topLeft: Radius.circular(10),
-                                    bottomRight: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                  )
-                                : const BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    topLeft: Radius.circular(0),
-                                    bottomRight: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                  ),
-                          ),
-                          color: message.isSentByMe
-                              ? const Color.fromARGB(255, 25, 123, 235)
-                              : Colors.white,
-                          elevation: 8,
-                          child: Container(
-                            constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width - 60,
-                            ),
-                            padding: const EdgeInsets.all(8),
-                            child: Text(
-                              message.text,
-                              style: TextStyle(
-                                color: message.isSentByMe
-                                    ? Colors.white
-                                    : Colors.black,
+                      );
+                    }
+
+                    if (result.isLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    List<GetAllChatByUsersIdAndBuildingId> message = [];
+
+                    if (result.data != null) {
+                      MessageModel response =
+                          MessageModel.fromJson(result.data!);
+                      message = response.getAllChatByUsersIdAndBuildingId!;
+                    }
+
+                    print(result.data);
+
+                    DateFormat stringDate = DateFormat("dd-MM-yyyy HH:mm:ss");
+
+                    return GroupedListView<GetAllChatByUsersIdAndBuildingId,
+                        DateTime>(
+                      elements: message,
+                      physics: const BouncingScrollPhysics(),
+                      useStickyGroupSeparators: true,
+                      floatingHeader: true,
+                      order: GroupedListOrder.DESC,
+                      reverse: true,
+                      groupBy: (message) {
+                        return DateTime(
+                          stringDate.parse(message.date!).year,
+                          stringDate.parse(message.date!).month,
+                          stringDate.parse(message.date!).day,
+                        );
+                      },
+                      groupHeaderBuilder:
+                          (GetAllChatByUsersIdAndBuildingId message) {
+                        return SizedBox(
+                          height: 40,
+                          child: Center(
+                            child: Card(
+                              elevation: 8,
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  stringDate.parse(message.date!).day ==
+                                              DateTime.now().day &&
+                                          stringDate
+                                                  .parse(message.date!)
+                                                  .month ==
+                                              DateTime.now().month &&
+                                          stringDate
+                                                  .parse(message.date!)
+                                                  .year ==
+                                              DateTime.now().year
+                                      ? 'Hari ini'
+                                      : DateFormat.yMMMMd().format(
+                                          stringDate.parse(message.date!),
+                                        ),
+                                ),
                               ),
                             ),
-                          )));
-                },
-              ),
+                          ),
+                        );
+                      },
+                      itemBuilder:
+                          (ctx, GetAllChatByUsersIdAndBuildingId message) {
+                        return Align(
+                          alignment: message.sender!.id ==
+                                  authProvider.userData!.id.toString()
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: message.sender!.id ==
+                                      authProvider.userData!.id.toString()
+                                  ? const BorderRadius.only(
+                                      topRight: Radius.circular(0),
+                                      topLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                    )
+                                  : const BorderRadius.only(
+                                      topRight: Radius.circular(10),
+                                      topLeft: Radius.circular(0),
+                                      bottomRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                    ),
+                            ),
+                            color: message.sender!.id ==
+                                    authProvider.userData!.id.toString()
+                                ? const Color.fromARGB(255, 25, 123, 235)
+                                : Colors.white,
+                            elevation: 8,
+                            child: Container(
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width - 60,
+                              ),
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                message.message!,
+                                style: TextStyle(
+                                  color: message.sender!.id ==
+                                          authProvider.userData!.id.toString()
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }),
+            ),
+            const SizedBox(
+              height: 8,
             ),
             SizedBox(
               height: 70,
               child: TextFormField(
+                controller: _messageController,
                 onFieldSubmitted: (value) {
                   print('object');
                 },
@@ -179,11 +272,31 @@ class MessageScreen extends StatelessWidget {
                   border: const OutlineInputBorder(borderSide: BorderSide.none),
                   suffixIcon: Padding(
                     padding: const EdgeInsets.all(8),
-                    child: InkWell(
-                      onTap: () {
-                        print('send');
+                    child: Mutation(
+                      options: MutationOptions(
+                        document: gql(sendMessage),
+                        update: (cache, result) {
+                          print('a');
+                        },
+                        // or do something with the result.data on completion
+                        onCompleted: (dynamic resultData) {
+                          print('resultData');
+                        },
+                      ),
+                      builder: (RunMutation runMutation, result) {
+                        print(result);
+                        return InkWell(
+                          onTap: () {
+                            runMutation({
+                              'idUser': authProvider.userData!.id,
+                              'idBuilding': idBuilding,
+                              'message': _messageController.text
+                            });
+                            _messageController.clear();
+                          },
+                          child: SvgPicture.asset('assets/svg/send.svg'),
+                        );
                       },
-                      child: SvgPicture.asset('assets/svg/send.svg'),
                     ),
                   ),
                 ),
