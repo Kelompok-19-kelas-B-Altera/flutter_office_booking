@@ -206,7 +206,7 @@ class ReviewScreen extends StatelessWidget {
                                         backgroundImage: AssetImage(
                                             detailProvider.detailBuilding
                                                     .reviews![i].user?.images ??
-                                                'assets/images/circle.png'),
+                                                'assets/images/avatar.png'),
                                       ),
                                       const SizedBox(
                                         width: 5,
