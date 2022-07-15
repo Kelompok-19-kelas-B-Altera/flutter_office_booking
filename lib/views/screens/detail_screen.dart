@@ -29,12 +29,6 @@ class _DetailScreenState extends State<DetailScreen> {
   final CarouselController _controller = CarouselController();
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     var authProvider = Provider.of<AuthViewModel>(context);
     var buildingProvider = Provider.of<BuildingViewModel>(context);

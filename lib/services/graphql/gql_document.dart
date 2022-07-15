@@ -28,28 +28,6 @@ String getChatRoom = """
   }
 """;
 
-String getMessageAtRoom = """
-query GetAllChatByChatRoomId (\$idRoom : Int!) {
-  getAllChatByChatroomId(idChatroom : \$idRoom) {
-    id
-    message
-    date
-    sender {
-      id
-      fullname
-      email
-      image
-    }
-    target {
-      id
-      fullname
-      email
-      image
-    }
-  }
-}
-""";
-
 String getMessageAtRoomByIdBuilding = """
 query GetAllChatByUsersIdAndBuildingId(\$idBuilding : Int!, \$idUser : Int!) {
   getAllChatByUsersIdAndBuildingId(idUser1: \$idUser, idUser2: 1, buildingId: \$idBuilding) {

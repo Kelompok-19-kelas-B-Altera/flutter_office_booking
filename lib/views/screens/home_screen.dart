@@ -15,7 +15,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final buildingProvider = Provider.of<BuildingViewModel>(context);
     final authProvider = Provider.of<AuthViewModel>(context);
-    final _searchController = TextEditingController();
 
     return Scaffold(
       appBar: PreferredSize(

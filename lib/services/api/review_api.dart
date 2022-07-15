@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_office_booking/constants.dart';
 
 class ReviewApi {
   final Dio dio = Dio(
@@ -14,15 +15,15 @@ class ReviewApi {
   Future postReview(String token, int idUser, int idBuilding, int rating,
       String review) async {
     try {
-      var data = {
+      final Map<String, Object> data = {
         "review": review,
         "rating": rating,
         "id_user": idUser,
         "id_building": idBuilding
       };
 
-      var jsonData = json.encode(data);
-      final response = await dio.post('http://108.136.240.248/api/v1/review',
+      final String jsonData = json.encode(data);
+      final Response response = await dio.post(baseUrl + 'api/v1/review',
           data: jsonData,
           options: Options(headers: {'Authorization': 'Bearer $token'}));
 

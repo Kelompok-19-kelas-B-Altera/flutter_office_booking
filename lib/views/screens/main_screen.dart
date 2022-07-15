@@ -114,8 +114,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var buildingProvider = Provider.of<BuildingViewModel>(context);
-    var authProvider = Provider.of<AuthViewModel>(context);
+    final AuthViewModel authProvider = Provider.of<AuthViewModel>(context);
     return Scaffold(
       body: PageTransitionSwitcher(
         transitionBuilder: (
@@ -139,7 +138,6 @@ class _MainScreenState extends State<MainScreen> {
           setState(() {
             indexScreen = value;
           });
-          print(value);
         },
         items: authProvider.token != null
             ? listScreenBottomNav

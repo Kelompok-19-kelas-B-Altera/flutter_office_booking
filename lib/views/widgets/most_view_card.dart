@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/constants.dart';
 import 'package:flutter_office_booking/models/building_model.dart';
 import 'package:flutter_office_booking/view_models/building_view_model.dart';
 import 'package:flutter_office_booking/view_models/detail_view_model.dart';

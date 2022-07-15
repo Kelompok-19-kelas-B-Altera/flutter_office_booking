@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/models/chat_room_model.dart';
+
 import 'package:flutter_office_booking/services/graphql/gql_document.dart';
 import 'package:flutter_office_booking/models/message_model.dart';
 import 'package:flutter_svg/svg.dart';
@@ -95,7 +95,7 @@ class MessageScreen extends StatelessWidget {
                             child: Text(
                               alamat,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: Colors.grey),
+                              style: const TextStyle(color: Colors.grey),
                             ),
                           ),
                         ],
@@ -153,8 +153,6 @@ class MessageScreen extends StatelessWidget {
                           MessageModel.fromJson(result.data!);
                       message = response.getAllChatByUsersIdAndBuildingId!;
                     }
-
-                    print(result.data);
 
                     DateFormat stringDate = DateFormat("dd-MM-yyyy HH:mm:ss");
 
@@ -262,9 +260,7 @@ class MessageScreen extends StatelessWidget {
               height: 70,
               child: TextFormField(
                 controller: _messageController,
-                onFieldSubmitted: (value) {
-                  print('object');
-                },
+                onFieldSubmitted: (value) {},
                 decoration: InputDecoration(
                   hintText: 'Ketik sesuatu ...',
                   filled: true,
@@ -275,16 +271,10 @@ class MessageScreen extends StatelessWidget {
                     child: Mutation(
                       options: MutationOptions(
                         document: gql(sendMessage),
-                        update: (cache, result) {
-                          print('a');
-                        },
-                        // or do something with the result.data on completion
-                        onCompleted: (dynamic resultData) {
-                          print('resultData');
-                        },
+                        update: (cache, result) {},
+                        onCompleted: (dynamic resultData) {},
                       ),
                       builder: (RunMutation runMutation, result) {
-                        print(result);
                         return InkWell(
                           onTap: () {
                             runMutation({

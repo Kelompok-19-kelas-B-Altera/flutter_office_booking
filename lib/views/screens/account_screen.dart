@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/constants.dart';
 import 'package:flutter_office_booking/views/screens/main_screen.dart';
 import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
 import 'package:flutter_office_booking/views/screens/sign_up_screen.dart';

@@ -4,9 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
   static setSearchHistory({required searchHistory}) async {
-    final prefs = await SharedPreferences.getInstance();
-
-    String stringData = json.encode(searchHistory);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String stringData = json.encode(searchHistory);
 
     if (prefs.containsKey('searchHistory')) {
       await prefs.remove('searchHistory');
@@ -14,10 +13,10 @@ class LocalStorage {
     await prefs.setString('searchHistory', stringData);
   }
 
-  static Future getSearchHistory() async {
-    final prefs = await SharedPreferences.getInstance();
+  Future getSearchHistory() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    var stringData = prefs.getString('searchHistory');
+    final String? stringData = prefs.getString('searchHistory');
     if (stringData != null) {
       var searchHistory = json.decode(stringData);
       return searchHistory;
@@ -26,20 +25,20 @@ class LocalStorage {
     }
   }
 
-  static setLoginData({
+  setLoginData({
     required String email,
     required String password,
   }) async {
-    final prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    final data = {
+    final Map<String, String> data = {
       "email": email,
       "password": password,
     };
 
-    String stringData = json.encode(data);
-    final encryptData = utf8.encode(stringData);
-    final doubleEncryptData = base64.encode(encryptData);
+    final String stringData = json.encode(data);
+    final List<int> encryptData = utf8.encode(stringData);
+    final String doubleEncryptData = base64.encode(encryptData);
 
     if (prefs.containsKey('loginData')) {
       await prefs.remove('loginData');
@@ -47,22 +46,22 @@ class LocalStorage {
     await prefs.setString('loginData', doubleEncryptData);
   }
 
-  static Future getLoginData() async {
-    final prefs = await SharedPreferences.getInstance();
+  Future getLoginData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    var doubleEncryptData = prefs.getString('loginData');
+    final String? doubleEncryptData = prefs.getString('loginData');
     if (doubleEncryptData != null) {
-      var encryptData = base64.decode(doubleEncryptData);
-      var stringData = utf8.decode(encryptData);
-      var data = json.decode(stringData);
+      final encryptData = base64.decode(doubleEncryptData);
+      final String stringData = utf8.decode(encryptData);
+      final data = json.decode(stringData);
       return data;
     } else {
       return null;
     }
   }
 
-  static Future clearLoginData() async {
-    final prefs = await SharedPreferences.getInstance();
+  Future clearLoginData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.remove('loginData');
   }

@@ -86,7 +86,6 @@ class ChatScreen extends StatelessWidget {
                 return formatedDate;
               }
 
-              print(chatRoom.length);
               return ListView.separated(
                   itemBuilder: (context, i) {
                     return InkWell(
