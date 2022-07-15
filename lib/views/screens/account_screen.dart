@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/constants.dart';
+import 'package:flutter_office_booking/views/screens/main_screen.dart';
 import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
 import 'package:flutter_office_booking/views/screens/sign_up_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -139,7 +140,7 @@ class LoggedIn extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text(
-              'Username',
+              'Fullname',
               style: TextStyle(fontSize: 18),
             ),
           ),
@@ -206,8 +207,16 @@ class LoggedIn extends StatelessWidget {
                         actions: [
                           ElevatedButton(
                             onPressed: () async {
-                              await authProvider.logOut();
-                              Navigator.pop(context);
+                              await Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (ctx) {
+                                  authProvider.logOut();
+                                  return const MainScreen();
+                                }),
+                                (route) {
+                                  return false;
+                                },
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(queryMedia.size.width * 0.3,
