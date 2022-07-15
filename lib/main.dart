@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_office_booking/services/graphql/graphql_service.dart';
 import 'package:flutter_office_booking/view_models/auth_view_model.dart';
 import 'package:flutter_office_booking/view_models/building_view_model.dart';
 import 'package:flutter_office_booking/view_models/detail_view_model.dart';
@@ -20,7 +21,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key, var client}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +37,11 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (ctx) => ReviewViewModel()),
           ChangeNotifierProvider(create: (ctx) => SearchViewModel()),
         ],
-        child: const MaterialApp(
-          home: MainScreen(),
+        child: GraphQLProvider(
+          client: GraphqlService.client,
+          child: const MaterialApp(
+            home: MainScreen(),
+          ),
         ),
       ),
     );
