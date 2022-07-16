@@ -1,9 +1,8 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:flutter_office_booking/constants.dart';
-import 'package:flutter_office_booking/models/building_model.dart';
-import 'package:flutter_office_booking/models/search_building_model.dart';
+import '../../constants.dart';
+import '../../models/building_model.dart';
+import '../../models/search_building_model.dart';
 
 class BuildingApi {
   final Dio dio = Dio(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/constants.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import '../../constants.dart';
 
 class GraphqlService {
   static HttpLink httpLink = HttpLink(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/services/api/user_api.dart';
-import 'package:flutter_office_booking/services/storage/local_storage.dart';
-import 'package:flutter_office_booking/models/user_model.dart';
 import 'package:image_picker/image_picker.dart';
+import '../services/api/user_api.dart';
+import '../services/storage/local_storage.dart';
+import '../models/user_model.dart';
 
 class AuthViewModel with ChangeNotifier {
   final UserApi userApi = UserApi();

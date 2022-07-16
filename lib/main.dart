@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/services/graphql/graphql_service.dart';
-import 'package:flutter_office_booking/view_models/auth_view_model.dart';
-import 'package:flutter_office_booking/view_models/building_view_model.dart';
-import 'package:flutter_office_booking/view_models/chat_view_model.dart';
-import 'package:flutter_office_booking/view_models/detail_view_model.dart';
-import 'package:flutter_office_booking/view_models/review_view_model.dart';
-import 'package:flutter_office_booking/view_models/search_view_model.dart';
-import 'package:flutter_office_booking/views/screens/main_screen.dart';
-
 import 'package:graphql_flutter/graphql_flutter.dart';
-
 import 'package:provider/provider.dart';
+import 'services/graphql/graphql_service.dart';
+import 'view_models/auth_view_model.dart';
+import 'view_models/building_view_model.dart';
+import 'view_models/chat_view_model.dart';
+import 'view_models/detail_view_model.dart';
+import 'view_models/review_view_model.dart';
+import 'view_models/search_view_model.dart';
+import 'views/screens/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

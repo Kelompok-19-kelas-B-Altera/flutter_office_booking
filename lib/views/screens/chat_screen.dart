@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-
 import '../../models/chat_room_model.dart';
 import '../../services/graphql/gql_document.dart';
 import '../../view_models/auth_view_model.dart';
-import '../widgets/chat_room_card.dart';
+import '../../views/widgets/chat_room_card.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({Key? key}) : super(key: key);

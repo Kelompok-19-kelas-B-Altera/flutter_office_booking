@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/services/api/building_api.dart';
-import 'package:flutter_office_booking/models/building_model.dart';
+import '../services/api/building_api.dart';
+import '../models/building_model.dart';
 
 class BuildingViewModel with ChangeNotifier {
   final BuildingApi buildingApi = BuildingApi();

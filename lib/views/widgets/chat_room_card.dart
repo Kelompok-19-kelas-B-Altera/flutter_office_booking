@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../models/chat_room_model.dart';
 import '../../view_models/chat_view_model.dart';
-import '../screens/message_screen.dart';
+import '../../views/screens/message_screen.dart';
 
 class ChatRoomCard extends StatelessWidget {
   const ChatRoomCard({

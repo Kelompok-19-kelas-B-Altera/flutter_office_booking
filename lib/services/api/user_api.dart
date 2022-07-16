@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_office_booking/constants.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../constants.dart';
 
 class UserApi {
   final Dio dio = Dio(

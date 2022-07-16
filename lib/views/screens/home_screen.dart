@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/constants.dart';
-import 'package:flutter_office_booking/view_models/auth_view_model.dart';
-import 'package:flutter_office_booking/view_models/building_view_model.dart';
-import 'package:flutter_office_booking/views/screens/search_screen.dart';
-import 'package:flutter_office_booking/views/widgets/most_view_card.dart';
-import 'package:flutter_office_booking/views/widgets/recomendation_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import '../../view_models/auth_view_model.dart';
+import '../../view_models/building_view_model.dart';
+import '../../views/screens/search_screen.dart';
+import '../../views/widgets/most_view_card.dart';
+import '../../views/widgets/recomendation_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

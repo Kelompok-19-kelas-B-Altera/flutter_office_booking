@@ -1,14 +1,13 @@
 import 'dart:async';
-
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/view_models/auth_view_model.dart';
-import 'package:flutter_office_booking/view_models/building_view_model.dart';
-import 'package:flutter_office_booking/views/screens/account_screen.dart';
-import 'package:flutter_office_booking/views/screens/chat_screen.dart';
-import 'package:flutter_office_booking/views/screens/home_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import '../../view_models/auth_view_model.dart';
+import '../../view_models/building_view_model.dart';
+import '../../views/screens/account_screen.dart';
+import '../../views/screens/chat_screen.dart';
+import '../../views/screens/home_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);

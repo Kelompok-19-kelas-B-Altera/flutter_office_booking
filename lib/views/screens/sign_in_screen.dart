@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/constants.dart';
-import 'package:flutter_office_booking/view_models/auth_view_model.dart';
-
-import 'package:flutter_office_booking/views/screens/main_screen.dart';
-import 'package:flutter_office_booking/views/screens/sign_up_screen.dart';
-import 'package:flutter_office_booking/views/widgets/my_text_form_field.dart';
 import 'package:provider/provider.dart';
+import '../../constants.dart';
+import '../../view_models/auth_view_model.dart';
+import '../../views/screens/main_screen.dart';
+import '../../views/screens/sign_up_screen.dart';
+import '../../views/widgets/my_text_form_field.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({Key? key}) : super(key: key);

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
-
 import '../../models/message_model.dart';
-import '../../view_models/auth_view_model.dart';
 import '../../view_models/chat_view_model.dart';
 
 class MessageList extends StatelessWidget {

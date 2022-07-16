@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-
 import '../../services/graphql/gql_document.dart';
 
 class NewMessage extends StatelessWidget {

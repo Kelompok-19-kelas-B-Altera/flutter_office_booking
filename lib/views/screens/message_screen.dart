@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/services/graphql/gql_document.dart';
-import 'package:flutter_office_booking/models/message_model.dart';
-import 'package:flutter_office_booking/views/widgets/message_list.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
+import '../../services/graphql/gql_document.dart';
+import '../../models/message_model.dart';
+import '../../views/widgets/message_list.dart';
 import '../../view_models/auth_view_model.dart';
-import '../widgets/new_message.dart';
+import '../../views/widgets/new_message.dart';
 
 class MessageScreen extends StatelessWidget {
   const MessageScreen({

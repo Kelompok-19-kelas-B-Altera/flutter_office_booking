@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/view_models/auth_view_model.dart';
-
-import 'package:flutter_office_booking/views/widgets/rating_building.dart';
-import 'package:flutter_office_booking/views/widgets/write_review_bottom_sheet.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
+import '../../view_models/auth_view_model.dart';
+import '../../views/widgets/rating_building.dart';
+import '../../views/widgets/write_review_bottom_sheet.dart';
 import '../../view_models/detail_view_model.dart';
 
 class ReviewScreen extends StatelessWidget {

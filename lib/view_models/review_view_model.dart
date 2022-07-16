@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_office_booking/services/api/review_api.dart';
+import 'package:flutter/material.dart';
+import '../services/api/review_api.dart';
 
 class ReviewViewModel with ChangeNotifier {
   final ReviewApi reviewApi = ReviewApi();

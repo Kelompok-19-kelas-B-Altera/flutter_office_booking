@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/services/api/building_api.dart';
-import 'package:flutter_office_booking/models/search_building_model.dart';
-
+import '../services/api/building_api.dart';
 import '../services/storage/local_storage.dart';
+import '../models/search_building_model.dart';
 
 class SearchViewModel with ChangeNotifier {
   final BuildingApi buildingApi = BuildingApi();

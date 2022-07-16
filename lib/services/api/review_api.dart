@@ -1,7 +1,6 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:flutter_office_booking/constants.dart';
+import '../../constants.dart';
 
 class ReviewApi {
   final Dio dio = Dio(

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/view_models/search_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
-import '../widgets/search_failed.dart';
-import '../widgets/search_history.dart';
-import '../widgets/search_loading.dart';
-import '../widgets/search_success.dart';
+import '../../view_models/search_view_model.dart';
+import '../../views/widgets/search_failed.dart';
+import '../../views/widgets/search_history.dart';
+import '../../views/widgets/search_loading.dart';
+import '../../views/widgets/search_success.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
