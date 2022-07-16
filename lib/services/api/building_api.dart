@@ -1,47 +1,43 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:flutter_office_booking/models/building_model.dart';
-import 'package:flutter_office_booking/models/search_building_model.dart';
+import '../../constants.dart';
+import '../../models/building_model.dart';
+import '../../models/search_building_model.dart';
 
 class BuildingApi {
   final Dio dio = Dio(
     BaseOptions(
         receiveDataWhenStatusError: true,
-        connectTimeout: 30 * 1000, // 30 seconds
-        receiveTimeout: 30 * 1000 // 30 seconds
-        ),
+        connectTimeout: 30 * 1000,
+        receiveTimeout: 30 * 1000),
   );
 
   Future getAllBuilding() async {
     try {
-      final response = await dio.get('http://108.136.240.248/api/v1/building');
+      final response = await dio.get(baseUrl + 'api/v1/building');
 
-      print(response.data['data']);
-      var buildings = BuildingModel.fromJson(response.data);
+      final BuildingModel buildings = BuildingModel.fromJson(response.data);
       return buildings.data;
-    } on DioError catch (e) {
+    } on DioError {
       rethrow;
     }
   }
 
   getBuildingById(String id) async {
     try {
-      var response =
-          await dio.get('http://108.136.240.248/api/v1/building/' + id);
-      BuildingData buildingData = BuildingData.fromJson(response.data['data']);
-      print(buildingData.buildingName);
-      print(buildingData.address);
-      print('buildingData.address');
+      final Response response =
+          await dio.get(baseUrl + 'api/v1/building/' + id);
+      final BuildingData buildingData =
+          BuildingData.fromJson(response.data['data']);
       return buildingData;
-    } on DioError catch (e) {
+    } on DioError {
       rethrow;
     }
   }
 
   postSearchBuildings(String value) async {
     try {
-      var data = {
+      final Map<String, List<dynamic>?> data = {
         "filters": [
           {
             "key": "buildingName",
@@ -55,18 +51,18 @@ class BuildingApi {
         "size": null
       };
 
-      var jsonData = json.encode(data);
-      final response = await dio.post(
-        'http://108.136.240.248/api/v1/building/search',
+      final String jsonData = json.encode(data);
+      final Response response = await dio.post(
+        baseUrl + 'api/v1/building/search',
         data: jsonData,
       );
 
-      var searchData = SearchBuildingModel.fromJson(response.data);
-      print(searchData.data!.content!);
+      SearchBuildingModel searchData =
+          SearchBuildingModel.fromJson(response.data);
+
       return searchData.data!.content;
     } on DioError catch (e) {
       if (e.type == DioErrorType.response) {
-        print(e);
         return null;
       }
     }

@@ -1,15 +1,15 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/view_models/auth_view_model.dart';
-import 'package:flutter_office_booking/view_models/building_view_model.dart';
-import 'package:flutter_office_booking/view_models/detail_view_model.dart';
-import 'package:flutter_office_booking/views/screens/message_screen.dart';
-import 'package:flutter_office_booking/views/screens/review_screen.dart';
-import 'package:flutter_office_booking/views/screens/search_screen.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import '../../view_models/auth_view_model.dart';
+import '../../view_models/building_view_model.dart';
+import '../../view_models/detail_view_model.dart';
+import '../../views/screens/message_screen.dart';
+import '../../views/screens/review_screen.dart';
+import '../../views/screens/search_screen.dart';
+import '../../views/widgets/rating_building.dart';
 import '../../constants.dart';
-import '../widgets/rating_building.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({
@@ -27,12 +27,6 @@ class _DetailScreenState extends State<DetailScreen> {
   int lenghtFasilitas = 3;
   int _current = 0;
   final CarouselController _controller = CarouselController();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

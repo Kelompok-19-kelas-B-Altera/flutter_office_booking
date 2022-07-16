@@ -1,14 +1,13 @@
 import 'dart:async';
-
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/view_models/auth_view_model.dart';
-import 'package:flutter_office_booking/view_models/building_view_model.dart';
-import 'package:flutter_office_booking/views/screens/account_screen.dart';
-import 'package:flutter_office_booking/views/screens/chat_screen.dart';
-import 'package:flutter_office_booking/views/screens/home_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import '../../view_models/auth_view_model.dart';
+import '../../view_models/building_view_model.dart';
+import '../../views/screens/account_screen.dart';
+import '../../views/screens/chat_screen.dart';
+import '../../views/screens/home_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -26,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<BuildingViewModel>(context, listen: false).getAllBuilding();
     });
-    timer = Timer.periodic(const Duration(seconds: 600), (Timer t) {
+    timer = Timer.periodic(const Duration(seconds: 30), (Timer t) {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         Provider.of<BuildingViewModel>(context, listen: false).getAllBuilding();
       });
@@ -114,8 +113,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var buildingProvider = Provider.of<BuildingViewModel>(context);
-    var authProvider = Provider.of<AuthViewModel>(context);
+    final AuthViewModel authProvider = Provider.of<AuthViewModel>(context);
     return Scaffold(
       body: PageTransitionSwitcher(
         transitionBuilder: (
@@ -139,7 +137,6 @@ class _MainScreenState extends State<MainScreen> {
           setState(() {
             indexScreen = value;
           });
-          print(value);
         },
         items: authProvider.token != null
             ? listScreenBottomNav

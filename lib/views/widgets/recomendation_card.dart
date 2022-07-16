@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/view_models/detail_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
 import '../../models/building_model.dart';
+import '../../view_models/detail_view_model.dart';
 import '../../view_models/building_view_model.dart';
-import '../screens/detail_screen.dart';
+import '../../views/screens/detail_screen.dart';
 
 class RecomendationCard extends StatelessWidget {
   const RecomendationCard({

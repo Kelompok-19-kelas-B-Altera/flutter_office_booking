@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/services/api/user_api.dart';
-import 'package:flutter_office_booking/services/storage/local_storage.dart';
-import 'package:flutter_office_booking/models/user_model.dart';
 import 'package:image_picker/image_picker.dart';
+import '../services/api/user_api.dart';
+import '../services/storage/local_storage.dart';
+import '../models/user_model.dart';
 
 class AuthViewModel with ChangeNotifier {
   final UserApi userApi = UserApi();
+  final LocalStorage localStorage = LocalStorage();
 
   UserModel? userData;
   String? _token;
@@ -17,8 +18,7 @@ class AuthViewModel with ChangeNotifier {
   }
 
   void _init() async {
-    print('object');
-    var data = await LocalStorage.getLoginData();
+    final data = await localStorage.getLoginData();
     if (data != null) {
       await signIn(
         email: data['email'],
@@ -28,7 +28,7 @@ class AuthViewModel with ChangeNotifier {
   }
 
   updateData() async {
-    var data = await userApi.getUserData(userData!.id, _token);
+    final data = await userApi.getUserData(userData!.id, _token);
     userData = UserModel(
       id: data['id'],
       email: data['email'],
@@ -42,7 +42,7 @@ class AuthViewModel with ChangeNotifier {
   logOut() async {
     userData = null;
     _token = null;
-    LocalStorage.clearLoginData();
+    localStorage.clearLoginData();
 
     notifyListeners();
   }
@@ -51,15 +51,15 @@ class AuthViewModel with ChangeNotifier {
     required email,
     required password,
   }) async {
-    var response = await userApi.signIn(
+    final response = await userApi.signIn(
       email: email,
       password: password,
     );
 
     if (response != null) {
       _token = response['token'];
-      var data = await UserModel.tokenDecode(response['token']);
-      var imgUrl = await userApi.getUserData(data['id'], _token);
+      final data = await UserModel.tokenDecode(response['token']);
+      final imgUrl = await userApi.getUserData(data['id'], _token);
       userData = UserModel(
         id: data['id'],
         email: data['email'],
@@ -68,7 +68,7 @@ class AuthViewModel with ChangeNotifier {
         picUrl: imgUrl['pic_url'],
       );
 
-      LocalStorage.setLoginData(
+      localStorage.setLoginData(
         email: email,
         password: password,
       );
@@ -85,7 +85,7 @@ class AuthViewModel with ChangeNotifier {
     required name,
     required password,
   }) async {
-    var response = await userApi.signUp(
+    final response = await userApi.signUp(
       email: email,
       name: name,
       password: password,
@@ -109,8 +109,7 @@ class AuthViewModel with ChangeNotifier {
       }
       updateData();
     } catch (e) {
-      print('object');
-      print(e);
+      rethrow;
     }
   }
 }

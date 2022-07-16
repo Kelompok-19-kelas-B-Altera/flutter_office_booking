@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/views/widgets/recomendation_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
+import '../../views/widgets/recomendation_card.dart';
 import '../../view_models/building_view_model.dart';
 import '../../view_models/search_view_model.dart';
 

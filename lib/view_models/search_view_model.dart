@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/services/api/building_api.dart';
-import 'package:flutter_office_booking/models/search_building_model.dart';
-
+import '../services/api/building_api.dart';
 import '../services/storage/local_storage.dart';
+import '../models/search_building_model.dart';
 
 class SearchViewModel with ChangeNotifier {
   final BuildingApi buildingApi = BuildingApi();
+  final LocalStorage localStorage = LocalStorage();
 
   List<Content> searchedBuilding = [];
   List<Content> filteredSearchBuilding = [];
@@ -21,11 +21,9 @@ class SearchViewModel with ChangeNotifier {
   }
 
   void _init() async {
-    List? data = await LocalStorage.getSearchHistory();
+    List? data = await localStorage.getSearchHistory();
     if (data != null) {
       searchHistory = data;
-      print('pref');
-      print(searchHistory[0]);
     }
   }
 
@@ -52,10 +50,8 @@ class SearchViewModel with ChangeNotifier {
     } else {
       if (listFilter.contains(filter) == true) {
         listFilter.removeWhere((element) => element == filter);
-        print(1);
       } else {
         listFilter.add(filter);
-        print(2);
       }
     }
 
@@ -67,7 +63,6 @@ class SearchViewModel with ChangeNotifier {
 
     if (listFilter.isEmpty) {
       filteredSearchBuilding.addAll(searchedBuilding);
-      print(3);
     }
 
     notifyListeners();
@@ -81,8 +76,7 @@ class SearchViewModel with ChangeNotifier {
       searchedBuilding = response;
       filteredSearchBuilding.clear();
       filteredSearchBuilding.addAll(searchedBuilding);
-      print(searchedBuilding.length);
-      print(searchedBuilding[0].address);
+
       notifyListeners();
       changeState(SearchViewState.none);
       return true;

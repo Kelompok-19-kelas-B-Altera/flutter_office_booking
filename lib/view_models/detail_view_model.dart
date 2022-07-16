@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/models/building_model.dart';
-
+import '../models/building_model.dart';
 import '../services/api/building_api.dart';
 
 class DetailViewModel with ChangeNotifier {

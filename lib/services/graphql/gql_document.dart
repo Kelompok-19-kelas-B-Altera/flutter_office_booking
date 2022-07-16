@@ -1,50 +1,29 @@
 String getChatRoom = """
   query GetAllChatroomByUsersIdContains(\$idUser : Int!) {
-    getAllChatroomByUsersIdContaining(idUser: \$idUser){
-      id
-      user1 {
-        id
-        fullname
-        email
-        image
-      }
-      user2 {
-        id
-        fullname
-        email
-        image
-      }
-      building {
-        id
-        name
-        image
-      }
-      lastChat {
-        id
-        message
-        date
-      }
-    }
-  }
-""";
-
-String getMessageAtRoom = """
-query GetAllChatByChatRoomId (\$idRoom : Int!) {
-  getAllChatByChatroomId(idChatroom : \$idRoom) {
+    getAllChatroomByUsersIdContaining(idUser: \$idUser) {
     id
-    message
-    date
-    sender {
+    user1 {
       id
       fullname
       email
       image
     }
-    target {
+    user2 {
       id
       fullname
       email
       image
+    }
+    building {
+      id
+      name
+      address
+      image
+    }
+    lastChat {
+      id
+      message
+      date
     }
   }
 }

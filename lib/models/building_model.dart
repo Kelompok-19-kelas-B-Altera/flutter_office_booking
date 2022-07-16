@@ -77,7 +77,7 @@ class BuildingData {
     if (json['nearby_facilities'] != null) {
       nearbyFacilities = <NearbyFacilities>[];
       json['nearby_facilities'].forEach((v) {
-        nearbyFacilities!.add(new NearbyFacilities.fromJson(v));
+        nearbyFacilities!.add(NearbyFacilities.fromJson(v));
       });
     }
     if (json['schedules'] != null) {

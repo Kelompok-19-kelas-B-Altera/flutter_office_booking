@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
 import '../../view_models/detail_view_model.dart';
 import '../../view_models/search_view_model.dart';
-import '../screens/detail_screen.dart';
+import '../../views/screens/detail_screen.dart';
 
 class SearchSuccess extends StatelessWidget {
   const SearchSuccess({

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_office_booking/constants.dart';
-import 'package:flutter_office_booking/views/screens/main_screen.dart';
-import 'package:flutter_office_booking/views/screens/sign_in_screen.dart';
-import 'package:flutter_office_booking/views/screens/sign_up_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
+import '../../views/screens/main_screen.dart';
+import '../../views/screens/sign_in_screen.dart';
+import '../../views/screens/sign_up_screen.dart';
 import '../../view_models/auth_view_model.dart';
 
 class AccountScreen extends StatelessWidget {
