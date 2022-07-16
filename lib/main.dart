@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_office_booking/services/graphql/graphql_service.dart';
 import 'package:flutter_office_booking/view_models/auth_view_model.dart';
 import 'package:flutter_office_booking/view_models/building_view_model.dart';
+import 'package:flutter_office_booking/view_models/chat_view_model.dart';
 import 'package:flutter_office_booking/view_models/detail_view_model.dart';
 import 'package:flutter_office_booking/view_models/review_view_model.dart';
 import 'package:flutter_office_booking/view_models/search_view_model.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (ctx) => DetailViewModel()),
           ChangeNotifierProvider(create: (ctx) => ReviewViewModel()),
           ChangeNotifierProvider(create: (ctx) => SearchViewModel()),
+          ChangeNotifierProvider(create: (ctx) => ChatViewModel()),
         ],
         child: GraphQLProvider(
           client: GraphqlService.client,
