@@ -26,7 +26,7 @@ class _MainScreenState extends State<MainScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<BuildingViewModel>(context, listen: false).getAllBuilding();
     });
-    timer = Timer.periodic(const Duration(seconds: 3), (Timer t) {
+    timer = Timer.periodic(const Duration(seconds: 30), (Timer t) {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         Provider.of<BuildingViewModel>(context, listen: false).getAllBuilding();
       });

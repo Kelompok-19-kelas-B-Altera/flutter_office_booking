@@ -44,7 +44,7 @@ class ChatScreen extends StatelessWidget {
                 'idUser': authProvider.userData!.id,
               },
               fetchPolicy: FetchPolicy.networkOnly,
-              pollInterval: const Duration(seconds: 1),
+              pollInterval: const Duration(seconds: 30),
             ),
             builder: (
               QueryResult result, {
