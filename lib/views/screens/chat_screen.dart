@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import '../../models/chat_room_model.dart';
@@ -73,6 +74,42 @@ class ChatScreen extends StatelessWidget {
               if (result.data != null) {
                 ChatRoomModel response = ChatRoomModel.fromJson(result.data!);
                 chatRoom = response.getAllChatroomByUsersIdContaining!;
+              }
+
+              if (chatRoom.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/svg/no_chat.svg',
+                        // height: 400,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Text(
+                        'Tidak ada pesan',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Text(
+                        'Tulis pesan sekarang dan \nmulailah berinteraksi',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                );
               }
 
               return ChatRoomCard(
