@@ -100,6 +100,9 @@ class MessageScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+                const SizedBox(
+                  width: 24,
+                )
               ],
             ),
           ),
