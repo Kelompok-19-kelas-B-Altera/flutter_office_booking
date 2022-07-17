@@ -170,6 +170,12 @@ dev_dependencies:
   test:
   mockito:
   build_runner:
+  flutter_launcher_icons: ^0.9.3
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/officity.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -118,7 +118,7 @@ class MessageScreen extends StatelessWidget {
                     'idUser': idUser,
                   },
                   fetchPolicy: FetchPolicy.networkOnly,
-                  pollInterval: const Duration(seconds: 30),
+                  pollInterval: const Duration(seconds: 1),
                 ),
                 builder: (
                   QueryResult result, {
