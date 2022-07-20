@@ -198,13 +198,23 @@ class ReviewScreen extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      CircleAvatar(
-                                        radius: 12,
-                                        backgroundImage: AssetImage(
-                                            detailProvider.detailBuilding
-                                                    .reviews![i].user?.images ??
-                                                'assets/images/avatar.png'),
-                                      ),
+                                      detailProvider.detailBuilding.reviews![i]
+                                                  .user?.images !=
+                                              null
+                                          ? CircleAvatar(
+                                              radius: 12,
+                                              backgroundImage: NetworkImage(
+                                                  detailProvider
+                                                      .detailBuilding
+                                                      .reviews![i]
+                                                      .user!
+                                                      .images!),
+                                            )
+                                          : const CircleAvatar(
+                                              radius: 12,
+                                              backgroundImage: AssetImage(
+                                                  'assets/images/avatar.png'),
+                                            ),
                                       const SizedBox(
                                         width: 5,
                                       ),
