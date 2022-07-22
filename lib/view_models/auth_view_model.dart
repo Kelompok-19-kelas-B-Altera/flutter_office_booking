@@ -43,8 +43,6 @@ class AuthViewModel with ChangeNotifier {
     userData = null;
     _token = null;
     localStorage.clearLoginData();
-
-    notifyListeners();
   }
 
   Future<bool> signIn({

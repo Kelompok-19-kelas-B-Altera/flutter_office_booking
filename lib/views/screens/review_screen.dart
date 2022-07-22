@@ -170,100 +170,103 @@ class ReviewScreen extends StatelessWidget {
                     ),
                   ],
                 )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        'Review',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600),
+              : Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          'Review',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Flexible(
-                      child: ListView.separated(
-                          physics: const BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (ctx, i) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      detailProvider.detailBuilding.reviews![i]
-                                                  .user?.images !=
-                                              null
-                                          ? CircleAvatar(
-                                              radius: 12,
-                                              backgroundImage: NetworkImage(
-                                                  detailProvider
-                                                      .detailBuilding
-                                                      .reviews![i]
-                                                      .user!
-                                                      .images!),
-                                            )
-                                          : const CircleAvatar(
-                                              radius: 12,
-                                              backgroundImage: AssetImage(
-                                                  'assets/images/avatar.png'),
-                                            ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Flexible(
+                        child: ListView.separated(
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (ctx, i) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
                                         detailProvider.detailBuilding
-                                            .reviews![i].user!.fullname!,
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      const Expanded(
-                                        child: SizedBox(),
-                                      ),
-                                      for (int s = 0;
-                                          s <
-                                              detailProvider.detailBuilding
-                                                  .reviews![i].rating!;
-                                          s++)
-                                        SvgPicture.asset(
-                                          'assets/svg/star.svg',
-                                          color: Colors.yellow,
-                                          height: 15,
+                                                    .reviews![i].user?.images !=
+                                                null
+                                            ? CircleAvatar(
+                                                radius: 12,
+                                                backgroundImage: NetworkImage(
+                                                    detailProvider
+                                                        .detailBuilding
+                                                        .reviews![i]
+                                                        .user!
+                                                        .images!),
+                                              )
+                                            : const CircleAvatar(
+                                                radius: 12,
+                                                backgroundImage: AssetImage(
+                                                    'assets/images/avatar.png'),
+                                              ),
+                                        const SizedBox(
+                                          width: 5,
                                         ),
-                                      const SizedBox(
-                                        width: 4,
-                                      ),
-                                      // Text('1 jam yang lalu')
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(detailProvider
-                                      .detailBuilding.reviews![i].review!)
-                                ],
-                              ),
-                            );
-                          },
-                          separatorBuilder: (ctx, i) {
-                            return Container(
-                              margin: const EdgeInsets.symmetric(vertical: 12),
-                              color: Colors.grey[300],
-                              height: 5,
-                            );
-                          },
-                          itemCount:
-                              detailProvider.detailBuilding.reviews!.length),
-                    ),
-                  ],
+                                        Text(
+                                          detailProvider.detailBuilding
+                                              .reviews![i].user!.fullname!,
+                                          style: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        const Expanded(
+                                          child: SizedBox(),
+                                        ),
+                                        for (int s = 0;
+                                            s <
+                                                detailProvider.detailBuilding
+                                                    .reviews![i].rating!;
+                                            s++)
+                                          SvgPicture.asset(
+                                            'assets/svg/star.svg',
+                                            color: Colors.yellow,
+                                            height: 15,
+                                          ),
+                                        const SizedBox(
+                                          width: 4,
+                                        ),
+                                        // Text('1 jam yang lalu')
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(detailProvider
+                                        .detailBuilding.reviews![i].review!)
+                                  ],
+                                ),
+                              );
+                            },
+                            separatorBuilder: (ctx, i) {
+                              return Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 12),
+                                color: Colors.grey[300],
+                                height: 5,
+                              );
+                            },
+                            itemCount:
+                                detailProvider.detailBuilding.reviews!.length),
+                      ),
+                    ],
+                  ),
                 ),
         ],
       ),

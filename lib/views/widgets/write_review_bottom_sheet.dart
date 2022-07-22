@@ -149,21 +149,24 @@ class _WriteReviewBottomSheetState extends State<WriteReviewBottomSheet> {
               const SizedBox(
                 height: 16,
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  'Guardian Office',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                  detailProvider.detailBuilding.buildingName!,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.w600),
                 ),
               ),
               const SizedBox(
                 height: 4,
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  'Cilandak, Jakarta Selatan',
-                  style: TextStyle(
+                  '${detailProvider.detailBuilding.address!}, ${detailProvider.detailBuilding.complex!.city}',
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
                     fontSize: 12,
                   ),
                 ),
@@ -269,6 +272,8 @@ class _WriteReviewBottomSheetState extends State<WriteReviewBottomSheet> {
                   maxLines: 5,
                   textInputAction: TextInputAction.done,
                   decoration: const InputDecoration(
+                    hintText:
+                        'Airnya bersih, tempatnya tertata rapi, dan enak banget stafnya jg ramah, tempatnya luas, dan juga pas pesen aplikasinya juga fast respon.',
                     border: OutlineInputBorder(
                       borderSide: BorderSide(width: 3),
                     ),
