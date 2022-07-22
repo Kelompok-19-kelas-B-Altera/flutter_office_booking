@@ -241,7 +241,7 @@ class User {
     id = json['id'];
     fullname = json['fullname'];
     email = json['email'];
-    images = json['images'];
+    images = json['pic_url'];
   }
 
   Map<String, dynamic> toJson() {
@@ -249,7 +249,7 @@ class User {
     data['id'] = id;
     data['fullname'] = fullname;
     data['email'] = email;
-    data['images'] = images;
+    data['pic_url'] = images;
     return data;
   }
 }
