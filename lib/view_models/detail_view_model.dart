@@ -32,6 +32,8 @@ class DetailViewModel with ChangeNotifier {
       return 'assets/svg/atraksi.svg';
     } else if (jenis == 'Makanan dan Minuman') {
       return 'assets/svg/makanan.svg';
+    } else {
+      return 'assets/svg/atraksi.svg';
     }
   }
 

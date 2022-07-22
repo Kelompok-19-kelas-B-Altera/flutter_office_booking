@@ -70,9 +70,10 @@ class SearchViewModel with ChangeNotifier {
 
   retrieveSearchedBuildings(String value) async {
     changeState(SearchViewState.loading);
-    try {
-      final response = await buildingApi.postSearchBuildings(value);
 
+    final List<Content> response = await buildingApi.postSearchBuildings(value);
+
+    if (response.isNotEmpty) {
       searchedBuilding = response;
       filteredSearchBuilding.clear();
       filteredSearchBuilding.addAll(searchedBuilding);
@@ -80,7 +81,7 @@ class SearchViewModel with ChangeNotifier {
       notifyListeners();
       changeState(SearchViewState.none);
       return true;
-    } catch (e) {
+    } else {
       changeState(SearchViewState.error);
     }
   }

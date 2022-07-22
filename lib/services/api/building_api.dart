@@ -41,6 +41,7 @@ class BuildingApi {
         "filters": [
           {
             "key": "buildingName",
+            "join": "",
             "operator": "LIKE",
             "field_type": "STRING",
             "value": value

@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
         child: GraphQLProvider(
           client: GraphqlService.client,
           child: const MaterialApp(
+            debugShowCheckedModeBanner: false,
             home: MainScreen(),
           ),
         ),

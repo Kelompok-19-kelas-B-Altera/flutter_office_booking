@@ -297,22 +297,24 @@ class Reviews {
 class User {
   int? id;
   String? fullname;
+  String? email;
+  String? images;
 
-  User({
-    this.id,
-    this.fullname,
-  });
+  User({this.id, this.fullname, this.email, this.images});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     fullname = json['fullname'];
+    email = json['email'];
+    images = json['pic_url'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['fullname'] = fullname;
-
+    data['email'] = email;
+    data['pic_url'] = images;
     return data;
   }
 }
